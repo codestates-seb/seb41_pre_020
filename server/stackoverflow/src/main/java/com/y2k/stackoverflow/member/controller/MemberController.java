@@ -25,7 +25,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper mapper;
 
-    @PostMapping
+    @PostMapping("/new")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post post) {
         Member member = memberService.join(mapper.memberPostToMember(post));
         return new ResponseEntity(mapper.memberToResponseDto(member), HttpStatus.CREATED);
