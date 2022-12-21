@@ -2,8 +2,8 @@
 //   const themeState = useSelector((state) => state.themeSlice).theme;
 
 import Main from '../components/home/Main';
-import SidebarLeft from '../components/home/SidebarLeft';
-import SidebarRight from '../components/home/SidebarRight';
+import SidebarLeft from '../components/aside/SidebarLeft';
+import SidebarRight from '../components/aside/SidebarRight';
 
 //   const [page, setPage] = useState(1);
 //   const [size, setSize] = useState(15);
