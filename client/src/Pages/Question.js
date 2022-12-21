@@ -4,9 +4,11 @@ import SidebarRight from '../components/aside/SidebarRight';
 const Question = () => {
   return (
     <div>
-      <nav>
-        <SidebarLeft />
-      </nav>
+      <div>
+        <nav>
+          <SidebarLeft />
+        </nav>
+      </div>
       <div>
         Body
         <div>

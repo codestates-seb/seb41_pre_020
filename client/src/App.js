@@ -6,12 +6,13 @@ import Login from './Pages/Login';
 import Home from './Pages/Home';
 import Question from './Pages/Question';
 import AskQuestion from './Pages/AskQuestion';
+import MyPage from './Pages/MyPage';
 
 function App() {
   return (
     <BrowserRouter>
       {/* <header /> */}
-      <AskQuestion />
+
       <main>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -19,6 +20,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/question' element={<Question />} />
           <Route path='/create' element={<AskQuestion />} />
+          <Route path='/mypage' element={<MyPage />} />
         </Routes>
       </main>
       {/* <Footer /> */}
