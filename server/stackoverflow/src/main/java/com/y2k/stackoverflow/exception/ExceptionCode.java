@@ -4,6 +4,7 @@ import lombok.Getter;
 
 public enum ExceptionCode {
 
+
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     COMMENT_NOT_FOUND(404, "Comment Not Found"),
     MEMBER_NOT_FOUND(404, "Member not found"),

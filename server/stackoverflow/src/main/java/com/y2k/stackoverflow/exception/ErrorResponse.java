@@ -1,6 +1,5 @@
-package com.y2k.stackoverflow.response;
+package com.y2k.stackoverflow.exception;
 
-import com.y2k.stackoverflow.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
