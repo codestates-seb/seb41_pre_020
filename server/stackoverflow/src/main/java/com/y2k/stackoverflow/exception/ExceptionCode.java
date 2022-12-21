@@ -3,19 +3,23 @@ package com.y2k.stackoverflow.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
-        MEMBER_NOT_FOUND(404, "Member not found"),
-        MEMBER_EXISTS(409, "Member exists"),
-        NOT_IMPLEMENTATION(501, "Not Implementation"),
-        INVALID_MEMBER_STATUS(400, "Invalid member status");
 
-        @Getter
-        private int status;
+    INVALID_MEMBER_STATUS(400, "Invalid member status"),
+    COMMENT_NOT_FOUND(404, "Comment Not Found"),
+    MEMBER_NOT_FOUND(404, "Member not found"),
+    METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+    MEMBER_EXISTS(409, "Member exists"),
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+    NOT_IMPLEMENTATION(501, "Not Implementation");
 
-        @Getter
-        private String message;
+    @Getter
+    private int status;
 
-        ExceptionCode(int code, String message) {
-            this.status = code;
-            this.message = message;
-        }
+    @Getter
+    private String message;
+
+    ExceptionCode(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 }
