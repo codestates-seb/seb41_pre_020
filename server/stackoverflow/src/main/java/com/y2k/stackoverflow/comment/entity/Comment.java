@@ -21,6 +21,4 @@ public class Comment {
     @Column(nullable=false)
     @Size(min = 20)
     private String content;
-
-
 }
