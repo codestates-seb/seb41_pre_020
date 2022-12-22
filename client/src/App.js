@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import Header from './Header';
+import Header from './Header';
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
 import Home from './Pages/Home';
@@ -11,7 +11,7 @@ import MyPage from './Pages/MyPage';
 function App() {
   return (
     <BrowserRouter>
-      {/* <header /> */}
+      <Header />
 
       <main>
         <Routes>

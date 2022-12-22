@@ -4,6 +4,7 @@
 import Main from '../components/home/Main';
 import SidebarLeft from '../components/aside/SidebarLeft';
 import SidebarRight from '../components/aside/SidebarRight';
+import { BodyContainer } from '../components/BodyContainer';
 
 //   const [page, setPage] = useState(1);
 //   const [size, setSize] = useState(15);
@@ -31,7 +32,7 @@ import SidebarRight from '../components/aside/SidebarRight';
 
 const Home = () => {
   return (
-    <div>
+    <BodyContainer>
       <div>
         <SidebarLeft />
         <div>
@@ -43,7 +44,7 @@ const Home = () => {
         </div>
         <SidebarRight />
       </div>
-    </div>
+    </BodyContainer>
   );
 };
 

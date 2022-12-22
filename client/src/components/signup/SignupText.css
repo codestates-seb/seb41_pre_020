@@ -19,14 +19,14 @@
   height: 50px;
 }
 
-h1 {
+.signupInfoWrap h1 {
   flex: none;
   order: 0;
   flex-grow: 0;
   font-style: normal;
   font-weight: 400;
   font-size: 27px;
-  line-height: 33px;
+  line-height: 100px;
 }
 
 .signupIcon {
@@ -35,7 +35,7 @@ h1 {
   flex-grow: 0;
 }
 
-span {
+.signupInfoWrap span {
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -45,7 +45,7 @@ span {
   line-height: 18px;
 }
 
-p {
+.signupInfoWrap p {
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
