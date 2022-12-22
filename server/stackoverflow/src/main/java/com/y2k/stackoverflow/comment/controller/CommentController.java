@@ -1,11 +1,10 @@
 package com.y2k.stackoverflow.comment.controller;
 
-import com.y2k.stackoverflow.comment.dto.CommentPatchDto;
-import com.y2k.stackoverflow.comment.dto.CommentPostDto;
-import com.y2k.stackoverflow.comment.dto.CommentResponseDto;
+import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.comment.mapper.CommentMapper;
 import com.y2k.stackoverflow.comment.service.CommentService;
+import com.y2k.stackoverflow.dto.SingleResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/v1/comments")
+@RequestMapping("/comments")
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper mapper;
@@ -25,43 +24,51 @@ public class CommentController {
         this.mapper = mapper;
     }
 
+    @PostMapping("/question/{question-id}")
+    public ResponseEntity postQuestionComment(@RequestBody CommentDto.Post commentPost,
+                                              @PathVariable("question-id")@Positive long questionId){
 
+        Comment comment = mapper.commentPostToComment(commentPost);
 
-    @PostMapping
-    public ResponseEntity postComment(@RequestBody CommentPostDto commentPostDto){
-        Comment comment = mapper.commentPostDtoToComment(commentPostDto);
+        Comment createComment = commentService.createQuestionComment(comment, questionId);
 
-        Comment response = commentService.createComment(comment);
+        CommentDto.Response response = mapper.commentToCommentResponse(createComment);
 
-        return new ResponseEntity<> (mapper.commentToCommentResponseDto(response), HttpStatus.CREATED);
+        return new ResponseEntity<> (new SingleResponseDto<>(response), HttpStatus.CREATED);
+    }
+    @PostMapping("/answer/{answer-id}")
+    public ResponseEntity postAnswerComment(@RequestBody CommentDto.Post commentPost,
+                                            @PathVariable("answer-id")@Positive long answerId){
+        Comment comment = mapper.commentPostToComment(commentPost);
+
+        Comment createComment = commentService.createAnswerComment(comment, answerId);
+
+        CommentDto.Response response = mapper.commentToCommentResponse(createComment);
+
+        return new ResponseEntity<> (new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{comment-id}")
     public ResponseEntity patchComment(@PathVariable("comment-id") @Positive long commentId,
-                                       @RequestBody CommentPatchDto commentPatchDto){
+                                       @RequestBody CommentDto.Patch commentPatch){
 
-        commentPatchDto.setCommentId(commentId);
-        Comment comment = commentService.updateComment(mapper.commentPatchDtoToComment(commentPatchDto));
+        commentPatch.setCommentId(commentId);
+        Comment comment = commentService.updateComment(mapper.commentPatchToComment(commentPatch));
+        CommentDto.Response response = mapper.commentToCommentResponse(comment);
 
-        return new ResponseEntity<>(mapper.commentToCommentResponseDto(comment), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/{comment-id}")
-    public ResponseEntity getComment(@PathVariable("comment-id") @Positive long commentId){
-
-        Comment response = commentService.findComment(commentId);
-
-        return new ResponseEntity<>(mapper.commentToCommentResponseDto(response), HttpStatus.OK);
-    }
     @GetMapping
     public ResponseEntity getComments(){
 
         List<Comment> comments = commentService.findComments();
 
-        List<CommentResponseDto> response =
+        List<CommentDto.Response> response =
                 comments.stream()
-                        .map(comment -> mapper.commentToCommentResponseDto(comment))
+                        .map(comment -> mapper.commentToCommentResponse(comment))
                         .collect(Collectors.toList());
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
