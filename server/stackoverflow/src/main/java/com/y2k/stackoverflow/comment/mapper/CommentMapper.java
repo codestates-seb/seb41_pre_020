@@ -1,16 +1,16 @@
 package com.y2k.stackoverflow.comment.mapper;
 
+import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.comment.entity.Comment;
-import com.y2k.stackoverflow.comment.dto.CommentPatchDto;
-import com.y2k.stackoverflow.comment.dto.CommentPostDto;
-import com.y2k.stackoverflow.comment.dto.CommentResponseDto;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-    Comment commentPostDtoToComment(CommentPostDto commentPostDto);
+    Comment commentPostToComment(CommentDto.Post commentPost);
 
-    Comment commentPatchDtoToComment(CommentPatchDto commentPatchDto);
+    Comment commentPatchToComment(CommentDto.Patch commentPatch);
 
-    CommentResponseDto commentToCommentResponseDto(Comment comment);
+    CommentDto.Response commentToCommentResponse(Comment comment);
 }
