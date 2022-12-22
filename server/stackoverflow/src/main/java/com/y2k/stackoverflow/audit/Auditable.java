@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public abstract class Auditable {
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false) //update 시, createdAt null 문제로 updatable = false 추가
     private LocalDateTime createdAt;
 
     @LastModifiedDate
