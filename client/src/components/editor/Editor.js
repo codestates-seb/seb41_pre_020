@@ -51,6 +51,7 @@ export function Editor({
       onChangeContent();
       setIsEditorEdit(false);
     }
+    // eslint-disable-next-line
   }, [isEditorClear, isEditorEdit]);
 
   return (
