@@ -1,10 +1,8 @@
-import {
-  IconArrowUpDown,
-  IconAchievements,
-  IconTags,
-  IconSpeechBubbleQuestion,
-} from '@stackoverflow/stacks-icons';
-import { Icon } from '../../Util/convertor';
+import { ReactComponent as SpeechBubble } from '../../image/SpeechBubbleQuestion.svg';
+import { ReactComponent as ArrowUpDown } from '../../image/ArrowUpDown.svg';
+import { ReactComponent as Tags } from '../../image/Tags.svg';
+import { ReactComponent as Achievements } from '../../image/Achievements.svg';
+
 const SignupText = () => {
   return (
     <>
@@ -12,19 +10,19 @@ const SignupText = () => {
         <div>Join the Stack Overflow community</div>
 
         <div>
-          <div>{Icon(IconSpeechBubbleQuestion)}</div>
+          <SpeechBubble />
           <div>Get unstuck — ask a question</div>
         </div>
         <div>
-          <div>{Icon(IconArrowUpDown)}</div>
+          <ArrowUpDown />
           <div>Unlock new privileges like voting and commenting</div>
         </div>
         <div>
-          <div>{Icon(IconTags)}</div>
+          <Tags />
           <div>Save your favorite tags, filters, and jobs</div>
         </div>
         <div>
-          <div>{Icon(IconAchievements)}</div>
+          <Achievements />
           <div>Earn reputation and badges</div>
         </div>
 
