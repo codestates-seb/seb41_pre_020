@@ -1,23 +1,19 @@
 package com.y2k.stackoverflow.member.dto;
 
-import com.y2k.stackoverflow.dto.PageInfo;
 import com.y2k.stackoverflow.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.List;
 
 public class MemberDto {
 
     @Getter @AllArgsConstructor
     public static class Post {
-        @NotBlank
-        @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "이름은 공백이 아니어야 합니다.")
+        @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "이름은 필수값이며, 이름의 처음과 끝은 공백이 아니어야 합니다.")
         private String displayName;
 
         @NotBlank
@@ -26,7 +22,7 @@ public class MemberDto {
 
         @NotBlank
         @Pattern(regexp="(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,16}",
-        message = "비밀번호는 영문 대,소문자, 숫자, 특수기호를 포함한 8~16자리 이내로 구성되어야 합니다.")
+        message = "비밀번호는 영문 대/소문자, 숫자, 특수기호를 포함한 8~16자리 이내로 구성되어야 합니다.")
         private String password;
     }
 
