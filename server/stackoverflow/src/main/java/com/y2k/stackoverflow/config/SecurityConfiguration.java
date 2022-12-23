@@ -59,13 +59,13 @@ public class SecurityConfiguration {
                 // roles 별 권한 설정
                 .authorizeHttpRequests(authorize -> authorize
                         //member
-                        .antMatchers(HttpMethod.POST, "/*/auth/login").permitAll() // 로그인은 누구나 허용
-                        .antMatchers(HttpMethod.POST, "/*/members/new").permitAll() // 회원 가입 누구나 허용
-                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/*/members/all").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN") // user 조회 누구나 허용
-                        .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/members/signup").permitAll() // 로그인은 누구나 허용
+                        .antMatchers(HttpMethod.POST, "/members/login").permitAll() // 회원 가입 누구나 허용
+                        .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/members/all").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN") // user 조회 누구나 허용
+                        .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER")
                 );
 
         return http.build();
@@ -95,7 +95,7 @@ public class SecurityConfiguration {
             //JwtAuthenticationFilter 등록
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
-            jwtAuthenticationFilter.setFilterProcessesUrl("/login"); // 로그인 URL
+            jwtAuthenticationFilter.setFilterProcessesUrl("/members/login"); // 로그인 URL
 
             //로그인 인증 성공/실패시 수행할 것 추가
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
