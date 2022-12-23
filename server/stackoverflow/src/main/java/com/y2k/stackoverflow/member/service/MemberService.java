@@ -3,7 +3,6 @@ package com.y2k.stackoverflow.member.service;
 import com.y2k.stackoverflow.auth.utils.CustomAuthorityUtils;
 import com.y2k.stackoverflow.exception.BusinessLogicException;
 import com.y2k.stackoverflow.exception.ExceptionCode;
-import com.y2k.stackoverflow.helper.MemberRegistrationApplicationEvent;
 import com.y2k.stackoverflow.member.entity.Member;
 import com.y2k.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +42,6 @@ public class MemberService {
         Member savedMember = (Member) memberRepository.save(member);
 
 
-        publisher.publishEvent(new MemberRegistrationApplicationEvent(this, savedMember));
         return savedMember;
     }
 //    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
