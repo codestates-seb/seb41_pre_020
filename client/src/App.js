@@ -7,6 +7,7 @@ import Home from './Pages/Home';
 import Question from './Pages/Question';
 import AskQuestion from './Pages/AskQuestion';
 import MyPage from './Pages/MyPage';
+import Footer from './Footer';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path='/mypage' element={<MyPage />} />
         </Routes>
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }

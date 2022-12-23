@@ -33,17 +33,9 @@ import { BodyContainer } from '../components/BodyContainer';
 const Home = () => {
   return (
     <BodyContainer>
-      <div>
-        <SidebarLeft />
-        <div>
-          <div>
-            <div>
-              <Main />
-            </div>
-          </div>
-        </div>
-        <SidebarRight />
-      </div>
+      <SidebarLeft />
+      <Main />
+      <SidebarRight />
     </BodyContainer>
   );
 };
