@@ -13,12 +13,13 @@ public class MemberDto {
 
     @Getter @AllArgsConstructor
     public static class Post {
-        @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "이름은 필수값이며, 이름의 처음과 끝은 공백이 아니어야 합니다.")
-        private String displayName;
 
         @NotBlank
         @Email
         private String email;
+
+        @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "이름은 필수값이며, 이름의 처음과 끝은 공백이 아니어야 합니다.")
+        private String displayName;
 
         @NotBlank
         @Pattern(regexp="(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,16}",
@@ -37,8 +38,12 @@ public class MemberDto {
 
     @Getter @AllArgsConstructor
     public static class Response {
+        private long memberId;
         private String displayName;
         private String email;
         private Member.MemberStatus memberStatus;
+
+        public String getMemberStatus() {
+            return memberStatus.getStatus(); }
     }
 }

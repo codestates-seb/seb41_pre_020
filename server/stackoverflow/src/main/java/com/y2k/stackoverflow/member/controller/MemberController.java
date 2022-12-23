@@ -18,17 +18,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/members")
-@RequiredArgsConstructor
 @Validated
+@RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
     private final MemberMapper mapper;
 
-    @PostMapping("/new")
+    @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post post) {
-        Member member = memberService.join(mapper.memberPostToMember(post));
-        return new ResponseEntity(mapper.memberToResponseDto(member), HttpStatus.CREATED);
+        memberService.join(mapper.memberPostToMember(post));
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PatchMapping("/{member-id}")
@@ -49,7 +49,16 @@ public class MemberController {
     @GetMapping
     public ResponseEntity getMembers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
-        Page<Member> pageMembers = memberService.findMembers(page-1, size);
+        Page<Member> pageMembers = memberService.findAllMembers(page-1, size);
+        List<Member> members = pageMembers.getContent();
+        return new ResponseEntity(new MultiResponseDto<>(mapper.membersToResponseDto(members), pageMembers), HttpStatus.OK);
+    }
+
+    //관리자용 (탈퇴/휴면 회원 모두 조회)
+    @GetMapping("/all")
+    public ResponseEntity getAllMembers(@Positive @RequestParam int page,
+                                     @Positive @RequestParam int size) {
+        Page<Member> pageMembers = memberService.findAllMembers(page-1, size);
         List<Member> members = pageMembers.getContent();
         return new ResponseEntity(new MultiResponseDto<>(mapper.membersToResponseDto(members), pageMembers), HttpStatus.OK);
     }
