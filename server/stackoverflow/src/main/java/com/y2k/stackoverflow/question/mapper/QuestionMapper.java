@@ -1,9 +1,12 @@
 package com.y2k.stackoverflow.question.mapper;
 
+import com.y2k.stackoverflow.answer.dto.AnswersGetResponseDto;
+import com.y2k.stackoverflow.answer.entity.Answer;
+import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
+import com.y2k.stackoverflow.answer.service.AnswerService;
 import com.y2k.stackoverflow.question.dto.*;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.entity.QuestionTag;
-import com.y2k.stackoverflow.tag.entity.Tag;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -25,11 +28,13 @@ public interface QuestionMapper {
         List<QuestionTag> questionTags = questionPostDto.getQuestionTags().stream()
                 .map(questionTagDto -> {
                     QuestionTag questionTag = new QuestionTag();
-                    Tag tag = new Tag();
-                    tag.setTagId(questionTagDto.getTagId());
-                    tag.setTagName(questionTagDto.getTagName());
+                    //Tag tag = new Tag();
+                    //tag.setTagId(questionTagDto.getTagId());
+                    //tag.setTagName(questionTagDto.getTagName());
+                    questionTag.setQuestionTagId(questionTagDto.getTagId());
+                    questionTag.setTagName(questionTagDto.getTagName());
                     questionTag.addQuestion(question);
-                    questionTag.addTag(tag);
+                    //questionTag.addTag(tag);
                     questionTag.setTagName(questionTagDto.getTagName());
                     return questionTag;
                 }).collect(Collectors.toList());
@@ -54,11 +59,9 @@ public interface QuestionMapper {
         List<QuestionTag> questionTags = questionPatchDto.getQuestionTags().stream()
                 .map(questionTagDto -> {
                     QuestionTag questionTag = new QuestionTag();
-                    Tag tag = new Tag();
-                    tag.setTagId(questionTagDto.getTagId());
-                    tag.setTagName(questionTagDto.getTagName());
+                    questionTag.setQuestionTagId(questionTag.getQuestionTagId());
+                    questionTag.setTagName(questionTag.getTagName());
                     questionTag.addQuestion(question);
-                    questionTag.addTag(tag);
                     questionTag.setTagName(questionTagDto.getTagName());
                     return questionTag;
                 }).collect(Collectors.toList());
@@ -96,9 +99,40 @@ public interface QuestionMapper {
                 .stream()
                 .map(questionTag -> QuestionTagResponseDto
                         .builder()
-                        .tagId(questionTag.getTag().getTagId())
-                        .tagName(questionTag.getTag().getTagName())
+                        .tagId(questionTag.getQuestionTagId())
+                        .tagName(questionTag.getTagName())
                         .build()
                 ).collect(Collectors.toList());
+    }
+
+    /**
+     * 질문-답변 함께 출력 위한 mapper
+     * @param question
+     * @param answerService
+     * @param answerMapper
+     * @return
+     */
+    default QuestionAnswerResponseDto questionToQuestionAnswerResponseDto(Question question,
+                                                                          AnswerService answerService,
+                                                                          AnswerMapper answerMapper) {
+        QuestionAnswerResponseDto questionAnswerResponseDto = new QuestionAnswerResponseDto();
+        questionAnswerResponseDto.setQuestionId(question.getQuestionId());
+        questionAnswerResponseDto.setTitle(question.getTitle());
+        questionAnswerResponseDto.setContent(question.getContent());
+        questionAnswerResponseDto.setCreatedAt(question.getCreatedAt());
+        questionAnswerResponseDto.setLastModifiedAt(question.getModifiedAt());
+        questionAnswerResponseDto.setViews(question.getViews());
+        questionAnswerResponseDto.setVotes(question.getVotes());
+
+        List<QuestionTag> questionTags = question.getQuestionTags();
+        questionAnswerResponseDto.setQuestionTags(questionTagsToQuestionTagResponseDtos(questionTags));
+
+        List<Answer> answers = answerService.findAnswers();
+
+        questionAnswerResponseDto.setAnswers(new AnswersGetResponseDto<>(
+                answerMapper.answersToAnswerResponseDtos(answers)
+        ));
+
+        return questionAnswerResponseDto;
     }
 }
