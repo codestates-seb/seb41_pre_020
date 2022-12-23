@@ -1,5 +1,7 @@
 package com.y2k.stackoverflow.question.controller;
 
+import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
+import com.y2k.stackoverflow.answer.service.AnswerService;
 import com.y2k.stackoverflow.dto.MultiResponseDto;
 import com.y2k.stackoverflow.dto.SingleResponseDto;
 import com.y2k.stackoverflow.question.dto.QuestionPatchDto;
@@ -26,10 +28,14 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
+    private final AnswerService answerService;
+    private final AnswerMapper answerMapper;
 
-    public QuestionController(QuestionService questionService, QuestionMapper mapper) {
+    public QuestionController(QuestionService questionService, QuestionMapper mapper, AnswerService answerService, AnswerMapper answerMapper) {
         this.questionService = questionService;
         this.mapper = mapper;
+        this.answerService = answerService;
+        this.answerMapper = answerMapper;
     }
 
     /**
@@ -45,7 +51,7 @@ public class QuestionController {
     }
 
     /**
-     * Question 수정
+     * Question 수정 - - 질문을 작성한 멤버만 수정 가능하게 수정 필요 //
      */
     @PatchMapping ("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
@@ -58,13 +64,13 @@ public class QuestionController {
     }
 
     /**
-     * 특정 Question 조회
+     * 특정 Question 조회 - 질문에 속해 있는 답변까지
      */
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)),
+                new SingleResponseDto<>(mapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper)),
                 HttpStatus.OK);
     }
 
@@ -84,7 +90,7 @@ public class QuestionController {
 
 
     /**
-     * 특정 Question 삭제
+     * 특정 Question 삭제 - 질문을 작성한 멤버만 삭제 가능하게 수정 필요 //
      */
     @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
