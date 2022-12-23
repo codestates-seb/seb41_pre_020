@@ -9,6 +9,7 @@ import com.y2k.stackoverflow.question.dto.QuestionPostDto;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.mapper.QuestionMapper;
 import com.y2k.stackoverflow.question.service.QuestionService;
+import com.y2k.stackoverflow.question.service.QuestionTagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,15 +28,17 @@ import java.util.List;
 @Validated
 public class QuestionController {
     private final QuestionService questionService;
-    private final QuestionMapper mapper;
+    private final QuestionMapper questionMapper;
     private final AnswerService answerService;
     private final AnswerMapper answerMapper;
+    private final QuestionTagService questionTagService;
 
-    public QuestionController(QuestionService questionService, QuestionMapper mapper, AnswerService answerService, AnswerMapper answerMapper) {
+    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, AnswerService answerService, AnswerMapper answerMapper, QuestionTagService questionTagService) {
         this.questionService = questionService;
-        this.mapper = mapper;
+        this.questionMapper = questionMapper;
         this.answerService = answerService;
         this.answerMapper = answerMapper;
+        this.questionTagService = questionTagService;
     }
 
     /**
@@ -43,10 +46,10 @@ public class QuestionController {
      */
     @PostMapping
     public ResponseEntity postQuestion(@RequestBody QuestionPostDto questionPostDto) {
-        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto));
+        Question question = questionService.createQuestion(questionMapper.questionPostDtoToQuestion(questionPostDto));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)),
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(question)),
                 HttpStatus.CREATED);
     }
 
@@ -57,9 +60,9 @@ public class QuestionController {
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
-        Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto));
+        Question question = questionService.updateQuestion(questionMapper.questionPatchDtoToQuestion(questionPatchDto));
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question))
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(question))
                 ,HttpStatus.OK);
     }
 
@@ -70,7 +73,7 @@ public class QuestionController {
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper)),
+                new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, questionTagService)),
                 HttpStatus.OK);
     }
 
@@ -84,7 +87,7 @@ public class QuestionController {
         List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.questionsToQuestionResponseDtos(questions), pageQuestions),
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions), pageQuestions),
                 HttpStatus.OK);
     }
 

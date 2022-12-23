@@ -4,19 +4,24 @@ import com.y2k.stackoverflow.exception.BusinessLogicException;
 import com.y2k.stackoverflow.exception.ExceptionCode;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.repository.QuestionRepository;
+import com.y2k.stackoverflow.question.repository.QuestionTagRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final QuestionTagService questionTagService;
 
-    public QuestionService(QuestionRepository questionRepository) {
+    private final QuestionTagRepository questionTagRepository;
+
+    public QuestionService(QuestionRepository questionRepository, QuestionTagService questionTagService, QuestionTagRepository questionTagRepository) {
         this.questionRepository = questionRepository;
+        this.questionTagService = questionTagService;
+        this.questionTagRepository = questionTagRepository;
     }
 
     /**
@@ -37,9 +42,13 @@ public class QuestionService {
                 .ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent())
                 .ifPresent(content -> findQuestion.setContent(content));
-
+        questionTagService.updateQuestionTag(question.getQuestionId());
         Optional.ofNullable(question.getQuestionTags())
                 .ifPresent(questionTags -> findQuestion.setQuestionTags(questionTags));
+        /*findQuestion.setQuestionTags(
+                questionTagRepository.findAllByQuestionIdAndQuestionTagStatus(
+                        question.getQuestionId(),
+                        QuestionTag.QuestionTagStatus.QUESTION_TAG_CREATE));*/
         return questionRepository.save(question);
     }
 
