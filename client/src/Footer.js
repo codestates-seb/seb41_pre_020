@@ -98,7 +98,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h5>TEAMMATESss</h5>
+            <h5>TEAMMATES</h5>
             <ul>
               <li>
                 <a href='https://github.com/vinyangda'>양다빈</a>
