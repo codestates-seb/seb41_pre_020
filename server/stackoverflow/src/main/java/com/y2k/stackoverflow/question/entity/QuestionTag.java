@@ -1,6 +1,5 @@
 package com.y2k.stackoverflow.question.entity;
 
-import com.y2k.stackoverflow.tag.entity.Tag;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,21 +25,10 @@ public class QuestionTag {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
-
     public void addQuestion(Question question) {
         this.question = question;
         if(!this.question.getQuestionTags().contains(this)) {
             this.question.getQuestionTags().add(this);
-        }
-    }
-
-    public void addTag(Tag tag) {
-        this.tag = tag;
-        if(!this.tag.getQuestionTags().contains(this)) {
-            this.tag.addQuestionTag(this);
         }
     }
 
