@@ -1,14 +1,13 @@
-import SignupText from '../components/signup/SignupText';
-import styled from 'styled-components';
-import React from 'react';
-import { BodyContainer } from '../components/BodyContainer';
+import SignupText from "../components/signup/SignupText";
+import styled from "styled-components";
+import React from "react";
+import { BodyContainer } from "../components/BodyContainer";
+import SignupBox from "../components/signup/SignupBox";
 
-const Form = styled.form`
-  position: relative;
-  width: 790px;
-  height: 408px;
-  left: auto;
-  top: 312px;
+const Background = styled.form`
+  width: 100%;
+  height: 100%;
+  //background-color: #f1f2f3;
 `;
 
 const SignupInputWrap = styled.div`
@@ -149,40 +148,22 @@ const SignupInputLogin = styled.div`
   }
 `;
 
-function Signup() {
-  const signupHandler = (event) => {
-    event.preventDefault();
-  };
+const SignupContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 200px auto;
+`;
 
+function Signup() {
   return (
-    <BodyContainer>
-      <Form onSubmit={signupHandler}>
-        <SignupText />
-        <SignupInputWrap>
-          <SignupInputBox>
-            <SignupForm>
-              <SignupItem>
-                <label htmlFor='username'>Display name</label>
-                <input id='username' type='text'></input>
-              </SignupItem>
-              <SignupItem>
-                <label htmlFor='email'>Email</label>
-                <input id='email' type='email'></input>
-              </SignupItem>
-              <SignupItem>
-                <label htmlFor='password'>Password</label>
-                <input id='password' type='text'></input>
-              </SignupItem>
-            </SignupForm>
-            <button type='submit'>Sign up</button>
-          </SignupInputBox>
-          <SignupInputLogin>
-            <span>Already have an account?</span>
-            <span>Log in</span>
-          </SignupInputLogin>
-        </SignupInputWrap>
-      </Form>
-    </BodyContainer>
+    <Background>
+      <BodyContainer>
+        <SignupContainer>
+          <SignupText />
+          <SignupBox />
+        </SignupContainer>
+      </BodyContainer>
+    </Background>
   );
 }
 
