@@ -2,8 +2,9 @@
 // import { Icon } from './Util/convertor';
 // import { Link } from 'react-router-dom';
 // import { useState } from 'react';
-import styled from 'styled-components';
-import React from 'react';
+import styled from "styled-components";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const StyledHeader = styled.header`
   position: fixed !important;
@@ -29,7 +30,7 @@ const Nav = styled.nav`
   align-items: center;
   & a {
     height: 100%;
-    padding: 0 16px;
+    padding: 0px;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
@@ -52,7 +53,7 @@ const Hamburger = styled.span`
     width: 16px;
     height: 2px;
     background-color: hsl(210, 8%, 35%);
-    content: '';
+    content: "";
     left: 0;
     top: -5px;
     transition: top, transform;
@@ -64,7 +65,7 @@ const Hamburger = styled.span`
     width: 16px;
     height: 2px;
     background-color: hsl(210, 8%, 35%);
-    content: '';
+    content: "";
     left: 0;
     top: 5px;
     transition: top, transform;
@@ -211,96 +212,87 @@ const Search = () => {
   );
 };
 
-// const PopOver = () => {
-//     return (
-//         <div>
-//             <div></div>
-//             <ol></ol>
-//         </div>
-//     );
-// };
+const Button = styled.button`
+  color: #0a95ff;
+  box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
+  border-color: #0a95ff;
+  border-radius: 3px;
+  padding: 10.4px;
+  cursor: pointer;
+  height: 32px;
+  margin: auto 5px;
+  background-color: #e1ecf4;
+  border-width: thin;
+  font-weight: 600;
+  &:hover {
+    background-color: hsl(206deg 96% 90%);
+  }
+`;
+
+const SignupButton = styled(Button)`
+  background-color: #0a95ff;
+  color: white;
+  &:hover {
+    background: #0074cc;
+  }
+`;
 
 const Header = () => {
   return (
     <StyledHeader>
       <Headertop></Headertop>
       <Nav>
-        <a href='#!'>
-          <Hamburger></Hamburger>
-        </a>
-        <a href='/'>
+        <a href="/">
           <Logo></Logo>
         </a>
         <NavtoPages>
           <li
             onClick={(e) => {
-              if (e.target.classList.value === 'is-selected') {
-                e.target.classList.remove('is-selected');
+              if (e.target.classList.value === "is-selected") {
+                e.target.classList.remove("is-selected");
               } else {
-                e.target.classList.add('is-selected');
+                e.target.classList.add("is-selected");
               }
             }}
           >
-            <a href='#!'>Products</a>
+            <a href="#!">About</a>
+          </li>
+          <li
+            onClick={(e) => {
+              if (e.target.classList.value === "is-selected") {
+                e.target.classList.remove("is-selected");
+              } else {
+                e.target.classList.add("is-selected");
+              }
+            }}
+          >
+            <a href="#!">Products</a>
+          </li>
+          <li
+            onClick={(e) => {
+              if (e.target.classList.value === "is-selected") {
+                e.target.classList.remove("is-selected");
+              } else {
+                e.target.classList.add("is-selected");
+              }
+            }}
+          >
+            <a href="#!">For Teams</a>
           </li>
         </NavtoPages>
         {/* <PopOver></PopOver> */}
         <Search />
         <NavIconContent>
-          <li>
-            <a href='#!'>{/* <FontAwesomeIcon icon={faUser} /> */}</a>
-          </li>
-          <li>
-            <a href='#!' onClick={(e) => {}}>
-              {/* <FontAwesomeIcon icon={faBox} /> */}
-            </a>
-          </li>
-          <li></li>
-          <li>
-            <a
-              href='#!'
-              // onClick={(e) => {
-              //     if (e.target.classList.value === 'is-selected') {
-              //         e.target.classList.remove('is-selected');
-              //     } else {
-              //         e.target.classList.add('is-selected');
-              //     }
-              // }}
-            >
-              {/* <FontAwesomeIcon icon={faTrophy} /> */}
-            </a>
-          </li>
-          <li></li>
-          <li>
-            <a
-              href='#!'
-              // onClick={(e) => {
-              //     if (e.target.classList.value === 'is-selected') {
-              //         e.target.classList.remove('is-selected');
-              //     } else {
-              //         e.target.classList.add('is-selected');
-              //     }
-              // }}
-            >
-              {/* <FontAwesomeIcon icon={faCircleQuestion} /> */}
-            </a>
-          </li>
-          <li></li>
-          <li>
-            <a
-              href='#!'
-              onClick={(e) => {
-                // if (e.target.classList.value === 'is-selected') {
-                //     e.target.classList.remove('is-selected');
-                // } else {
-                //     e.target.classList.add('is-selected');
-                // }
-              }}
-            >
-              {/* <FontAwesomeIcon icon={faBars} /> */}
-            </a>
-          </li>
-          <li></li>
+          <Link to="/login">
+            <li>
+              <Button>Log in</Button>
+            </li>
+          </Link>
+          <Link to="/signup">
+            <li>
+              <SignupButton>Sign up</SignupButton>
+            </li>
+          </Link>
         </NavIconContent>
       </Nav>
     </StyledHeader>
