@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Editor } from '../editor/Editor';
+import { Tag } from './Tag';
 
 const QuestionInputBox = styled.div`
   width: 100%;
@@ -93,11 +94,7 @@ const QuestionInput = ({ userInfo }) => {
             <div>Tags</div>
             <div>Add up to 5 tags to describe what your question is about</div>
           </label>
-          <input
-            type='text'
-            id='tag'
-            // defaultValue={userInfo.tag === undefined ? '' : userInfo.tag}
-          ></input>
+          <Tag />
         </div>
       </QuestionInputBox>
     </>

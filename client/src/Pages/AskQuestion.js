@@ -5,6 +5,7 @@ import { BodyContainer } from '../components/BodyContainer';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuestionInput from '../components/askQuestion/QuestionInput';
+import { DiscardModal } from '../components/askQuestion/DiscardModal';
 
 const Background = styled.div`
   width: 100%;
@@ -18,6 +19,10 @@ const TitleDiv = styled.div`
   & > div {
     font-size: 2rem;
   }
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
 `;
 
 const PostButton = styled.button`
@@ -39,6 +44,25 @@ const PostButton = styled.button`
   cursor: pointer;
   user-select: none;
 `;
+
+// const DiscardButton = styled.button`
+//   color: red;
+//   background-color: transparent;
+//   margin-top: 32px;
+//   position: relative;
+//   display: inline-block;
+//   padding: 0.8em;
+//   border: 1px solid transparent;
+//   border-radius: 3px;
+//   outline: none;
+//   font-family: inherit;
+//   font-size: 13px;
+//   font-weight: normal;
+//   text-align: center;
+//   text-decoration: none;
+//   cursor: pointer;
+//   user-select: none;
+// `;
 
 const AskQuestion = ({ userInfo }) => {
   const navigate = useNavigate();
@@ -104,12 +128,16 @@ const AskQuestion = ({ userInfo }) => {
         <TitleDiv>
           <div>Ask a public question</div>
         </TitleDiv>
-        <form onSubmit={handleSubmit}>
-          {/* <Editor userInfo={userInfo} height={'300px'} /> */}
+        <form>
           <QuestionInput userInfo={userInfo} />
-          <PostButton>
-            {id === undefined ? 'Post your question' : 'Update  your question'}
-          </PostButton>
+          <ButtonDiv>
+            <PostButton onSubmit={handleSubmit}>
+              {id === undefined
+                ? 'Post your question'
+                : 'Update  your question'}
+            </PostButton>
+            <DiscardModal></DiscardModal>
+          </ButtonDiv>
         </form>
       </BodyContainer>
     </Background>
