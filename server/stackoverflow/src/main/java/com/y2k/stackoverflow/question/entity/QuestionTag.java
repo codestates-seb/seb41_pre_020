@@ -18,10 +18,15 @@ public class QuestionTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionTagId;
+
+    @Column(nullable = false)
     private String tagName;
 
+    @Enumerated(value = EnumType.STRING)
+    private QuestionTagStatus questionTagStatus = QuestionTagStatus.QUESTION_TAG_CREATE;
+
     //@JoinColumn - 외래키 매핑, 생략 시 필드명_(기본키 컬럼명) 으로 외래키 매핑
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
@@ -32,8 +37,15 @@ public class QuestionTag {
         }
     }
 
-    public QuestionTag(Long questionTagId, String tagName) {
-        this.questionTagId = questionTagId;
-        this.tagName = tagName;
+    public enum QuestionTagStatus {
+        QUESTION_TAG_CREATE("태그"),
+        QUESTION_TAG_DELETE("삭제된 태그");
+
+        @Getter
+        private String status;
+
+        QuestionTagStatus(String status) {
+            this.status = status;
+        }
     }
 }
