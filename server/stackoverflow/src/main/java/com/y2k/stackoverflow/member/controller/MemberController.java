@@ -31,22 +31,24 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{member-id}")
+    //myPage - profile 화면
+    @PatchMapping("/edit/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
                                       @Valid @RequestBody MemberDto.Patch patch) {
 
         patch.setMemberId(memberId);
         Member updatedMember = memberService.updateMember(mapper.memberPatchToMember(patch));
-        return new ResponseEntity(mapper.memberToResponseDto(updatedMember), HttpStatus.OK);
+        return new ResponseEntity(mapper.memberToDetailsResponseDto(updatedMember), HttpStatus.OK);
     }
 
+    //(비회원/회원용)home -> users 탭 -> 유저 클릭시 화면
     @GetMapping("/{member-id}")
     public ResponseEntity getMember(@PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
-        return new ResponseEntity(mapper.memberToResponseDto(member), HttpStatus.OK);
+        return new ResponseEntity(mapper.memberToDetailsResponseDto(member), HttpStatus.OK);
     }
 
-    //회원용
+    //(비회원/회원용) home -> users 탭
     @GetMapping
     public ResponseEntity getMembers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
@@ -68,5 +70,13 @@ public class MemberController {
     public ResponseEntity deleteMember(@PathVariable("member-id") @Positive long memberId) {
         memberService.deleteMember(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    //마이페이지 - profile 화면
+    @GetMapping("/edit/{member-id}")
+    public ResponseEntity getMyPage(@PathVariable("member-id") @Positive long memberId) {
+
+        Member member = memberService.findMember(memberId);
+        return new ResponseEntity(mapper.memberToDetailsResponseDto(member), HttpStatus.OK);
     }
 }
