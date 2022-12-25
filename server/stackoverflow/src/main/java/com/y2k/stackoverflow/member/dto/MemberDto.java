@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 public class MemberDto {
 
@@ -34,16 +35,32 @@ public class MemberDto {
 
         @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "이름은 공백이 아니어야 합니다.")
         private String displayName;
+        private UserProfile userProfile;
     }
 
     @Getter @AllArgsConstructor
     public static class Response {
         private long memberId;
         private String displayName;
-        private String email;
+        private String profileImage;
         private Member.MemberStatus memberStatus;
 
         public String getMemberStatus() {
             return memberStatus.getStatus(); }
+    }
+
+    @Getter @AllArgsConstructor
+    public static class detailsResponse {
+        private long memberId;
+        private String displayName;
+        private String profileImage;
+        private Member.MemberStatus memberStatus;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+        private UserProfile userProfile;
+
+        public String getMemberStatus() {
+            return memberStatus.getStatus(); }
+
     }
 }

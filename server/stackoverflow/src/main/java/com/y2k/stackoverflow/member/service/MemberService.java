@@ -44,11 +44,14 @@ public class MemberService {
 
         return savedMember;
     }
-//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
         Optional.ofNullable(member.getDisplayName())
                 .ifPresent(name -> findMember.setDisplayName(member.getDisplayName()));
+        Optional.ofNullable(member.getUserProfile())
+                .ifPresent(findMember::setUserProfile);
+
         return (Member) memberRepository.save(findMember);
     }
 
