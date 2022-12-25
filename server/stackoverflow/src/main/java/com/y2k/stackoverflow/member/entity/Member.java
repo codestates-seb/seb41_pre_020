@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -26,12 +28,17 @@ public class Member extends Auditable {
     private String password;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
+
+    //권한 부여를 위한 roles
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),
-        MEMBER_STOP("중지 상태");
+        MEMBER_QUIT("탈퇴 상태");
 
         @Getter
         private String status;
