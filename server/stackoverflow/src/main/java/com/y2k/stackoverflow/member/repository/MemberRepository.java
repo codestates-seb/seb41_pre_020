@@ -11,4 +11,5 @@ public interface MemberRepository<T> extends JpaRepository<Member, Long> {
 
     Optional<Member> findByEmail(String email);
     Page<T> findAllByMemberStatus(Member.MemberStatus status, Pageable pageable);
+
 }

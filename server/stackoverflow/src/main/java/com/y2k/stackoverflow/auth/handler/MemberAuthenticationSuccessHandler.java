@@ -18,5 +18,6 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         log.info("# 로그인 인증 성공 !");
+
     }
 }

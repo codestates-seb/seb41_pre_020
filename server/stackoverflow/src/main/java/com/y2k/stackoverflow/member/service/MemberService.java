@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -41,14 +41,16 @@ public class MemberService {
 
         Member savedMember = (Member) memberRepository.save(member);
 
-
         return savedMember;
     }
-//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+
     public Member updateMember(Member member) {
         Member findMember = findVerifiedMember(member.getMemberId());
         Optional.ofNullable(member.getDisplayName())
                 .ifPresent(name -> findMember.setDisplayName(member.getDisplayName()));
+        Optional.ofNullable(member.getUserProfile())
+                .ifPresent(findMember::setUserProfile);
+
         return (Member) memberRepository.save(findMember);
     }
 
