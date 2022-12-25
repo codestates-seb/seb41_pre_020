@@ -1,6 +1,7 @@
 package com.y2k.stackoverflow.member.entity;
 
 import com.y2k.stackoverflow.audit.Auditable;
+import com.y2k.stackoverflow.member.dto.UserProfile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,14 +19,20 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String displayName;
 
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
+
+    @Column
+    private String profileImage;
+
+    @Embedded
+    private UserProfile userProfile;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -47,6 +54,5 @@ public class Member extends Auditable {
             this.status = status;
         }
     }
-
 
 }
