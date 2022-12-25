@@ -7,6 +7,7 @@ import com.y2k.stackoverflow.answer.service.AnswerService;
 import com.y2k.stackoverflow.question.dto.*;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.entity.QuestionTag;
+import com.y2k.stackoverflow.question.service.QuestionTagService;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -28,13 +29,9 @@ public interface QuestionMapper {
         List<QuestionTag> questionTags = questionPostDto.getQuestionTags().stream()
                 .map(questionTagDto -> {
                     QuestionTag questionTag = new QuestionTag();
-                    //Tag tag = new Tag();
-                    //tag.setTagId(questionTagDto.getTagId());
-                    //tag.setTagName(questionTagDto.getTagName());
                     questionTag.setQuestionTagId(questionTagDto.getTagId());
                     questionTag.setTagName(questionTagDto.getTagName());
                     questionTag.addQuestion(question);
-                    //questionTag.addTag(tag);
                     questionTag.setTagName(questionTagDto.getTagName());
                     return questionTag;
                 }).collect(Collectors.toList());
@@ -107,14 +104,11 @@ public interface QuestionMapper {
 
     /**
      * 질문-답변 함께 출력 위한 mapper
-     * @param question
-     * @param answerService
-     * @param answerMapper
-     * @return
      */
     default QuestionAnswerResponseDto questionToQuestionAnswerResponseDto(Question question,
                                                                           AnswerService answerService,
-                                                                          AnswerMapper answerMapper) {
+                                                                          AnswerMapper answerMapper,
+                                                                          QuestionTagService questionTagService) {
         QuestionAnswerResponseDto questionAnswerResponseDto = new QuestionAnswerResponseDto();
         questionAnswerResponseDto.setQuestionId(question.getQuestionId());
         questionAnswerResponseDto.setTitle(question.getTitle());
@@ -124,7 +118,8 @@ public interface QuestionMapper {
         questionAnswerResponseDto.setViews(question.getViews());
         questionAnswerResponseDto.setVotes(question.getVotes());
 
-        List<QuestionTag> questionTags = question.getQuestionTags();
+        //질문 수정 시 태그 중복 등록 문제 해결
+        List<QuestionTag> questionTags = questionTagService.findVerifiedQuestionTag(question);
         questionAnswerResponseDto.setQuestionTags(questionTagsToQuestionTagResponseDtos(questionTags));
 
         List<Answer> answers = answerService.findAnswers();
