@@ -72,8 +72,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/members/all").hasRole("ADMIN")
                         .antMatchers(HttpMethod.POST, "/members/signup", "/members/login").permitAll() // 로그인/회원가입은 누구나 허용
                         .antMatchers(HttpMethod.GET, "/members/edit/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/members/**", "/question/**", "/comment/**").permitAll() // 조회는 누구나 허용
-
+                        .antMatchers(HttpMethod.GET, "/members/**", "/questions/**", "/comments/**", "/tags/**").permitAll() // 조회는 누구나 허용
                         .antMatchers("/h2/**").permitAll() // h2 콘솔 사용을 위한 설정
 //                        .antMatchers("/login/**").permitAll()
                         .anyRequest().authenticated()
