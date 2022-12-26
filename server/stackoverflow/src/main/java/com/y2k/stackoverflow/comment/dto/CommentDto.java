@@ -46,7 +46,7 @@ public class CommentDto {
         private long answerId;
         //--------------------------------
         private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
+        private LocalDateTime lastModifiedAt;
         private Comment.CommentType commentType;
     }
 }
