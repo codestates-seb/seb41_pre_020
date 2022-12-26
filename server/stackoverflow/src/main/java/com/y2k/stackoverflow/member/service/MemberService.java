@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +52,8 @@ public class MemberService {
                 .ifPresent(name -> findMember.setDisplayName(member.getDisplayName()));
         Optional.ofNullable(member.getUserProfile())
                 .ifPresent(findMember::setUserProfile);
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password -> findMember.setPassword(password));
 
         return (Member) memberRepository.save(findMember);
     }
@@ -94,4 +98,17 @@ public class MemberService {
         }
         return member;
     }
+
+    private String findLoginMemberEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    // 로그인 유저 얻기
+    public Member getLoginMember() {
+        Optional<Member> optionalMember = memberRepository.findByEmail(findLoginMemberEmail());
+        Member member = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return member;
+    }
+
 }
