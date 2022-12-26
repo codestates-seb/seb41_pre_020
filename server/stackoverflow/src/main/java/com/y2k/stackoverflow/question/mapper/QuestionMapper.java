@@ -9,6 +9,7 @@ import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.dto.*;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.entity.QuestionTag;
+import com.y2k.stackoverflow.question.entity.QuestionVote;
 import com.y2k.stackoverflow.question.service.QuestionService;
 import com.y2k.stackoverflow.question.service.QuestionTagService;
 import org.mapstruct.Mapper;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
+    QuestionVote questionVoteDtoToQuestionVote(QuestionVoteDto questionVoteDto);
     default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto, MemberService memberService) {
         Question question = new Question();
 
