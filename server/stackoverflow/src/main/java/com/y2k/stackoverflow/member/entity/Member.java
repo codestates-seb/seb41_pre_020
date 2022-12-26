@@ -1,6 +1,7 @@
 package com.y2k.stackoverflow.member.entity;
 
 import com.y2k.stackoverflow.audit.Auditable;
+import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.member.dto.UserProfile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,9 @@ public class Member extends Auditable {
     //권한 부여를 위한 roles
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

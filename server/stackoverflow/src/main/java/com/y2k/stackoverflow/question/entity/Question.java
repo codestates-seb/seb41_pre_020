@@ -47,7 +47,7 @@ public class Question extends Auditable {
     @Column(nullable = false)
     private Integer views;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
 
