@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import SidebarLeft from "../components/aside/SidebarLeft";
-import QnA from "../components/QnA/QnA";
+// import QnA from "../components/QnA/QnA";
 
 const Main = styled.main`
   display: flex;
@@ -20,7 +20,7 @@ function Question() {
       <Main>
         <Section>
           <SidebarLeft />
-          <QnA />
+          {/* <QnA /> */}
         </Section>
         <Footer />
       </Main>
