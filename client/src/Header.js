@@ -2,196 +2,165 @@
 // import { Icon } from './Util/convertor';
 // import { Link } from 'react-router-dom';
 // import { useState } from 'react';
-import styled from "styled-components";
-import React from "react";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import React from 'react';
 
 const StyledHeader = styled.header`
+  display: flex;
   position: fixed !important;
+  min-width: auto;
   top: 0;
   width: 100%;
   height: 50px;
   background: #f8f9f9;
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
-`;
-
-const Headertop = styled.div`
-  background: #f48225;
-  height: 2px; ;
+  border-top: 3px solid #f48224;
+  align-items: center;
 `;
 
 const Nav = styled.nav`
-  width: 78rem;
+  display: flex;
+  width: 97.2307692rem;
   max-width: 100%;
   height: 100%;
-  display: flex;
   margin: 0 auto;
   align-items: center;
-  & a {
-    height: 100%;
-    padding: 0px;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: hsl(206, 100%, 40%);
-    text-decoration: none;
-    cursor: pointer;
-  }
 `;
 
-const Hamburger = styled.span`
-  & {
-    width: 16px;
-    height: 2px;
-    background-color: hsl(210, 8%, 35%);
-    position: relative;
-  }
-  &:before {
-    position: absolute;
-    width: 16px;
-    height: 2px;
-    background-color: hsl(210, 8%, 35%);
-    content: "";
-    left: 0;
-    top: -5px;
-    transition: top, transform;
-    transition-duration: 0.1s;
-    transition-timing-function: ease-in-out;
-  }
-  &:after {
-    position: absolute;
-    width: 16px;
-    height: 2px;
-    background-color: hsl(210, 8%, 35%);
-    content: "";
-    left: 0;
-    top: 5px;
-    transition: top, transform;
-    transition-duration: 0.1s;
-    transition-timing-function: ease-in-out;
-  }
-`;
-
-const Logo = styled.div`
-  background-image: url(https://cdn.sstatic.net/Img/unified/sprites.svg?v=fcc0ea44ba27);
-  display: inline-block;
-  margin-left: 0;
-  width: 150px;
-  height: 30px;
-  margin-top: -4px;
-  background-position: 0 -500px;
-`;
-
-const Form = styled.form`
-  padding: 0 calc(8px * 1);
+const Logo = styled.a`
+  padding: 0 8px;
+  height: 100%;
   display: flex;
   align-items: center;
-  flex-shrink: 10000;
-  flex-grow: 1;
-  position: relative;
-  & > svg {
-    color: hsl(210, 8%, 55%);
-    right: auto;
-    vertical-align: bottom;
-    left: 0.7em;
-    position: absolute;
-    top: 50%;
-    margin-top: -9px;
-    pointer-events: none;
-  }
-`;
 
-const Input = styled.input`
-  border-color: hsl(210, 8%, 75%);
-  background-color: hsl(0, 0%, 100%);
-  color: hsl(210, 8%, 25%);
-  display: block;
-  /* line-height: calc(15 / 13) px; */
-  -webkit-appearance: none;
-  width: 100%;
-  margin: 0;
-  padding: 0.6em 0.7em;
-  padding-left: 32px;
-  border: 1px solid hsl(210, 8%, 75%);
-  border-radius: 3px;
-  font-size: 13px;
-  font-family: inherit;
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px #d3e5f2;
+  span {
+    display: inline-block;
+    background-image: url('https://cdn.sstatic.net/Img/unified/sprites.svg?v=fcc0ea44ba27');
+    width: 150px;
+    height: 30px;
+    margin-top: -4px;
+    background-position: 0 -500px;
   }
 `;
 
 const NavtoPages = styled.ol`
   display: flex;
-  margin: -2px;
-  margin-top: -6px;
   padding: 2px 0;
+  gap: 4px;
   flex-wrap: wrap;
+  flex-direction: row;
   list-style: none;
   border: none;
-  & > li > a {
-    color: hsl(210, 8%, 35%);
-    display: flex;
-    align-items: center;
-    padding: 6px 12px;
-    position: relative;
-    border: none;
-    font: unset;
-    background: none;
-    box-shadow: none;
-    cursor: pointer;
-    user-select: auto;
-    border-radius: 1000px;
-    margin: 2px;
-    white-space: nowrap;
-    font-size: 13px;
-    &:hover {
-      background: #e3e6e8;
-    }
-    /* &:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px #d3e5f2;
-        } */
-    &.is-selected {
-      background: hsla(27, 90%, 55%, 1);
-      color: #ffffff;
+
+  & li {
+    padding: 6.5px 0;
+
+    & a {
+      padding: 6.5px 12px;
+      color: rgb(82, 89, 96);
+      background-color: transparent;
+      border-radius: 1000px;
+
       &:hover {
-        background: #da680b;
+        color: rgb(35, 38, 41);
+        background-color: rgb(227, 230, 232);
+      }
+
+      &.is-selected {
+        background: rgb(244, 130, 37);
+        color: white;
+
+        &:hover {
+          background: rgb(218, 104, 11);
+        }
       }
     }
   }
 `;
 
-const NavIconContent = styled.ol`
+const Form = styled.form`
   display: flex;
-  height: 100%;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  overflow-x: auto;
+  padding: 0 8px;
+  align-items: center;
+  flex-shrink: 10000;
+  flex-grow: 1;
+
+  & .top--searchbar {
+    position: relative;
+    flex-grow: 1;
+
+    & .input-icon__search {
+      position: absolute;
+      top: 50%;
+      right: auto;
+      left: 0.7em;
+      margin-top: -9px;
+      color: #838c95;
+    }
+  }
+`;
+
+const Input = styled.input`
+  display: block;
+  border: 1px solid #babfc4;
+  background-color: white;
+  color: #3b4045;
+  line-height: 15px;
+  padding: 7.8px 9px 7.8px 32px;
+  border-radius: 3px;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #6bbbf7;
+    box-shadow: 0 0 0 3px #dae5f1;
+  }
+`;
+
+const NavIconContent = styled.nav`
+  padding-right: 12px;
   margin-left: auto;
-  & > li {
-    display: inline-flex;
-    & > a {
-      color: hsl(210, 8%, 35%);
-      /* color: wheat; */
+
+  & ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+
+    & li {
       display: inline-flex;
-      align-items: center;
-      padding: 0 10px;
-      text-decoration: none;
-      white-space: nowrap;
-      cursor: pointer;
-      & .is-selected,
-      :hover,
-      :focus {
-        color: hsl(210, 8%, 15%);
-        /* color: powderblue; */
-        background-color: hsl(210, 8%, 90%);
-        text-decoration: none;
-        outline: none;
+
+      a {
+        line-height: 15px;
+        padding: 8px 10.5px;
+        border-radius: 3px;
+      }
+
+      & .login-button {
+        border: 1px solid #7aa7c7;
+        background: #e1ecf4;
+        color: #39739d;
+        box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.7);
+
+        &:hover {
+          background: #b3d3ea;
+          color: #2c5877;
+        }
+      }
+
+      & .signup-button {
+        border: 1px solid #0a95ff;
+        background: #0a95ff;
+        color: white;
+        box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
+        margin-left: 4px;
+
+        &:hover {
+          background: #0074cc;
+          border-color: #0074cc;
+        }
       }
     }
   }
@@ -207,92 +176,67 @@ const Search = () => {
         e.preventDefault();
       }}
     >
-      <Input />
+      <div className="top--searchbar">
+        <Input placeholder="Search..." />
+        <svg
+          xlink="http://www.w3.org/1999/xlink"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          class="input-icon__search"
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+        >
+          <path
+            d="m18 16.5-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5ZM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Z"
+            fill="#838c95"
+          ></path>
+        </svg>
+      </div>
     </Form>
   );
 };
 
-const Button = styled.button`
-  color: #0a95ff;
-  box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
-  border-color: #0a95ff;
-  border-radius: 3px;
-  padding: 10.4px;
-  cursor: pointer;
-  height: 32px;
-  margin: auto 5px;
-  background-color: #e1ecf4;
-  border-width: thin;
-  font-weight: 600;
-  &:hover {
-    background-color: hsl(206deg 96% 90%);
-  }
-`;
-
-const SignupButton = styled(Button)`
-  background-color: #0a95ff;
-  color: white;
-  &:hover {
-    background: #0074cc;
-  }
-`;
-
 const Header = () => {
   return (
     <StyledHeader>
-      <Headertop></Headertop>
       <Nav>
-        <a href="/">
-          <Logo></Logo>
-        </a>
+        <Logo href="/">
+          <span></span>
+        </Logo>
         <NavtoPages>
-          <li
-            onClick={(e) => {
-              if (e.target.classList.value === "is-selected") {
-                e.target.classList.remove("is-selected");
-              } else {
-                e.target.classList.add("is-selected");
-              }
-            }}
-          >
-            <a href="#!">About</a>
+          <li>
+            <a href="https://stackoverflow.co/">About</a>
           </li>
           <li
             onClick={(e) => {
-              if (e.target.classList.value === "is-selected") {
-                e.target.classList.remove("is-selected");
+              if (e.target.classList.value === 'is-selected') {
+                e.target.classList.remove('is-selected');
               } else {
-                e.target.classList.add("is-selected");
+                e.target.classList.add('is-selected');
               }
             }}
           >
             <a href="#!">Products</a>
           </li>
-          <li
-            onClick={(e) => {
-              if (e.target.classList.value === "is-selected") {
-                e.target.classList.remove("is-selected");
-              } else {
-                e.target.classList.add("is-selected");
-              }
-            }}
-          >
-            <a href="#!">For Teams</a>
+          <li>
+            <a href="https://stackoverflow.co/teams/">For Teams</a>
           </li>
         </NavtoPages>
-        {/* <PopOver></PopOver> */}
         <Search />
         <NavIconContent>
-          <Link to="/login">
+          <ul>
             <li>
-              <Button>Log in</Button>
+              <a className="login-button" href="">
+                Log in
+              </a>
             </li>
-          </Link>
-          <Link to="/signup">
             <li>
-              <SignupButton>Sign up</SignupButton>
+              <a className="signup-button" href="">
+                Sign up
+              </a>
             </li>
-          </Link>
+          </ul>
         </NavIconContent>
       </Nav>
     </StyledHeader>
