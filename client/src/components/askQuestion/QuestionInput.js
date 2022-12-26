@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Editor } from '../editor/Editor';
+import ToastEditor from '../editor/ToastEditor';
 import { Tag } from './Tag';
 
 const QuestionInputBox = styled.div`
@@ -81,7 +81,15 @@ const QuestionInput = ({ userInfo }) => {
               question
             </div>
           </label>
-          <Editor />
+          <ToastEditor
+              initialValue="write here"
+              height="300px"
+              initialEditType="markdown"
+              useCommandShortcut={false}
+              hideModeSwitch
+              // ref={editorRef}
+              // onChange={onChange}
+          />
           {/* <Textarea
             id='content'
             // defaultValue={userInfo.content === undefined ? '' : userInfo.content}

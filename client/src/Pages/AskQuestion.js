@@ -6,12 +6,28 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuestionInput from '../components/askQuestion/QuestionInput';
 import { DiscardModal } from '../components/askQuestion/DiscardModal';
+import Footer from "../components/Footer";
 
-const Background = styled.div`
-  width: 100%;
-  height: 100%;
+const HomeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: #f1f2f3;
 `;
+
+// const Background = styled.div`
+//   margin-top: 60px;
+//   margin-left: 5vw;
+//   padding: 24px;
+//   width: 100vw;
+//   background-color: #f1f2f3;
+// `;
+
+const MainContainer = styled.div`
+  margin: 0 auto;
+  display: flex;
+`;
+
+const FooterContainer = styled.div``;
 
 const TitleDiv = styled.div`
   padding-top: 24px;
@@ -123,24 +139,27 @@ const AskQuestion = ({ userInfo }) => {
   };
 
   return (
-    <Background>
-      <BodyContainer>
-        <TitleDiv>
-          <div>Ask a public question</div>
-        </TitleDiv>
-        <form>
-          <QuestionInput userInfo={userInfo} />
-          <ButtonDiv onSubmit={handleSubmit}>
-            <PostButton >
-              {id === undefined
-                ? 'Post your question'
-                : 'Update  your question'}
-            </PostButton>
-            <DiscardModal></DiscardModal>
-          </ButtonDiv>
-        </form>
-      </BodyContainer>
-    </Background>
+      <HomeContainer>
+          <MainContainer>
+            <TitleDiv>
+              <div>Ask a public question</div>
+            </TitleDiv>
+            <form>
+              <QuestionInput userInfo={userInfo} />
+              <ButtonDiv onSubmit={handleSubmit}>
+                <PostButton >
+                  {id === undefined
+                    ? 'Post your question'
+                    : 'Update  your question'}
+                </PostButton>
+                <DiscardModal></DiscardModal>
+              </ButtonDiv>
+            </form>
+          </MainContainer>
+          <FooterContainer>
+              <Footer />
+          </FooterContainer>
+      </HomeContainer>
   );
 };
 
