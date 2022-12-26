@@ -1,6 +1,9 @@
 package com.y2k.stackoverflow.comment.entity;
 
+import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.audit.Auditable;
+import com.y2k.stackoverflow.member.entity.Member;
+import com.y2k.stackoverflow.question.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,46 +27,53 @@ public class Comment extends Auditable {
     @Size(min = 5)
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CommentType commentType;
+
 
     public enum CommentType{
         QUESTION,
         ANSWER
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private CommentType commentType;
 
-    //나중에 int 수정 @Column//////////
-//    @JsonBackReference
-//    @ManyToOne(fetch =  FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
-    @Column(nullable = false)
-    private long memberId;
 
-//    @JsonBackReference
-//    @ManyToOne(fetch =  FetchType.LAZY)
-//    @JoinColumn(name = "answer_id")
-//    private Answer answer;
-    @Column(nullable = false)
-    private long answerId;
 
-//    @JsonBackReference
-//    @ManyToOne(fetch =  FetchType.LAZY)
-//    @JoinColumn(name = "Question_id")
-//    private Question question;
-    @Column(nullable = false)
-    private long questionId;
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-//    public void addMember(Member member){
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "answer_id")
+    private Answer answer;
+
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private Question question;
+
+    public void addMember(Member member){
+        this.member = member;
+    }
+    public void addQuestion(Question question){
+        this.question = question;
+    }
+    public void addAnswer(Answer answer){
+        this.answer = answer;
+    }
+
+    public Comment(String content, Question question, CommentType commentType){ //<<member 추가
+        this.content = content;
+        this.question = question;
+        this.commentType = commentType;
 //        this.member = member;
-//    }
-//    public void addQuestion(Question question){
-//        this.question = question;
-//    }
-//    public void addAnswer(Answer answer){
-//        this.answer = answer;
-//    }
+    }
+
+    public Comment(String content, Answer answer, CommentType commentType){ //<<member 추가
+        this.content = content;
+        this.answer = answer;
+        this.commentType = commentType;
+//        this.member = member;
+    }
 
 }
