@@ -206,7 +206,7 @@ const Header = () => {
         </Logo>
         <NavtoPages>
           <li>
-            <a href="https://stackoverflow.co/">About</a>
+            <a href="client/src/components/Header">About</a>
           </li>
           <li
             onClick={(e) => {
@@ -217,22 +217,22 @@ const Header = () => {
               }
             }}
           >
-            <a href="#!">Products</a>
+            <a href="client/src/components/Header#!">Products</a>
           </li>
           <li>
-            <a href="https://stackoverflow.co/teams/">For Teams</a>
+            <a href="client/src/components/Header">For Teams</a>
           </li>
         </NavtoPages>
         <Search />
         <NavIconContent>
           <ul>
             <li>
-              <a className="login-button" href="">
+              <a className="login-button" href="/client/src/Pages/Login">
                 Log in
               </a>
             </li>
             <li>
-              <a className="signup-button" href="">
+              <a className="signup-button" href="/client/src/Pages/Signup">
                 Sign up
               </a>
             </li>
