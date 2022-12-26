@@ -1,8 +1,6 @@
 package com.y2k.stackoverflow.question.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -13,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuestionPostDto {
     @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "제목은 공백이 아니어야 합니다.")
     private String title;

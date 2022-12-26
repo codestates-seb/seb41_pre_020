@@ -16,12 +16,6 @@ public class CommentDto {
     public static class Post {
         private String content;
 
-        private long memberId;
-        private long questionId;
-        private long answerId;
-
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
         private Comment.CommentType commentType;
 
         public Post(){
@@ -35,12 +29,6 @@ public class CommentDto {
         private long commentId;
         private String content;
 
-        private long memberId;
-        private long questionId;
-        private long answerId;
-
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
         private Comment.CommentType commentType;
     }
 
@@ -51,16 +39,14 @@ public class CommentDto {
     public static class Response {
         private long commentId;
         private String content;
-//        private Member memberId;
-//        private Question questionId;
-//        private Answer answerId;
+        //        private long memberId;
         //-------------------------------
         private long memberId;
         private long questionId;
         private long answerId;
         //--------------------------------
         private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
+        private LocalDateTime lastModifiedAt;
         private Comment.CommentType commentType;
     }
 }
