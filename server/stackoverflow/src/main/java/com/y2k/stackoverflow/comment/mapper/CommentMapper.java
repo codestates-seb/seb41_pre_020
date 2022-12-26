@@ -17,7 +17,7 @@ public interface CommentMapper {
                     .content(comment.getContent())
                     .questionId(comment.getQuestion().getQuestionId())
                     .createdAt(comment.getCreatedAt())
-                    .modifiedAt(comment.getModifiedAt())
+                    .lastModifiedAt(comment.getModifiedAt())
                     .commentType(comment.getCommentType())
                     .build();
         }
@@ -28,7 +28,7 @@ public interface CommentMapper {
                     .content(comment.getContent())
                     .answerId(comment.getAnswer().getAnswerId())
                     .createdAt(comment.getCreatedAt())
-                    .modifiedAt(comment.getModifiedAt())
+                    .lastModifiedAt(comment.getModifiedAt())
                     .commentType(comment.getCommentType())
                     .build();
         }
@@ -37,7 +37,7 @@ public interface CommentMapper {
                 .commentId(comment.getCommentId())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
-                .modifiedAt(comment.getModifiedAt())
+                .lastModifiedAt(comment.getModifiedAt())
                 .commentType(comment.getCommentType())
                 .build();
     }

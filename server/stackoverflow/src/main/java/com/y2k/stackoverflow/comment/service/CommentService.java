@@ -3,12 +3,14 @@ package com.y2k.stackoverflow.comment.service;
 import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.answer.repository.AnswerRepository;
 import com.y2k.stackoverflow.answer.service.AnswerService;
+import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.comment.repository.CommentRepository;
 import com.y2k.stackoverflow.exception.BusinessLogicException;
 import com.y2k.stackoverflow.exception.ExceptionCode;
 import com.y2k.stackoverflow.member.repository.MemberRepository;
 import com.y2k.stackoverflow.member.service.MemberService;
+import com.y2k.stackoverflow.question.dto.QuestionResponseDto;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.repository.QuestionRepository;
 import com.y2k.stackoverflow.question.service.QuestionService;
@@ -76,8 +78,7 @@ public class CommentService {
     public Comment createAnswerComment(Comment comment, long answerId){
 
         //TODO:answer만들어지면 만들기
-//        Answer answer = answerService.findAnswer(answerId);
-        Answer answer = answerRepository.getReferenceById(answerId);
+        Answer answer = answerService.findAnswer(answerId);
         comment.setAnswer(answer);
 //        comment.setAnswer(answerId); //TODO: 나중에 제거
 //        comment.setMember(answerId); //TODO: 나중에 로그인한 맴버로 받아오도록 변경하기
