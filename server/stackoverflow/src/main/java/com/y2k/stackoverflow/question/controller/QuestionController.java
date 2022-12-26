@@ -8,6 +8,7 @@ import com.y2k.stackoverflow.member.mapper.MemberMapper;
 import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.dto.QuestionPatchDto;
 import com.y2k.stackoverflow.question.dto.QuestionPostDto;
+import com.y2k.stackoverflow.question.dto.QuestionVoteDto;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.mapper.QuestionMapper;
 import com.y2k.stackoverflow.question.service.QuestionService;
@@ -54,7 +55,7 @@ public class QuestionController {
      * Question 등록
      */
     @PostMapping
-    public ResponseEntity postQuestion(@RequestBody QuestionPostDto questionPostDto) {
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
         Question question = questionService.createQuestion(questionMapper.questionPostDtoToQuestion(questionPostDto, memberService));
 
         return new ResponseEntity<>(
@@ -110,34 +111,24 @@ public class QuestionController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+
     /**
-     * Question 추천 기능
-     * ▲  추천 +1
-     * 회원마다 질문에 1개씩 추천 or 비추천 가능
+     * Question 추천 & 비추천 기능
+     * request 값으로 보낼 voteCount가 0이면 비추천, 1이면 추천
+     * 회원마다 질문에 1개씩만 추천 or 비추천 가능
      */
     @PostMapping("/likes/{question-id}")
-    public ResponseEntity postLikeVoteQuestion(@PathVariable("question-id") @Positive long questionId) {
-        Question voteQuestion = questionService.likeQuestionVote(questionId, memberService.getLoginMember());
+    public ResponseEntity likeVoteQuestion(@PathVariable("question-id") @Positive long questionId,
+                                                  @Valid @RequestBody QuestionVoteDto questionVoteDto) {
+        Question question = questionService.likeQuestionVote(
+                questionId,
+                memberService.getLoginMember(),
+                questionMapper.questionVoteDtoToQuestionVote(questionVoteDto));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(voteQuestion, memberMapper, answerService)),
-                HttpStatus.OK
-        );
+                new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, memberMapper, questionTagService)),
+                HttpStatus.OK);
     }
 
-    /**
-     * Question 비추천 기능
-     * ▼  비추천 -1
-     * 회원마다 질문에 1개씩 추천 or 비추천 가능
-     */
-    @PostMapping("/dislikes/{question-id}")
-    public ResponseEntity postDislikeVoteQuestion(@PathVariable("question-id") @Positive long questionId) {
-        Question voteQuestion = questionService.dislikeQuestionVote(questionId, memberService.getLoginMember());
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(voteQuestion, memberMapper, answerService)),
-                HttpStatus.OK
-        );
-    }
 
 }
