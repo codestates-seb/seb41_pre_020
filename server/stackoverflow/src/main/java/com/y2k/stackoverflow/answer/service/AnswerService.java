@@ -50,6 +50,10 @@ public class AnswerService {
         return answerRepository.findAll();
     }
 
+    public Answer findAnswer(long answerId){
+        return findVerifiedAnswer(answerId);
+    }
+
     public List<Answer> findAnswersQuestion(Question question) {
         return answerRepository.findAllByQuestion(question);
     }
