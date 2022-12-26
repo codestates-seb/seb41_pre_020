@@ -1,16 +1,11 @@
 package com.y2k.stackoverflow.comment.service;
 
 import com.y2k.stackoverflow.answer.entity.Answer;
-import com.y2k.stackoverflow.answer.repository.AnswerRepository;
 import com.y2k.stackoverflow.answer.service.AnswerService;
-import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.comment.repository.CommentRepository;
 import com.y2k.stackoverflow.exception.BusinessLogicException;
 import com.y2k.stackoverflow.exception.ExceptionCode;
-import com.y2k.stackoverflow.member.repository.MemberRepository;
-import com.y2k.stackoverflow.member.service.MemberService;
-import com.y2k.stackoverflow.question.dto.QuestionResponseDto;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.repository.QuestionRepository;
 import com.y2k.stackoverflow.question.service.QuestionService;
@@ -24,25 +19,15 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final QuestionService questionService;
     private final QuestionRepository questionRepository;
-    private final MemberService memberService;
-    private final MemberRepository memberRepository;
-
-
     private final AnswerService answerService; //나중에 추가★
 
-    private final AnswerRepository answerRepository;
 
     public CommentService(CommentRepository commentRepository, QuestionService questionService,
-                          QuestionRepository questionRepository, MemberService memberService,
-                          MemberRepository memberRepository, AnswerService answerService,
-                          AnswerRepository answerRepository) {
+                          QuestionRepository questionRepository, AnswerService answerService) {
         this.commentRepository = commentRepository;
         this.questionService = questionService;
         this.questionRepository = questionRepository;
-        this.memberService = memberService;
-        this.memberRepository = memberRepository;
         this.answerService = answerService;
-        this.answerRepository = answerRepository;
     }
 
     public Comment createComment(Comment comment) {
@@ -69,7 +54,7 @@ public class CommentService {
 
         comment.setCommentType(Comment.CommentType.QUESTION);
 
-        question.getComments().add(comment);
+        //question.getComments().add(comment); // post 두번 요청 범인
         questionRepository.save(question);
 
         return commentRepository.save(comment);
