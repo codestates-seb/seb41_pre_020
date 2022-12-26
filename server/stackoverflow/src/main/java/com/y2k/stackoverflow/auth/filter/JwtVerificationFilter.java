@@ -2,6 +2,7 @@ package com.y2k.stackoverflow.auth.filter;
 
 import com.y2k.stackoverflow.auth.jwt.JwtTokenizer;
 import com.y2k.stackoverflow.auth.utils.CustomAuthorityUtils;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     private Map<String, Object> verifyJws(HttpServletRequest request) {
         String jws = request.getHeader("Authorization").replace("Bearer ", "");
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-        return jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
+        Claims claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
+        return claims;
     }
 
     //SecurityContext 에 Authentication 저장

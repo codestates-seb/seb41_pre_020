@@ -52,6 +52,11 @@ public class MemberService {
                 .ifPresent(name -> findMember.setDisplayName(member.getDisplayName()));
         Optional.ofNullable(member.getUserProfile())
                 .ifPresent(findMember::setUserProfile);
+
+        //소셜로그인 회원인 경우 pw 수정 불가
+        if (findMember.getPassword() == null) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
+        }
         Optional.ofNullable(member.getPassword())
                 .ifPresent(password -> findMember.setPassword(password));
 
