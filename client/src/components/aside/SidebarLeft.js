@@ -1,97 +1,163 @@
-import styled from "styled-components";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import * as Icons from '@stackoverflow/stacks-icons';
 
-const SideContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 164px;
-  flex-shrink: 0;
-
-  border-right: 1px solid lightgrey;
+const Container = styled.aside`
+  width: 155px;
+  margin-left: 10px;
+  margin-top: 75px; 
 `;
 
-const SideBox = styled.div`
-  margin: 0 0 8px;
-  padding: 24px 0 0;
-  position: sticky;
-  overflow-y: auto;
-  top: 50px;
-  max-height: calc(100vh - 50px);
+const TopBox = styled.div`
+  padding: 10px 0px;
+  h1 {
+    font-size: 13px;
+    line-height: 26px;
+    color: #525960;
+  }
 `;
 
-const NavtoPages = styled.ol`
-  padding: 0;
-  margin: 0;
+const MidBox = styled.div`
+  margin: 20px 0px;
+`;
 
-  > li {
-    margin: 4px 4px 4px 8px;
-    width: 164px;
-    height: 34px;
-    text-align: -moz-center;
+const BotBox = styled.div``;
+
+const WrapperTitle = styled.div`
+  font-size: 11px;
+  color: #61737c;
+  line-height: 14.3846px;
+  margin-bottom: 5px;
+`;
+
+const WrapperTab = styled.div`
+  & > div {
+    border: 1px solid rgb(235, 237, 239);
+    width: 165px;
+    height: 290px;
+    margin-left: -10px;
+    padding: 15px;
+    span {
+      font-size: 13px;
+      line-height: 17px;
+      color: #525960;
+    }
+    span:first-child {
+      color: #2f3337;
+      font-weight: bolder;
+    }
+  }
+`;
+
+const Ul = styled.ul`
+  div {
+    position: absolute;
+    top: 168px;
+    font-size: 13px;
+  }
+`;
+
+const Li = styled.li`
+  font-size: 13px;
+  height: 26px;
+  color: #0c0d0e;
+  height: 35px;
+  padding: 11.5px 22.5px;
+  background-color: ${props =>
+    props.location === '/' ? '#f1f2f3' : '#ffffff'};
+`;
+
+const Img = styled.img`
+  width: 139px;
+  height: 114px;
+`;
+
+const BtnCreateTeam = styled.a`
+  display: block;
+  width: 135px;
+  height: 30px;
+  background-color: #f48225;
+  font-size: 11px;
+  line-height: 12.7px;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px 0px inset;
+  font-weight: 600;
   &:hover {
-      background: #e3e6e8;
-    }
-    /* &:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px #d3e5f2;
-        } */
-    &.is-selected {
-      background: hsla(27, 90%, 55%, 1);
-      color: #ffffff;
-      &:hover {
-        background: #da680b;
-      }
-    } 
-  }
-  .pageName p {
-    padding-left: 20px;
-  }
-  cursor: pointer;
+    color: white;
   }
 `;
 
-export default function SidebarLeft() {
-  const OnClick = (e) => {
-    if (e.target.classList.value === "is-selected") {
-      e.target.classList.remove("is-selected");
-    } else {
-      e.target.classList.add("is-selected");
-    }
-  };
+const BtnWhyTeam = styled(BtnCreateTeam)`
+  background-color: white;
+  color: #6a737c;
+  font-weight: 400;
+  &:hover {
+    color: #6a737c;
+    background-color: #f8f9f9;
+  }
+`;
+
+function SidebarLeft() {
+  const { pathname } = useLocation();
 
   return (
-    <SideContainer>
-      <SideBox>
-        <nav>
-          <NavtoPages>
-            <li onClick={OnClick}>
-              <a href="/">
-                <p>Home</p>
-              </a>
-            </li>
-
-            <li>
-              <span>PUBLIC</span>
-            </li>
-            <li onClick={OnClick}>
-              <a href="/question" className="pageName">
-                <p>Questions</p>
-              </a>
-            </li>
-            <li onClick={OnClick}>
-              <a href="/tags" className="pageName">
-                <p>Tags</p>
-              </a>
-            </li>
-            <li href="/users" onClick={OnClick}>
-              <a href="/users" className="pageName">
-                <p>Users</p>
-              </a>
-            </li>
-          </NavtoPages>
-        </nav>
-      </SideBox>
-    </SideContainer>
+      <Container>
+        <TopBox>
+          <Link to="/">
+            <h1>Home</h1>
+          </Link>
+        </TopBox>
+        <MidBox>
+          <WrapperTitle>
+            <h1>PUBLIC</h1>
+          </WrapperTitle>
+          <WrapperTab>
+            <Ul>
+              <div dangerouslySetInnerHTML={{ __html: Icons.IconGlobe }} />
+              <Link to="/">
+                <Li location={pathname}>
+                  <span>Questions</span>
+                </Li>
+              </Link>
+              <Link to='/tags'>
+                <Li location={pathname}>
+                  <span>Tags</span>
+                </Li>
+              </Link>
+              <Link to='/users'>
+                <Li location={pathname}>
+                  <span>Users</span>
+                </Li>
+              </Link>
+            </Ul>
+          </WrapperTab>
+        </MidBox>
+        <BotBox>
+          <WrapperTitle>
+            <h1>TEAMS</h1>
+          </WrapperTitle>
+          <WrapperTab>
+            <div>
+              <span>Stack Overflow for Teams </span>
+              <span>
+              - Start collaborating and sharing organizational knowledge.
+            </span>
+              <Img src="https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e" />
+              <BtnCreateTeam href="https://try.stackoverflow.co/why-teams/?utm_source=so-owned&utm_medium=side-bar&utm_campaign=campaign-38&utm_content=cta">
+                Create a free Team
+              </BtnCreateTeam>
+              <BtnWhyTeam href="https://stackoverflow.co/teams/">
+                Why Teams?
+              </BtnWhyTeam>
+            </div>
+          </WrapperTab>
+        </BotBox>
+      </Container>
   );
 }
+
+export default SidebarLeft;

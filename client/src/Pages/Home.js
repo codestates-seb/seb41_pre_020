@@ -1,22 +1,33 @@
 import Main from "../components/home/Main";
 import SidebarLeft from "../components/aside/SidebarLeft";
-// import SidebarRight from '../components/aside/SidebarRight';
-import { BodyContainer } from "../components/BodyContainer";
+import SidebarRight from '../components/aside/SidebarRight';
 import styled from "styled-components";
+import Footer from "../Footer";
+import List from "../components/home/List";
 
 const HomeContainer = styled.div`
   display: flex;
-  margin-top: 0;
+  flex-direction: column;
 `;
+
+const MainContainer = styled.div`
+  margin: 0 auto;
+  display: flex;
+`;
+
+const FooterContainer = styled.div``;
 
 const Home = () => {
   return (
     <HomeContainer>
-      <SidebarLeft />
-      <BodyContainer>
-        <Main />
-        {/* <SidebarRight /> */}
-      </BodyContainer>
+        <MainContainer>
+            <SidebarLeft />
+            <List />
+             <SidebarRight />
+        </MainContainer>
+        <FooterContainer>
+            <Footer />
+        </FooterContainer>
     </HomeContainer>
   );
 };
