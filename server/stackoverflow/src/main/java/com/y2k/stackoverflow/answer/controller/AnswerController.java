@@ -1,9 +1,6 @@
 package com.y2k.stackoverflow.answer.controller;
 
-import com.y2k.stackoverflow.answer.dto.AnswerPatchDto;
-import com.y2k.stackoverflow.answer.dto.AnswerPostDto;
-import com.y2k.stackoverflow.answer.dto.AnswerResponseDto;
-import com.y2k.stackoverflow.answer.dto.AnswersGetResponseDto;
+import com.y2k.stackoverflow.answer.dto.*;
 import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
 import com.y2k.stackoverflow.answer.service.AnswerService;
@@ -92,35 +89,24 @@ public class AnswerController {
     }
 
     /**
-     * Answer 추천 기능
-     * ▲  추천 +1
+     * Answer 추천 & 비추천 기능
+     * request 값으로 보낼 voteCount가 0이면 비추천, 1이면 추천
      * 회원마다 답변에 1개씩 추천 or 비추천 가능
      */
     @PostMapping("/ask/likes/{answer-id}")
-    public ResponseEntity postLikeVoteAnswer(@PathVariable("answer-id") @Positive long answerId) {
-        Answer voteAnswer = answerService.likeAnswerVote(answerId, memberService.getLoginMember());
+    public ResponseEntity likeVoteAnswer(@PathVariable("answer-id") @Positive long answerId,
+                                         @Valid @RequestBody AnswerVoteDto answerVoteDto) {
+        Answer answer = answerService.likeAnswerVote(
+                answerId,
+                memberService.getLoginMember(),
+                answerMapper.answerVoteDtoToAnswerVote(answerVoteDto));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper)),
                 HttpStatus.OK
         );
 
 
     }
 
-    /**
-     * Answer 비추천 기능
-     * ▼  비추천 -1
-     * 회원마다 답변에 1개씩 추천 or 비추천 가능
-     */
-    @PostMapping("/ask/dislikes/{answer-id}")
-    public ResponseEntity postDislikeVoteAnswer(@PathVariable("answer-id") @Positive long answerId) {
-        Answer voteAnswer = answerService.dislikeAnswerVote(answerId, memberService.getLoginMember());
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
-                HttpStatus.OK
-        );
-
-    }
 }

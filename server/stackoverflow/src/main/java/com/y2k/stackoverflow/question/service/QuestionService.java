@@ -61,6 +61,9 @@ public class QuestionService {
         Optional.ofNullable(question.getQuestionTags())
                 .ifPresent(questionTags -> findQuestion.setQuestionTags(questionTags));
 
+        //수정 할 때 member_id null 값 해결
+        question.setMember(memberService.getLoginMember());
+
         return questionRepository.save(question);
     }
 
@@ -119,41 +122,28 @@ public class QuestionService {
      * 본인 글은 추천 or 비추천 못함
      * question_vote 테이블에서 로그인 유저 memberId로 조회 후, 결과가 존재하지 않으면 추천 가능
      */
-    public Question likeQuestionVote(Long questionId, Member member) {
+
+    public Question likeQuestionVote(Long questionId, Member member, QuestionVote questionVote) {
         Question findQuestion = findVerifiedQuestion(questionId);
 
         // 로그인 한 회원이 추천 눌렀는지 확인 후,
         // 안눌렀다면 question_vote 테이블에 question_id와 member_id를 넣어 중복 방지
-        if(findVerifiedVoteMember(questionId)) {
-            QuestionVote questionVote = new QuestionVote();
-            questionVote.setQuestion(findQuestion);
-            questionVote.setMember(member);
-            questionVoteRepository.save(questionVote);
-
-            //추천 누른 질문에 전체 추천 수 카운트
-            findQuestion.setVotes(findQuestion.getVotes() + 1);
-        }else {
+        if(!findVerifiedVoteMember(questionId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
-        return questionRepository.save(findQuestion);
-    }
+        questionVote.setQuestion(findQuestion);
+        questionVote.setMember(member);
+        questionVote.setVoteCheck(questionVote.getVoteCheck());
 
-    public Question dislikeQuestionVote(Long questionId, Member member) {
-        Question findQuestion = findVerifiedQuestion(questionId);
-
-        // 로그인 한 회원이 추천 눌렀는지 확인 후,
-        // 안눌렀다면 question_vote 테이블에 question_id와 member_id를 넣어 중복 방지
-        if(findVerifiedVoteMember(questionId)) {
-            QuestionVote questionVote = new QuestionVote();
-            questionVote.setQuestion(findQuestion);
-            questionVote.setMember(member);
-            questionVoteRepository.save(questionVote);
-
+        if(questionVote.getVoteCheck() == 0) { // post로 보낸 값이 0이면 비추천
             //비추천 누른 질문에 전체 추천 수 카운트
             findQuestion.setVotes(findQuestion.getVotes() - 1);
-        }else {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
+        if(questionVote.getVoteCheck() == 1) { // post로 보낸 값이 1이면 추천
+            findQuestion.setVotes(findQuestion.getVotes() + 1);
+        }
+
+        questionVoteRepository.save(questionVote);
         return questionRepository.save(findQuestion);
     }
 
