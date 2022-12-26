@@ -18,8 +18,12 @@ const GlobalStyle = createGlobalStyle`
   }
   
   a {
-    color: #0A95FF;
+    color: #0074cc;
     text-decoration: none;
+
+    &:hover {
+      color: #0A95FF;
+    }
   }
 
   ol, ul {
