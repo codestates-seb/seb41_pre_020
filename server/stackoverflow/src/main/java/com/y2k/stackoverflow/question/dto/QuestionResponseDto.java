@@ -1,5 +1,6 @@
 package com.y2k.stackoverflow.question.dto;
 
+import com.y2k.stackoverflow.member.dto.MemberDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,4 +20,7 @@ public class QuestionResponseDto {
     private LocalDateTime lastModifiedAt;
     private int votes;
     private int views;
+    private int answers;
+    private int questions;
+    private MemberDto.Response member;
 }

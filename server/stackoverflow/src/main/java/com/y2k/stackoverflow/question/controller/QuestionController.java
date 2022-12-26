@@ -4,6 +4,8 @@ import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
 import com.y2k.stackoverflow.answer.service.AnswerService;
 import com.y2k.stackoverflow.dto.MultiResponseDto;
 import com.y2k.stackoverflow.dto.SingleResponseDto;
+import com.y2k.stackoverflow.member.mapper.MemberMapper;
+import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.dto.QuestionPatchDto;
 import com.y2k.stackoverflow.question.dto.QuestionPostDto;
 import com.y2k.stackoverflow.question.entity.Question;
@@ -31,14 +33,21 @@ public class QuestionController {
     private final QuestionMapper questionMapper;
     private final AnswerService answerService;
     private final AnswerMapper answerMapper;
+    private final MemberMapper memberMapper;
+    private final MemberService memberService;
     private final QuestionTagService questionTagService;
 
-    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, AnswerService answerService, AnswerMapper answerMapper, QuestionTagService questionTagService) {
+    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, QuestionTagService questionTagService,
+                              AnswerService answerService, AnswerMapper answerMapper,
+                              MemberMapper memberMapper, MemberService memberService) {
+
         this.questionService = questionService;
         this.questionMapper = questionMapper;
+        this.questionTagService = questionTagService;
         this.answerService = answerService;
         this.answerMapper = answerMapper;
-        this.questionTagService = questionTagService;
+        this.memberMapper = memberMapper;
+        this.memberService = memberService;
     }
 
     /**
@@ -46,23 +55,23 @@ public class QuestionController {
      */
     @PostMapping
     public ResponseEntity postQuestion(@RequestBody QuestionPostDto questionPostDto) {
-        Question question = questionService.createQuestion(questionMapper.questionPostDtoToQuestion(questionPostDto));
+        Question question = questionService.createQuestion(questionMapper.questionPostDtoToQuestion(questionPostDto, memberService));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(question)),
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(question, memberMapper, answerService)),
                 HttpStatus.CREATED);
     }
 
     /**
-     * Question 수정 - - 질문을 작성한 멤버만 수정 가능하게 수정 필요 //
+     * Question 수정
      */
     @PatchMapping ("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
-        Question question = questionService.updateQuestion(questionMapper.questionPatchDtoToQuestion(questionPatchDto));
+        Question question = questionService.updateQuestion(questionMapper.questionPatchDtoToQuestion(questionPatchDto, memberService));
         return new ResponseEntity<>(
-                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(question))
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(question, memberMapper, answerService))
                 ,HttpStatus.OK);
     }
 
@@ -73,7 +82,7 @@ public class QuestionController {
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, questionTagService)),
+                new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, memberMapper, questionTagService)),
                 HttpStatus.OK);
     }
 
@@ -87,18 +96,48 @@ public class QuestionController {
         List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions), pageQuestions),
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionService), pageQuestions),
                 HttpStatus.OK);
     }
 
 
     /**
-     * 특정 Question 삭제 - 질문을 작성한 멤버만 삭제 가능하게 수정 필요 //
+     * 특정 Question 삭제
      */
     @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
         questionService.deleteQuestion(questionId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Question 추천 기능
+     * ▲  추천 +1
+     * 회원마다 질문에 1개씩 추천 or 비추천 가능
+     */
+    @PostMapping("/likes/{question-id}")
+    public ResponseEntity postLikeVoteQuestion(@PathVariable("question-id") @Positive long questionId) {
+        Question voteQuestion = questionService.likeQuestionVote(questionId, memberService.getLoginMember());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(voteQuestion, memberMapper, answerService)),
+                HttpStatus.OK
+        );
+    }
+
+    /**
+     * Question 비추천 기능
+     * ▼  비추천 -1
+     * 회원마다 질문에 1개씩 추천 or 비추천 가능
+     */
+    @PostMapping("/dislikes/{question-id}")
+    public ResponseEntity postDislikeVoteQuestion(@PathVariable("question-id") @Positive long questionId) {
+        Question voteQuestion = questionService.dislikeQuestionVote(questionId, memberService.getLoginMember());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(voteQuestion, memberMapper, answerService)),
+                HttpStatus.OK
+        );
     }
 
 }

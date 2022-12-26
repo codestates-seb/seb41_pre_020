@@ -1,5 +1,6 @@
 package com.y2k.stackoverflow.answer.dto;
 
+import com.y2k.stackoverflow.member.dto.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class AnswerResponseDto {
     private Integer votes;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private MemberDto.Response member;
 }
