@@ -1,6 +1,7 @@
 package com.y2k.stackoverflow.answer.entity;
 
 import com.y2k.stackoverflow.audit.Auditable;
+import com.y2k.stackoverflow.member.entity.Member;
 import com.y2k.stackoverflow.question.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +28,9 @@ public class Answer extends Auditable {
     @Column(nullable = false)
     private Integer votes = 0;
 
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
+    private List<AnswerVote> voteList = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
@@ -33,11 +39,11 @@ public class Answer extends Auditable {
         this.question = question;
     }
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     public void setMember(Member member){
         this.member = member;
-    }*/
+    }
 }
