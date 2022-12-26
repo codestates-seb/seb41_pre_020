@@ -1,6 +1,7 @@
 package com.y2k.stackoverflow.comment.dto;
 
 import com.y2k.stackoverflow.comment.entity.Comment;
+import com.y2k.stackoverflow.member.dto.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,7 @@ public class CommentDto {
 
     @Getter
     @Setter
+    @Builder
     @AllArgsConstructor
     public static class Post {
         private String content;
@@ -21,6 +23,7 @@ public class CommentDto {
         public Post(){
 
         }
+
     }
 
     @Getter
@@ -39,11 +42,10 @@ public class CommentDto {
     public static class Response {
         private long commentId;
         private String content;
-        //        private long memberId;
         //-------------------------------
-        private long memberId;
         private long questionId;
         private long answerId;
+        private MemberDto.Response member;
         //--------------------------------
         private LocalDateTime createdAt;
         private LocalDateTime lastModifiedAt;

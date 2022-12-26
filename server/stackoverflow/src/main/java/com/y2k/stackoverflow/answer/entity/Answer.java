@@ -48,6 +48,6 @@ public class Answer extends Auditable {
         this.member = member;
     }
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 }
