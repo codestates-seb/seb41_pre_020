@@ -16,8 +16,8 @@ const Content = styled.div`
 `;
 
 const Mainbar = styled.div`
-  width: 100%;
-  width: calc(100% - 300px - 24px);
+  //width: 100%;
+  //width: calc(100% - 300px - 24px);
   float: left;
   margin: 0;
   padding: 0;
@@ -89,37 +89,37 @@ const SortButton = styled.div`
 `;
 
 const Main = () => {
-  const [totalNum, setTotalNum] = useState(0);
+    const [totalNum, setTotalNum] = useState(0);
 
-  fetch(`${process.env.REACT_APP_SERVER}/questions`)
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      setTotalNum(data.pageInfo.totalElements);
-    });
+    fetch(`${process.env.REACT_APP_SERVER}/questions`)
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            setTotalNum(data.pageInfo.totalElements);
+        });
 
-  return (
-    <Content id="content">
-      <Mainbar id="mainbar">
-        <Wrapper>
-          <span className="question-title">All Questions</span>
-          <Link to="/create">
-            <AskButton>Ask Question</AskButton>
-          </Link>
-        </Wrapper>
-        <Wrapper className='ai-center jc-space-between'>
-          <h3>{totalNum} questions</h3>
-          <div className='filter'>
-            <SortButton>Newest</SortButton>
-            <SortButton>Vote</SortButton>
-          </div>
-        </Wrapper>
-        <QuestionList />
-      </Mainbar>
-      <SidebarRight />
-    </Content>
-  );
+    return (
+        <Content id="content">
+            <Mainbar id="mainbar">
+                <Wrapper>
+                    <span className="question-title">All Questions</span>
+                    <Link to="/create">
+                        <AskButton>Ask Question</AskButton>
+                    </Link>
+                </Wrapper>
+                <Wrapper className='ai-center jc-space-between'>
+                    <h3>{totalNum} questions</h3>
+                    <div className='filter'>
+                        <SortButton>Newest</SortButton>
+                        <SortButton>Vote</SortButton>
+                    </div>
+                </Wrapper>
+                <QuestionList />
+            </Mainbar>
+            <SidebarRight />
+        </Content>
+    );
 };
 
 export default Main;

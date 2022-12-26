@@ -130,8 +130,8 @@ const AskQuestion = ({ userInfo }) => {
         </TitleDiv>
         <form>
           <QuestionInput userInfo={userInfo} />
-          <ButtonDiv>
-            <PostButton onSubmit={handleSubmit}>
+          <ButtonDiv onSubmit={handleSubmit}>
+            <PostButton >
               {id === undefined
                 ? 'Post your question'
                 : 'Update  your question'}

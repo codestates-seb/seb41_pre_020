@@ -1,7 +1,3 @@
-// import { IconLogo, IconSearch } from '@stackoverflow/stacks-icons';
-// import { Icon } from './Util/convertor';
-// import { Link } from 'react-router-dom';
-// import { useState } from 'react';
 import styled from 'styled-components';
 import React from 'react';
 
@@ -161,6 +157,7 @@ const NavIconContent = styled.nav`
         &:hover {
           background: #0074cc;
           border-color: #0074cc;
+          cursor: pointer;
         }
       }
     }
@@ -218,7 +215,7 @@ const Header = () => {
               }
             }}
           >
-            <a href="#!">Products</a>
+            <a href="/">Products</a>
           </li>
           <li>
             <a href="https://stackoverflow.co/teams/">For Teams</a>
@@ -228,12 +225,12 @@ const Header = () => {
         <NavIconContent>
           <ul>
             <li>
-              <a className="login-button" href="">
+              <a className="login-button" href="/login">
                 Log in
               </a>
             </li>
             <li>
-              <a className="signup-button" href="">
+              <a className="signup-button" href="/signup">
                 Sign up
               </a>
             </li>

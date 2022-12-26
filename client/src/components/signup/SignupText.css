@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0 48 0 0;
-  position: absolute;
-  width: 502px;
-  height: 297px;
-  left: 361px;
-  top: 351px;
+  justify-content: center;
+  /*padding: 0 48px 0 0;*/
+  /*position: absolute;*/
+  /*width: 502px;*/
+  /*height: 297px;*/
+  /*left: 361px;*/
+  /*top: 351px;*/
 }
 
 .signupInfoItem {
@@ -26,7 +27,8 @@
   font-style: normal;
   font-weight: 400;
   font-size: 27px;
-  line-height: 100px;
+  line-height: 25px;
+  margin-bottom: 30px;
 }
 
 .signupIcon {
