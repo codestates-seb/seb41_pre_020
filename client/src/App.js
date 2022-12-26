@@ -1,34 +1,60 @@
-import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "./Header";
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from "react-router-dom";
 import Signup from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Question from "./Pages/Question";
 import AskQuestion from "./Pages/AskQuestion";
 import MyPage from "./Pages/MyPage";
-import Footer from "./Footer";
 import Tags from "./Pages/Tags";
 import Users from "./Pages/Users";
-import styled from "styled-components";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import axios from 'axios';
+import Header from "./components/Header";
+import LoginedHeader from "./components/LoginedHeader";
 
-const AppContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  /* background-color: #f3f3f3;
-     background-color: #f1f2f3;
-    background: white; */
-  margin: 0 auto;
-  margin-top: 50px;
-`;
+const queryClient = new QueryClient();
 
 function App() {
-  return (
-    <BrowserRouter>
-      <AppContainer>
-        <Header />
+  const [login, setLogin] = useState(localStorage.getItem('login-token'));
+  const [ref, setRef] = useState(false);
 
-        <main>
+  const refresh = () => {
+    axios
+        .post(
+            `/api/members/refresh`,
+            {},
+            {
+              headers: {
+                Refresh: `${localStorage.getItem('login-refresh')}`,
+              },
+            },
+        )
+        .then(res => {
+          if (res.headers.authorization) {
+            localStorage.setItem(
+                'login-token',
+                `Bearer ${res.headers.authorization}`,
+            );
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+  };
+
+  useEffect(() => {
+    if (login) {
+      setTimeout(() => {
+        refresh();
+        setRef(!ref);
+      }, 540000);
+    }
+  }, [login, ref]);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {login ? <LoginedHeader setLogin={setLogin} /> : <Header setLogin={setLogin} />}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
@@ -39,10 +65,7 @@ function App() {
             <Route path="/tags" element={<Tags />} />
             <Route path="/users" element={<Users />} />
           </Routes>
-        </main>
-      </AppContainer>
-      <Footer />
-    </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
