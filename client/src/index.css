@@ -6,10 +6,12 @@
   font-size: 13px; 
   line-height: 17px;
   font-weight: 400;
+  color: #232629;
 }
 
 body {
   display: flex;
+  flex-direction: column;
   min-width: auto;
   padding-top: 50px;
 }
@@ -17,4 +19,12 @@ body {
 a {
   color: #0A95FF;
   text-decoration: none;
+}
+
+.ai-center {
+  align-items: center;
+}
+
+.jc-space-between {
+  justify-content: space-between;
 }

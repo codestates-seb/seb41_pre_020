@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 
 const BodyContainer = styled.div`
-  width: 70%;
-  height: 100%;
-  /* background-color: #f3f3f3;
-     background-color: #f1f2f3;
-    background: white; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 1264px;
+  width: 100%;
+  justify-content: space-between;
   margin: 0 auto;
-  margin-top: 50px;
-  padding-bottom: 32px; ;
+  text-align: left;
+  flex: 1 0 auto;
 `;
 
 export { BodyContainer };
