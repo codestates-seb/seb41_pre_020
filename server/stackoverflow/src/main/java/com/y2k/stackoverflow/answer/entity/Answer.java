@@ -2,6 +2,7 @@ package com.y2k.stackoverflow.answer.entity;
 
 import com.y2k.stackoverflow.audit.Auditable;
 import com.y2k.stackoverflow.member.entity.Member;
+import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.question.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,4 +47,7 @@ public class Answer extends Auditable {
     public void setMember(Member member){
         this.member = member;
     }
+
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> comments = new ArrayList<>();
 }
