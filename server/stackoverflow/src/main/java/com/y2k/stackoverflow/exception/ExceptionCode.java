@@ -7,6 +7,8 @@ public enum ExceptionCode {
 
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     ACCESS_FORBIDDEN(403, "Access forbidden"),
+    QUESTION_NOT_PATCHED(403, "Question not patched"),
+    ANSWER_NOT_PATCHED(403, "Answer not patched"),
     COMMENT_NOT_FOUND(404, "Comment Not Found"),
     ANSWER_NOT_FOUND(404, "Answer Not Found"),
     QUESTION_NOT_FOUND(404, "Question Not Found"),

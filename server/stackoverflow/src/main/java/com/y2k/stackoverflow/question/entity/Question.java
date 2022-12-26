@@ -2,6 +2,7 @@ package com.y2k.stackoverflow.question.entity;
 
 import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.audit.Auditable;
+import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,6 +46,10 @@ public class Question extends Auditable {
     //조회 수
     @Column(nullable = false)
     private Integer views;
+
+    @OneToMany(mappedBy = "question")
+    private List<Comment> comments = new ArrayList<>();
+
 
     //질문 - 태그 1:N
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
