@@ -1,7 +1,3 @@
-// import { IconLogo, IconSearch } from '@stackoverflow/stacks-icons';
-// import { Icon } from './Util/convertor';
-// import { Link } from 'react-router-dom';
-// import { useState } from 'react';
 import styled from 'styled-components';
 import React from 'react';
 
@@ -206,7 +202,7 @@ const Header = () => {
         </Logo>
         <NavtoPages>
           <li>
-            <a href="client/src/components/Header">About</a>
+            <a href="https://stackoverflow.co/">About</a>
           </li>
           <li
             onClick={(e) => {
@@ -217,22 +213,22 @@ const Header = () => {
               }
             }}
           >
-            <a href="client/src/components/Header#!">Products</a>
+            <a href="/">Products</a>
           </li>
           <li>
-            <a href="client/src/components/Header">For Teams</a>
+            <a href="https://stackoverflow.co/teams/">For Teams</a>
           </li>
         </NavtoPages>
         <Search />
         <NavIconContent>
           <ul>
             <li>
-              <a className="login-button" href="/client/src/Pages/Login">
+              <a className="login-button" href="/login">
                 Log in
               </a>
             </li>
             <li>
-              <a className="signup-button" href="/client/src/Pages/Signup">
+              <a className="signup-button" href="/signup">
                 Sign up
               </a>
             </li>
