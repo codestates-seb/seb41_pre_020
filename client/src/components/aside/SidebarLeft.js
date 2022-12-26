@@ -40,6 +40,7 @@ const Sidebar = styled.div`
       }
 
       & span {
+        color: #6a737c;
         font-weight: inherit;
       }
     }
@@ -47,8 +48,11 @@ const Sidebar = styled.div`
     & .youarehere {
       font-weight: bold;
       background-color: #f1f2f3;
-      color: #0c0d0e;
       border-right: 3px solid #f48225;
+
+      & span {
+        color: #0c0d0e !important;
+      }
     }
 
     & .nav-links--link {
