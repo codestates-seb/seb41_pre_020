@@ -3,7 +3,9 @@ package com.y2k.stackoverflow.answer.mapper;
 import com.y2k.stackoverflow.answer.dto.AnswerPatchDto;
 import com.y2k.stackoverflow.answer.dto.AnswerPostDto;
 import com.y2k.stackoverflow.answer.dto.AnswerResponseDto;
+import com.y2k.stackoverflow.answer.dto.AnswerVoteDto;
 import com.y2k.stackoverflow.answer.entity.Answer;
+import com.y2k.stackoverflow.answer.entity.AnswerVote;
 import com.y2k.stackoverflow.member.mapper.MemberMapper;
 import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.service.QuestionService;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
+    AnswerVote answerVoteDtoToAnswerVote(AnswerVoteDto answerVoteDto);
     default Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto, QuestionService questionService, MemberService memberService) {
         Answer answer = new Answer();
 

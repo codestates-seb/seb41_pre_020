@@ -14,6 +14,8 @@ public class AnswerVote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long voteId;
 
+    private Long voteCheck;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
