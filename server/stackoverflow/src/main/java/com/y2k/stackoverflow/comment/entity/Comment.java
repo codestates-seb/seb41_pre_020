@@ -62,18 +62,18 @@ public class Comment extends Auditable {
         this.answer = answer;
     }
 
-    public Comment(String content, Question question, CommentType commentType){ //<<member 추가
+    public Comment(String content, Question question, Member member, CommentType commentType){
         this.content = content;
         this.question = question;
+        this.member = member;
         this.commentType = commentType;
-//        this.member = member;
     }
 
-    public Comment(String content, Answer answer, CommentType commentType){ //<<member 추가
+    public Comment(String content, Answer answer, Member member, CommentType commentType){
         this.content = content;
         this.answer = answer;
+        this.member = member;
         this.commentType = commentType;
-//        this.member = member;
     }
 
 }
