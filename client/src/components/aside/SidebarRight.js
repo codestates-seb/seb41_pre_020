@@ -1,145 +1,138 @@
-import React from 'react';
 import styled from 'styled-components';
-import * as Icons from '@stackoverflow/stacks-icons';
+import * as Icons from "@stackoverflow/stacks-icons";
+import React from "react";
 
-const Container = styled.aside`
+const Sidebar = styled.div`
+  float: right;
+  margin: 0 0 15px;
+  margin-left: 24px;
   width: 300px;
-  background-color: rgb(251, 243, 213);
-  color: rgb(97, 103, 106);
-  margin-top: 75px; // 추후 다른 컴포넌트와 합칠때 고려한 마진입니다.
-  margin-left: 20px; // 추후 다른 컴포넌트와 합칠때 고려한 마진입니다.
-  height: 100%;
-  margin-bottom: 310px;
-`;
+  border: 1px solid #f1e5bc;
+  background-color: #fdf7e2;
+  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
+    0 2px 8px hsla(0, 0%, 0%, 0.05);
+  border-radius: 3px;
 
-const WrapperOdd = styled.div`
-  padding: 15px;
-  border: 1px solid rgb(242, 231, 191);
-  font-size: 12px;
-  font-weight: 900;
-`;
+  & ul {
+    list-style: none;
+  }
 
-const WrapperEven = styled.div`
-  padding: 15px 15px 0px 15px;
-  font-weight: 600;
-  background-color: rgb(253, 247, 226);
-  font-size: 13px;
-`;
+  & .sidebar--heading {
+    background-color: #fbf3d5;
+    padding: 12px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 15px;
+    color: rgb(82, 89, 96);
+    border-bottom: 1px solid #f1e5bc;
+  }
 
-const Ul = styled.ul``;
+  & .border-top {
+    border-top: 1px solid #f1e5bc;
+  }
 
-const Li = styled.li`
-  font-size: 13px;
-  padding-bottom: 15px;
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
-`;
+  & .sidebar--item {
+    margin: 12px 0;
+    display: flex;
+    padding: 0 16px;
 
-const A = styled.a`
-  line-height: 17px;
-  text-decoration: none;
-  color: rgb(97, 103, 106);
-  &:hover {
-    color: rgb(97, 103, 106);
+    & .svg-icon {
+      flex-shrink: 0;
+      flex-basis: 8.33333333%;
+
+      & svg {
+        vertical-align: text-top;
+      }
+    }
+
+    & span {
+      min-width: 0;
+      overflow-wrap: break-word;
+    }
   }
 `;
 
-function SidebarRight() {
-  return (
-      <Container>
-        <WrapperOdd>The Overflow Blog</WrapperOdd>
-        <WrapperEven>
-          <Ul>
-            <Li>
-              <div dangerouslySetInnerHTML={{ __html: Icons.IconPencilSm }} />
-              <A href="https://stackoverflow.blog/2022/10/24/how-hardware-and-software-can-maximize-your-flow-states/?cb=1&_ga=2.11990900.177893255.1666422118-1796553269.1658678422">
-                How hardware and software can maximize your flow states
-              </A>
-            </Li>
-            <Li>
-              <div dangerouslySetInnerHTML={{ __html: Icons.IconPencilSm }} />
-              <A href="https://stackoverflow.blog/2022/10/25/a-flight-simulator-for-developers-to-practice-real-world-challenges-and-surprises-ep-500/?cb=1&_ga=2.221764440.177893255.1666422118-1796553269.1658678422">
-                A flight simulator for developers to practice real world
-                challenges and...
-              </A>
-            </Li>
-          </Ul>
-        </WrapperEven>
-        <WrapperOdd>Featured on Meta</WrapperOdd>
-        <WrapperEven>
-          <Ul>
-            <Li>
-              <div
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.IconSpeechBubbleRightSm,
-                  }}
-                  className="fc-blue-300"
-              />
-              <A href="https://meta.stackexchange.com/questions/383022/the-2022-community-a-thon-has-begun?cb=1">
-                The 2022 Community-a-thon has begun!
-              </A>
-            </Li>
-            <Li>
-              <div
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.IconSpeechBubbleRightSm,
-                  }}
-                  className="fc-blue-300"
-              />
-              <A href="https://meta.stackexchange.com/questions/383026/mobile-app-infrastructure-being-decommissioned?cb=1">
-                Mobile app infrastructure being decommissioned
-              </A>
-            </Li>
-            <Li>
-              <div
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.IconLogoGlyphXxs,
-                  }}
-              />
-              <A href="https://meta.stackoverflow.com/questions/420897/staging-ground-workflow-canned-comments?cb=1">
-                Staging Ground Workflow: Canned Comments
-              </A>
-            </Li>
-            <Li>
-              <div
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.IconLogoGlyphXxs,
-                  }}
-              />
-              <A href="https://meta.stackoverflow.com/questions/406928/the-script-tag-is-being-burninated?cb=1">
-                The [script] tag is being burninated
-              </A>
-            </Li>
-            <Li>
-              <div
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.IconLogoGlyphXxs,
-                  }}
-              />
-              <A href="https://meta.stackoverflow.com/questions/421038/the-ask-wizard-2022-has-graduated?cb=1">
-                The Ask Wizard Test Graduation
-              </A>
-            </Li>
-          </Ul>
-        </WrapperEven>
-        <WrapperOdd>Hot Meta Posts</WrapperOdd>
-        <WrapperEven>
-          <Ul>
-            <Li>
-              <div
-                  dangerouslySetInnerHTML={{
-                    __html: Icons.IconLogoGlyphXxs,
-                  }}
-              />
-              <A href="https://meta.stackoverflow.com/questions/421006/burninate-self-hosting?cb=1">
-                Burninate [self-hosting]
-              </A>
-            </Li>
-          </Ul>
-        </WrapperEven>
-      </Container>
-  );
+export default function SidebarRight() {
+    return (
+        <Sidebar className="right-sidebar">
+            <ul>
+                <li className="sidebar--heading">The Overflow Blog</li>
+                <li className="sidebar--item">
+                    <div className="svg-icon">
+                        <svg
+                            xlink="http://www.w3.org/1999/xlink"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            class="va-text-top svg-icon iconPencilSm"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                        >
+                            <path
+                                d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z"
+                                fill="#232629"
+                            ></path>
+                        </svg>
+                    </div>
+                    <span>The complete guide to protecting your APIs with OAuth2 (part 1)</span>
+                </li>
+                <li className="sidebar--item">
+                    <div className="svg-icon">
+                        <svg
+                            xlink="http://www.w3.org/1999/xlink"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            class="va-text-top svg-icon iconPencilSm"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                        >
+                            <path
+                                d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z"
+                                fill="#232629"
+                            ></path>
+                        </svg>
+                    </div>
+                    <span>The three top-paying tech roles in 2022 and the skills you need to land them</span>
+                </li>
+                <li className="sidebar--heading border-top">The Overflow Blog</li>
+                <li className="sidebar--item">
+                    <div
+                        className="svg-icon"
+                        dangerouslySetInnerHTML={{
+                            __html: Icons.IconSpeechBubbleRightSm,
+                        }}
+                    />
+                    <span>Navigation and UI research starting soon</span>
+                </li>
+                <li className="sidebar--item">
+                    <div
+                        className="svg-icon"
+                        dangerouslySetInnerHTML={{
+                            __html: Icons.IconLogoGlyphXxs,
+                        }}
+                    />
+                    <span>2022 Community Moderator Election Results - now with two more mods!</span>
+                </li>
+                <li className="sidebar--item">
+                    <div
+                        className="svg-icon"
+                        dangerouslySetInnerHTML={{
+                            __html: Icons.IconLogoGlyphXxs,
+                        }}
+                    />
+                    <span>Temporary policy: ChatGPT is banned</span>
+                </li>
+                <li className="sidebar--item">
+                    <div
+                        className="svg-icon"
+                        dangerouslySetInnerHTML={{
+                            __html: Icons.IconLogoGlyphXxs,
+                        }}
+                    />
+                    <span>I'm standing down as a moderator</span>
+                </li>
+            </ul>
+        </Sidebar>
+    );
 }
-
-export default SidebarRight;

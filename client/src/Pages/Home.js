@@ -1,9 +1,9 @@
-import Main from "../components/home/Main";
 import SidebarLeft from "../components/aside/SidebarLeft";
 import SidebarRight from '../components/aside/SidebarRight';
 import styled from "styled-components";
-import Footer from "../Footer";
-import List from "../components/home/List";
+import Footer from "../components/Footer";
+// import List from "../components/home/List";
+import Main from "../components/home/Main";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -22,8 +22,9 @@ const Home = () => {
     <HomeContainer>
         <MainContainer>
             <SidebarLeft />
-            <List />
-             <SidebarRight />
+            {/*<List />*/}
+            <Main />
+             {/*<SidebarRight />*/}
         </MainContainer>
         <FooterContainer>
             <Footer />

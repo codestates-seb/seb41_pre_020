@@ -13,6 +13,7 @@ const StyledHeader = styled.header`
     0 2px 8px hsla(0, 0%, 0%, 0.05);
   border-top: 3px solid #f48224;
   align-items: center;
+  z-index: 100000;
 `;
 
 const Nav = styled.nav`
@@ -156,6 +157,7 @@ const NavIconContent = styled.nav`
         &:hover {
           background: #0074cc;
           border-color: #0074cc;
+          cursor: pointer;
         }
       }
     }

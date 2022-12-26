@@ -6,7 +6,7 @@ import { createGlobalStyle } from 'styled-components';
 import App from './App';
 
 const GlobalStyle = createGlobalStyle`
-  html, body, div, span, applet, object, iframe,
+  html, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   abbr, acronym, address, big, cite, code,
   del, dfn, em, img, ins, kbd, q, s, samp,
@@ -34,6 +34,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: -apple-system, "system-ui", "Segoe UI Adjusted", "Segoe UI", "Liberation Sans", sans-serif;
     font-size: 13px;
     line-height: 17px;
+    font-weight: 400;
+    color: #232629;
   }
   
   a {
@@ -63,6 +65,20 @@ const GlobalStyle = createGlobalStyle`
   	border-collapse: collapse;
   	border-spacing: 0;
   }
+  .ai-center {
+    align-items: center;
+  }
+
+  .jc-space-between {
+    justify-content: space-between;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    min-width: auto;
+    padding-top: 50px;
+  }
+  
 `;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

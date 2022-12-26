@@ -1,4 +1,3 @@
-
 import React from 'react';
 import * as Icons from '@stackoverflow/stacks-icons';
 import styled from 'styled-components';
@@ -47,7 +46,7 @@ const UserDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
-function LoginedNav({ setLogin }) {
+function LoginedHeader({ setLogin }) {
     const navigate = useNavigate();
     const logOutButton = () => {
         axios
@@ -125,4 +124,4 @@ function LoginedNav({ setLogin }) {
     );
 }
 
-export default LoginedNav;
+export default LoginedHeader;
