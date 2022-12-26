@@ -1,9 +1,7 @@
 package com.y2k.stackoverflow.member.dto;
 
 import com.y2k.stackoverflow.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +11,7 @@ import java.time.LocalDateTime;
 public class MemberDto {
 
     @Getter @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
 
         @NotBlank
@@ -26,10 +25,12 @@ public class MemberDto {
         @Pattern(regexp="(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,16}",
         message = "비밀번호는 영문 대/소문자, 숫자, 특수기호를 포함한 8~16자리 이내로 구성되어야 합니다.")
         private String password;
+
     }
 
     @Getter @Setter
     @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Patch {
         private long memberId;
         private String password;
