@@ -3,7 +3,10 @@ package com.y2k.stackoverflow.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.y2k.stackoverflow.auth.dto.LoginDto;
 import com.y2k.stackoverflow.auth.jwt.JwtTokenizer;
+import com.y2k.stackoverflow.exception.BusinessLogicException;
+import com.y2k.stackoverflow.exception.ExceptionCode;
 import com.y2k.stackoverflow.member.entity.Member;
+import com.y2k.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,12 +29,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
 
+    private final MemberRepository memberRepository;
+
     //로그인 인증 시도 로직
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         ObjectMapper objectMapper = new ObjectMapper();
         LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
+
+        //회원 상태가 ACTIVE 가 아니면 예외를 던진다
+        Member member = (Member) memberRepository.findByEmail(loginDto.getEmail()).get();
+        if (member.getMemberStatus() != Member.MemberStatus.MEMBER_ACTIVE) {
+            logger.info("정지 or 휴면 상태인 회원은 로그인 불가");
+            throw new BusinessLogicException(ExceptionCode.INVALID_MEMBER_STATUS);
+        }
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
