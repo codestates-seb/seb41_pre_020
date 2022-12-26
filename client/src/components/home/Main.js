@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import QuestionList from './QuestionList';
+import SidebarRight from '../aside/SidebarRight';
 
 const Content = styled.div`
-  max-width: 1000px;
+  max-width: 1100px;
+  /* margin: 0 auto; */
   /* width: 100%; */
   height: 100% !important;
-  /* width: calc(100% - 164px); */
+  width: calc(100% - 164px);
   background-color: white;
   border-left: 1px solid #d6d9dc;
   padding: 24px;
@@ -15,7 +17,7 @@ const Content = styled.div`
 
 const Mainbar = styled.div`
   width: 100%;
-  /* width: calc(100% - 300px - 24px); */
+  width: calc(100% - 300px - 24px);
   float: left;
   margin: 0;
   padding: 0;
@@ -115,6 +117,7 @@ const Main = () => {
         </Wrapper>
         <QuestionList />
       </Mainbar>
+      <SidebarRight />
     </Content>
   );
 };
