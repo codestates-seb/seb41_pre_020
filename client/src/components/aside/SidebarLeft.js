@@ -9,6 +9,8 @@ const Sidebar = styled.div`
   transition: box-shadow ease-in-out 0.1s, transform ease-in-out 0.1s;
 
   & .left-sidebar--sticky-container {
+    top: 50px;
+    max-height: calc(100vh - 50px);
     position: sticky;
     width: auto;
     padding-top: 24px;
