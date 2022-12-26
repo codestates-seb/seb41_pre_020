@@ -8,6 +8,8 @@ import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
 import com.y2k.stackoverflow.answer.service.AnswerService;
 import com.y2k.stackoverflow.dto.SingleResponseDto;
+import com.y2k.stackoverflow.member.mapper.MemberMapper;
+import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,13 +28,19 @@ import java.util.List;
 public class AnswerController {
 
     private final AnswerService answerService;
-    private final AnswerMapper mapper;
+    private final AnswerMapper answerMapper;
     private final QuestionService questionService;
+    private final MemberService memberService;
+    private final MemberMapper memberMapper;
 
-    public AnswerController(AnswerService answerService, AnswerMapper mapper, QuestionService questionService) {
+    public AnswerController(AnswerService answerService, AnswerMapper answerMapper,
+                            QuestionService questionService,
+                            MemberService memberService, MemberMapper memberMapper) {
         this.answerService = answerService;
-        this.mapper = mapper;
+        this.answerMapper = answerMapper;
         this.questionService = questionService;
+        this.memberService = memberService;
+        this.memberMapper = memberMapper;
     }
 
     /**
@@ -40,10 +48,10 @@ public class AnswerController {
      */
     @PostMapping("/ask")
     public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
-        Answer answer = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto, questionService));
+        Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto, questionService, memberService));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)),
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper)),
                 HttpStatus.CREATED);
     }
 
@@ -52,11 +60,11 @@ public class AnswerController {
      */
     @PatchMapping("/ask/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
-                                     @Valid @RequestBody AnswerPatchDto answerPatchDto) {
+                                      @Valid @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
-        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto));
+        Answer answer = answerService.updateAnswer(answerMapper.answerPatchDtoToAnswer(answerPatchDto));
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer))
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper))
                 , HttpStatus.OK);
     }
 
@@ -66,7 +74,7 @@ public class AnswerController {
     @GetMapping("/ask")
     public ResponseEntity getAnswers() {
         List<Answer> answers = answerService.findAnswers();
-        List<AnswerResponseDto> response = mapper.answersToAnswerResponseDtos(answers);
+        List<AnswerResponseDto> response = answerMapper.answersToAnswerResponseDtos(answers);
 
         return new ResponseEntity<>(
                 new AnswersGetResponseDto<>(response),
@@ -81,5 +89,38 @@ public class AnswerController {
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId) {
         answerService.deleteAnswer(answerId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Answer 추천 기능
+     * ▲  추천 +1
+     * 회원마다 답변에 1개씩 추천 or 비추천 가능
+     */
+    @PostMapping("/ask/likes/{answer-id}")
+    public ResponseEntity postLikeVoteAnswer(@PathVariable("answer-id") @Positive long answerId) {
+        Answer voteAnswer = answerService.likeAnswerVote(answerId, memberService.getLoginMember());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
+                HttpStatus.OK
+        );
+
+
+    }
+
+    /**
+     * Answer 비추천 기능
+     * ▼  비추천 -1
+     * 회원마다 답변에 1개씩 추천 or 비추천 가능
+     */
+    @PostMapping("/ask/dislikes/{answer-id}")
+    public ResponseEntity postDislikeVoteAnswer(@PathVariable("answer-id") @Positive long answerId) {
+        Answer voteAnswer = answerService.dislikeAnswerVote(answerId, memberService.getLoginMember());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
+                HttpStatus.OK
+        );
+
     }
 }

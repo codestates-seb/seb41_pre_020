@@ -32,6 +32,7 @@ public class MemberDto {
     @AllArgsConstructor
     public static class Patch {
         private long memberId;
+        private String password;
 
         @Pattern(regexp = "^\\S+(\\s?\\S+)*$", message = "이름은 공백이 아니어야 합니다.")
         private String displayName;

@@ -1,5 +1,6 @@
 package com.y2k.stackoverflow.question.entity;
 
+import com.y2k.stackoverflow.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +30,14 @@ public class QuestionTag {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
     public void addQuestion(Question question) {
         this.question = question;

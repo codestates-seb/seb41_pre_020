@@ -4,25 +4,26 @@ import com.y2k.stackoverflow.answer.dto.AnswersGetResponseDto;
 import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
 import com.y2k.stackoverflow.answer.service.AnswerService;
+import com.y2k.stackoverflow.member.mapper.MemberMapper;
+import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.dto.*;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.entity.QuestionTag;
+import com.y2k.stackoverflow.question.service.QuestionService;
 import com.y2k.stackoverflow.question.service.QuestionTagService;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
-    List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions);
-
-    default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
+    default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto, MemberService memberService) {
         Question question = new Question();
-        //멤버 관련 추후 주석 해제
-        /*Member member = new Member();
-        member.setMemberId(questionPostDto.getMemberId());*/
 
+        //로그인한 회원이 질문 작성할 수 있게 설정
+        question.setMember(memberService.getLoginMember());
         question.setVotes(0);
         question.setViews(0);
 
@@ -32,11 +33,11 @@ public interface QuestionMapper {
                     questionTag.setQuestionTagId(questionTagDto.getTagId());
                     questionTag.setTagName(questionTagDto.getTagName());
                     questionTag.addQuestion(question);
+                    questionTag.setMember(memberService.getLoginMember());
                     questionTag.setTagName(questionTagDto.getTagName());
                     return questionTag;
                 }).collect(Collectors.toList());
 
-        //question.setMember(member);
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
         question.setQuestionTags(questionTags);
@@ -44,11 +45,8 @@ public interface QuestionMapper {
         return question;
     }
 
-    default Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto) {
+    default Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto, MemberService memberService) {
         Question question = new Question();
-        //멤버 관련 추후 주석 해제
-        /*Member member = new Member();
-        member.setMemberId(questionPostDto.getMemberId());*/
 
         question.setVotes(0);
         question.setViews(0);
@@ -59,36 +57,58 @@ public interface QuestionMapper {
                     questionTag.setQuestionTagId(questionTag.getQuestionTagId());
                     questionTag.setTagName(questionTag.getTagName());
                     questionTag.addQuestion(question);
+                    questionTag.setMember(memberService.getLoginMember());
                     questionTag.setTagName(questionTagDto.getTagName());
                     return questionTag;
                 }).collect(Collectors.toList());
 
-        //question.setMember(member);
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setTitle(questionPatchDto.getTitle());
         question.setContent(questionPatchDto.getContent());
         question.setQuestionTags(questionTags);
-
         return question;
     }
 
-    default QuestionResponseDto questionToQuestionResponseDto(Question question) {
+    default QuestionResponseDto questionToQuestionResponseDto(Question question, MemberMapper memberMapper, AnswerService answerService) {
         List<QuestionTag> questionTags = question.getQuestionTags();
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
         questionResponseDto.setQuestionId(question.getQuestionId());
-        //questionResponseDto.setMember(question.getMember());
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setLastModifiedAt(question.getModifiedAt());
         questionResponseDto.setTitle(question.getTitle());
         questionResponseDto.setContent(question.getContent());
         questionResponseDto.setVotes(question.getVotes());
         questionResponseDto.setViews(question.getViews());
+        List<Answer> answerList = answerService.findAnswersQuestion(question);
+        questionResponseDto.setAnswers(answerList.size());
         questionResponseDto.setQuestionTags(
                 questionTagsToQuestionTagResponseDtos(questionTags)
         );
+        //멤버 설정 부분
+        questionResponseDto.setMember(memberMapper.memberToResponseDto(question.getMember()));
 
         return questionResponseDto;
+    }
+
+    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions, AnswerService answerService, MemberMapper memberMapper, QuestionService questionService){
+        return questions
+                .stream()
+                .map(question -> QuestionResponseDto
+                        .builder()
+                        .questionId(question.getQuestionId())
+                        .title(question.getTitle())
+                        .content(question.getContent())
+                        .createdAt(question.getCreatedAt())
+                        .lastModifiedAt(question.getModifiedAt())
+                        .views(question.getViews())
+                        .votes(question.getVotes())
+                        .questionTags(questionTagsToQuestionTagResponseDtos(question.getQuestionTags()))
+                        .answers(answerService.findAnswersQuestion(question).size())
+                        .questions(questionService.getQuestionsCount())
+                        .member(memberMapper.memberToResponseDto(question.getMember()))
+                        .build()
+                ).collect(Collectors.toList());
     }
 
     default List<QuestionTagResponseDto> questionTagsToQuestionTagResponseDtos(List<QuestionTag> questionTags) {
@@ -108,6 +128,7 @@ public interface QuestionMapper {
     default QuestionAnswerResponseDto questionToQuestionAnswerResponseDto(Question question,
                                                                           AnswerService answerService,
                                                                           AnswerMapper answerMapper,
+                                                                          MemberMapper memberMapper,
                                                                           QuestionTagService questionTagService) {
         QuestionAnswerResponseDto questionAnswerResponseDto = new QuestionAnswerResponseDto();
         questionAnswerResponseDto.setQuestionId(question.getQuestionId());
@@ -122,10 +143,12 @@ public interface QuestionMapper {
         List<QuestionTag> questionTags = questionTagService.findVerifiedQuestionTag(question);
         questionAnswerResponseDto.setQuestionTags(questionTagsToQuestionTagResponseDtos(questionTags));
 
-        List<Answer> answers = answerService.findAnswers();
+        questionAnswerResponseDto.setMember(memberMapper.memberToResponseDto(question.getMember()));
 
-        questionAnswerResponseDto.setAnswers(new AnswersGetResponseDto<>(
-                answerMapper.answersToAnswerResponseDtos(answers)
+        List<Answer> answerList = answerService.findAnswersQuestion(question);
+        questionAnswerResponseDto.setAnswers(answerList.size());
+        questionAnswerResponseDto.setAnswerList(new AnswersGetResponseDto<>(
+                answerMapper.answersToAnswerResponseDtos(answerList)
         ));
 
         return questionAnswerResponseDto;
