@@ -5,6 +5,13 @@
   font-family: -apple-system, "system-ui", "Segoe UI Adjusted", "Segoe UI", "Liberation Sans", sans-serif;
   font-size: 13px; 
   line-height: 17px;
+  font-weight: 400;
+}
+
+body {
+  display: flex;
+  min-width: auto;
+  padding-top: 50px;
 }
 
 a {
