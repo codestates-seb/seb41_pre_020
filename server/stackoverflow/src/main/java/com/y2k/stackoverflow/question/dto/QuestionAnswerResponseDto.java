@@ -2,6 +2,7 @@ package com.y2k.stackoverflow.question.dto;
 
 import com.y2k.stackoverflow.answer.dto.AnswerResponseDto;
 import com.y2k.stackoverflow.answer.dto.AnswersGetResponseDto;
+import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.member.dto.MemberDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +27,6 @@ public class QuestionAnswerResponseDto {
     private int answers;
     private AnswersGetResponseDto<AnswerResponseDto> answerList;
     private MemberDto.Response member;
+
+    private List<CommentDto.Response> comments;//제웅 추가
 }

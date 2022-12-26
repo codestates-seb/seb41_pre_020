@@ -4,6 +4,8 @@ import com.y2k.stackoverflow.answer.dto.AnswersGetResponseDto;
 import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
 import com.y2k.stackoverflow.answer.service.AnswerService;
+import com.y2k.stackoverflow.comment.dto.CommentDto;
+import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.member.mapper.MemberMapper;
 import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.dto.*;
@@ -16,6 +18,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -28,6 +31,7 @@ public interface QuestionMapper {
         question.setMember(memberService.getLoginMember());
         question.setVotes(0);
         question.setViews(0);
+
 
         List<QuestionTag> questionTags = questionPostDto.getQuestionTags().stream()
                 .map(questionTagDto -> {
@@ -124,6 +128,27 @@ public interface QuestionMapper {
                 ).collect(Collectors.toList());
     }
 
+    //제웅 추가
+
+    default List<CommentDto.Response> commentToCommentQuestionResponseDto(List<Comment> comments, MemberMapper memberMapper, Question question){
+        return comments
+                .stream()
+                .filter(comment -> comment.getCommentType() == Comment.CommentType.QUESTION)
+                .filter(comment -> Objects.equals(comment.getQuestion().getQuestionId(), question.getQuestionId()))
+                .map(comment -> CommentDto.Response
+                        .builder()
+                        .commentId(comment.getCommentId())
+                        .content(comment.getContent())
+                        .questionId(comment.getQuestion().getQuestionId())
+                        .member(memberMapper.memberToResponseDto(comment.getMember()))
+                        .createdAt(comment.getCreatedAt())
+                        .lastModifiedAt(comment.getModifiedAt())
+                        .commentType(comment.getCommentType())
+                        .build()
+                ).collect(Collectors.toList());
+    }
+
+
     /**
      * 질문-답변 함께 출력 위한 mapper
      */
@@ -131,7 +156,8 @@ public interface QuestionMapper {
                                                                           AnswerService answerService,
                                                                           AnswerMapper answerMapper,
                                                                           MemberMapper memberMapper,
-                                                                          QuestionTagService questionTagService) {
+                                                                          QuestionTagService questionTagService
+                                                                          ) {
         QuestionAnswerResponseDto questionAnswerResponseDto = new QuestionAnswerResponseDto();
         questionAnswerResponseDto.setQuestionId(question.getQuestionId());
         questionAnswerResponseDto.setTitle(question.getTitle());
@@ -140,6 +166,10 @@ public interface QuestionMapper {
         questionAnswerResponseDto.setLastModifiedAt(question.getModifiedAt());
         questionAnswerResponseDto.setViews(question.getViews());
         questionAnswerResponseDto.setVotes(question.getVotes());
+
+
+        questionAnswerResponseDto.setComments(commentToCommentQuestionResponseDto(question.getComments(), memberMapper, question)); //제웅 추가
+
 
         //질문 수정 시 태그 중복 등록 문제 해결
         List<QuestionTag> questionTags = questionTagService.findVerifiedQuestionTag(question);
