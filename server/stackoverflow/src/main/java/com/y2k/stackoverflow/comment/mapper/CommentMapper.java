@@ -4,6 +4,7 @@ import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.member.mapper.MemberMapper;
 import com.y2k.stackoverflow.member.service.MemberService;
+import com.y2k.stackoverflow.util.DateUtil;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -38,8 +39,8 @@ public interface CommentMapper {
                     .content(comment.getContent())
                     .questionId(comment.getQuestion().getQuestionId())
                     .member(memberMapper.memberToResponseDto(comment.getMember()))
-                    .createdAt(comment.getCreatedAt())
-                    .lastModifiedAt(comment.getModifiedAt())
+                    .createdAt(DateUtil.convertLocalDatetimeToTime(comment.getCreatedAt()))
+                    .lastModifiedAt(DateUtil.convertLocalDatetimeToTime(comment.getModifiedAt()))
                     .commentType(comment.getCommentType())
                     .build();
         }
@@ -50,8 +51,8 @@ public interface CommentMapper {
                     .content(comment.getContent())
                     .answerId(comment.getAnswer().getAnswerId())
                     .member(memberMapper.memberToResponseDto(comment.getMember()))
-                    .createdAt(comment.getCreatedAt())
-                    .lastModifiedAt(comment.getModifiedAt())
+                    .createdAt(DateUtil.convertLocalDatetimeToTime(comment.getCreatedAt()))
+                    .lastModifiedAt(DateUtil.convertLocalDatetimeToTime(comment.getModifiedAt()))
                     .commentType(comment.getCommentType())
                     .build();
         }

@@ -52,7 +52,7 @@ public class QuestionService {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
 
-        // 제목, 내용, 태그 업데이트
+        // 제목, 내용, 태그 업데이트 시간 업데이트
         Optional.ofNullable(question.getTitle())
                 .ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent())
@@ -60,11 +60,13 @@ public class QuestionService {
         questionTagService.updateQuestionTag(question.getQuestionId());
         Optional.ofNullable(question.getQuestionTags())
                 .ifPresent(questionTags -> findQuestion.setQuestionTags(questionTags));
+        Optional.ofNullable(question.getModifiedAt())
+                .ifPresent(modifiedAt -> findQuestion.setModifiedAt(modifiedAt));
 
         //수정 할 때 member_id null 값 해결
         question.setMember(memberService.getLoginMember());
 
-        return questionRepository.save(question);
+        return questionRepository.save(findQuestion);
     }
 
     /**

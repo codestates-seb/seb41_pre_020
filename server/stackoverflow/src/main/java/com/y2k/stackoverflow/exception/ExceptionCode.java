@@ -15,6 +15,7 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member not found"),
     METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
     MEMBER_EXISTS(409, "Member exists"),
+    QUESTION_CHECK_EXISTS(409, "Question Check exists"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_PASSWORD (400, "Invalid Password");

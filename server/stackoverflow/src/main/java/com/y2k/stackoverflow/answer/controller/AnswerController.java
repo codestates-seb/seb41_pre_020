@@ -105,8 +105,20 @@ public class AnswerController {
                 new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper)),
                 HttpStatus.OK
         );
-
-
     }
+
+    /**
+     * Question - Answer 채택 기능
+     * request 값으로 보낼 questionId, answerId로 채택 여부 판단해, 채택할 answer 응답
+     */
+    @PostMapping("/ask/check")
+    public ResponseEntity checkAnswer(@Valid @RequestBody AnswerCheckDto answerCheckDto) {
+        Answer checkAnswer = answerService.findCheckAnswer(answerCheckDto.getAnswerId());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(checkAnswer, memberMapper)),
+                        HttpStatus.OK);
+    }
+
 
 }
