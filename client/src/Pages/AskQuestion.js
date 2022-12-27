@@ -6,79 +6,66 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuestionInput from '../components/askQuestion/QuestionInput';
 import { DiscardModal } from '../components/askQuestion/DiscardModal';
-import Footer from "../components/Footer";
+import Footer from '../components/Footer';
 
-const HomeContainer = styled.div`
+const Background = styled.div`
+  display: flex;
+  max-width: 100%;
+  justify-content: center;
+  background-color: #f8f9f9;
+
+  & > div {
+    min-height: 750px;
+    overflow: visible;
+    width: 100%;
+    max-width: 1264px;
+    padding: 24px;
+    padding-top: 0;
+  }
+`;
+
+const QuestionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #f1f2f3;
 `;
-
-// const Background = styled.div`
-//   margin-top: 60px;
-//   margin-left: 5vw;
-//   padding: 24px;
-//   width: 100vw;
-//   background-color: #f1f2f3;
-// `;
-
-const MainContainer = styled.div`
-  margin: 0 auto;
-  display: flex;
-`;
-
-const FooterContainer = styled.div``;
 
 const TitleDiv = styled.div`
-  padding-top: 24px;
-  padding-bottom: 24px;
-  & > div {
-    font-size: 2rem;
+  display: flex;
+  height: 130px;
+  background-image: url('https://cdn.sstatic.net/Img/ask/background.svg?v=2e9a8205b368');
+  width: 100% !important;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  align-items: center;
+
+  & h1 {
+    font-weight: 600;
+    font-size: 27px;
+    line-height: 35.1px;
+    margin-top: 24px;
+    margin-bottom: 27px;
   }
 `;
 
 const ButtonDiv = styled.div`
-  display: flex;
+  margin-top: 12px;
 `;
 
 const PostButton = styled.button`
-  color: hsl(0, 0%, 100%);
-  background-color: hsl(206, 100%, 52%);
-  box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
-  margin-top: 32px;
-  position: relative;
   display: inline-block;
-  padding: 0.8em;
-  border: 1px solid transparent;
+  padding: 10.5px;
+  border: 1px solid #0a95ff;
+  background: #0a95ff;
+  color: white;
+  box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
   border-radius: 3px;
-  outline: none;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: normal;
-  text-align: center;
-  text-decoration: none;
   cursor: pointer;
-  user-select: none;
-`;
 
-// const DiscardButton = styled.button`
-//   color: red;
-//   background-color: transparent;
-//   margin-top: 32px;
-//   position: relative;
-//   display: inline-block;
-//   padding: 0.8em;
-//   border: 1px solid transparent;
-//   border-radius: 3px;
-//   outline: none;
-//   font-family: inherit;
-//   font-size: 13px;
-//   font-weight: normal;
-//   text-align: center;
-//   text-decoration: none;
-//   cursor: pointer;
-//   user-select: none;
-// `;
+  &:hover {
+    background: #0074cc;
+    border-color: #0074cc;
+  }
+`;
 
 const AskQuestion = ({ userInfo }) => {
   const navigate = useNavigate();
@@ -139,27 +126,27 @@ const AskQuestion = ({ userInfo }) => {
   };
 
   return (
-      <HomeContainer>
-          <MainContainer>
+    <div>
+      <Background>
+        <div>
+          <QuestionContainer>
             <TitleDiv>
-              <div>Ask a public question</div>
+              <h1>Ask a public question</h1>
             </TitleDiv>
             <form>
               <QuestionInput userInfo={userInfo} />
-              <ButtonDiv onSubmit={handleSubmit}>
-                <PostButton >
-                  {id === undefined
-                    ? 'Post your question'
-                    : 'Update  your question'}
+              <ButtonDiv>
+                <PostButton onSubmit={handleSubmit}>
+                  {id === undefined ? 'Post your question' : 'Update your question'}
                 </PostButton>
                 <DiscardModal></DiscardModal>
               </ButtonDiv>
             </form>
-          </MainContainer>
-          <FooterContainer>
-              <Footer />
-          </FooterContainer>
-      </HomeContainer>
+          </QuestionContainer>
+        </div>
+      </Background>
+      <Footer />
+    </div>
   );
 };
 

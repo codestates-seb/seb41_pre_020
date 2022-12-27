@@ -11,7 +11,7 @@ const SignUpContainer = styled.div`
   width: 100%;
   flex: 1 0 auto;
   text-align: left;
-  background-color: #f8f9f9;
+  background-color: #f1f2f3;
 `;
 
 function SignUp() {

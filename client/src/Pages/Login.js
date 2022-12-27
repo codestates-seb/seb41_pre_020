@@ -2,26 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 import LoginComponent from '../components/login/LoginComponent';
 
-const WrapperAll = styled.div`
+const LogInContainer = styled.div`
+  min-height: calc(100vh - 50px);
+  max-width: 100%;
   display: flex;
-  background-color: #f1f2f3;
-  height: 100vh;
   justify-content: center;
-  align-items: center;
-`;
-
-const WrapperBody = styled.div`
-  margin: 0 auto;
+  margin: 0;
+  width: 100%;
+  flex: 1 0 auto;
+  text-align: left;
+  background-color: #f1f2f3;
 `;
 
 function LogIn({ setLogin }) {
-    return (
-        <WrapperAll>
-            <WrapperBody>
-                <LoginComponent setLogin={setLogin} />
-            </WrapperBody>
-        </WrapperAll>
-    );
+  return (
+    <LogInContainer>
+      <LoginComponent setLogin={setLogin} />
+    </LogInContainer>
+  );
 }
 
 export default LogIn;
