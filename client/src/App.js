@@ -1,24 +1,68 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Signup from './Pages/Signup';
+import Login from './Pages/Login';
+import Home from './Pages/Home';
+import Question from './Pages/Question';
+import AskQuestion from './Pages/AskQuestion';
+import MyPage from './Pages/MyPage';
+import Tags from './Pages/Tags';
+import Users from './Pages/Users';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import axios from 'axios';
+import Header from './components/Header';
+import LoginedHeader from './components/LoginedHeader';
+
+const queryClient = new QueryClient();
 
 function App() {
+  const [login, setLogin] = useState(localStorage.getItem('login-token'));
+  const [ref, setRef] = useState(false);
+
+  const refresh = () => {
+    axios
+      .post(
+        `/api/members/refresh`,
+        {},
+        {
+          headers: {
+            Refresh: `${localStorage.getItem('login-refresh')}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.headers.authorization) {
+          localStorage.setItem('login-token', `Bearer ${res.headers.authorization}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (login) {
+      setTimeout(() => {
+        refresh();
+        setRef(!ref);
+      }, 540000);
+    }
+  }, [login, ref]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code></code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      {login ? <LoginedHeader setLogin={setLogin} /> : <Header setLogin={setLogin} />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/question" element={<Question />} />
+        <Route path="/create" element={<AskQuestion />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/tags" element={<Tags />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
+    </QueryClientProvider>
   );
 }
 
