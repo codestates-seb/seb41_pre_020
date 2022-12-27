@@ -173,11 +173,11 @@ const SignupButton = styled.button`
   box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
   line-height: 37px;
   border-radius: 3px;
+  cursor: pointer;
 
   &:hover {
     background: #0074cc;
     border-color: #0074cc;
-    cursor: pointer;
   }
 `;
 
