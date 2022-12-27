@@ -97,7 +97,7 @@ public interface QuestionMapper {
         return questionResponseDto;
     }
 
-    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions, AnswerService answerService, MemberMapper memberMapper, QuestionService questionService){
+    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions, AnswerService answerService, MemberMapper memberMapper, QuestionService questionService, QuestionTagService questionTagService){
         return questions
                 .stream()
                 .map(question -> QuestionResponseDto
@@ -109,7 +109,7 @@ public interface QuestionMapper {
                         .lastModifiedAt(question.getModifiedAt())
                         .views(question.getViews())
                         .votes(question.getVotes())
-                        .questionTags(questionTagsToQuestionTagResponseDtos(question.getQuestionTags()))
+                        .questionTags(questionTagsToQuestionTagResponseDtos(questionTagService.findVerifiedQuestionTag(question)))
                         .answers(answerService.findAnswersQuestion(question).size())
                         .questions(questionService.getQuestionsCount())
                         .member(memberMapper.memberToResponseDto(question.getMember()))
