@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
 import Header from './components/Header';
 import LoginedHeader from './components/LoginedHeader';
+import Logout from "./Pages/Logout";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/tags" element={<Tags />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </QueryClientProvider>
   );
