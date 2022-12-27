@@ -49,4 +49,39 @@ public class CommentDto {
         private String lastModifiedAt;
         private Comment.CommentType commentType;
     }
+
+
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class CommentQuestionResponse {
+        private long commentId;
+        private String content;
+        //-------------------------------
+        private long questionId;
+        private MemberDto.Response member;
+        //--------------------------------
+        private String createdAt;
+        private String lastModifiedAt;
+        private Comment.CommentType commentType;
+    }
+
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class CommentAnswerResponse {
+        private long commentId;
+        private String content;
+        //-------------------------------
+        private long answerId;
+        private MemberDto.Response member;
+        //--------------------------------
+        private String createdAt;
+        private String lastModifiedAt;
+        private Comment.CommentType commentType;
+    }
+
+
 }
