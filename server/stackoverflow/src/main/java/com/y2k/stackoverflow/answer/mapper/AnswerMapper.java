@@ -1,9 +1,6 @@
 package com.y2k.stackoverflow.answer.mapper;
 
-import com.y2k.stackoverflow.answer.dto.AnswerPatchDto;
-import com.y2k.stackoverflow.answer.dto.AnswerPostDto;
-import com.y2k.stackoverflow.answer.dto.AnswerResponseDto;
-import com.y2k.stackoverflow.answer.dto.AnswerVoteDto;
+import com.y2k.stackoverflow.answer.dto.*;
 import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.answer.entity.AnswerVote;
 import com.y2k.stackoverflow.member.mapper.MemberMapper;
@@ -16,6 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
     AnswerVote answerVoteDtoToAnswerVote(AnswerVoteDto answerVoteDto);
+
     default Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto, QuestionService questionService, MemberService memberService) {
         Answer answer = new Answer();
 
@@ -24,6 +22,7 @@ public interface AnswerMapper {
         answer.setContent(answerPostDto.getContent());
         answer.setVotes(0);
         answer.setQuestion(questionService.findVerifiedQuestion(answerPostDto.getQuestionId()));
+        answer.setAnswerCheck(false); // 채택 기본 값 세팅
         return answer;
     }
 
@@ -36,6 +35,7 @@ public interface AnswerMapper {
         answerResponseDto.setVotes(answer.getVotes());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
+        answerResponseDto.setAnswerCheck(answer.getAnswerCheck());
         //멤버 설정 부분
         answerResponseDto.setMember(memberMapper.memberToResponseDto(answer.getMember()));
         return answerResponseDto;

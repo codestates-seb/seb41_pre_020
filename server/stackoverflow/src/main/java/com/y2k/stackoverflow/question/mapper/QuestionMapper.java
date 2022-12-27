@@ -14,9 +14,11 @@ import com.y2k.stackoverflow.question.entity.QuestionTag;
 import com.y2k.stackoverflow.question.entity.QuestionVote;
 import com.y2k.stackoverflow.question.service.QuestionService;
 import com.y2k.stackoverflow.question.service.QuestionTagService;
+import com.y2k.stackoverflow.util.DateUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -47,15 +49,13 @@ public interface QuestionMapper {
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
         question.setQuestionTags(questionTags);
+        question.setQuestionCheck(false); //채택 기본값 세팅
 
         return question;
     }
 
     default Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto, MemberService memberService) {
         Question question = new Question();
-
-        question.setVotes(0);
-        question.setViews(0);
 
         List<QuestionTag> questionTags = questionPatchDto.getQuestionTags().stream()
                 .map(questionTagDto -> {
@@ -67,7 +67,9 @@ public interface QuestionMapper {
                     questionTag.setTagName(questionTagDto.getTagName());
                     return questionTag;
                 }).collect(Collectors.toList());
-
+        if(questionPatchDto.getQuestionTags() == null) {
+            question.setQuestionTags(new ArrayList<>());
+        }
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setTitle(questionPatchDto.getTitle());
         question.setContent(questionPatchDto.getContent());
@@ -80,12 +82,11 @@ public interface QuestionMapper {
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
         questionResponseDto.setQuestionId(question.getQuestionId());
-        questionResponseDto.setCreatedAt(question.getCreatedAt());
-        questionResponseDto.setLastModifiedAt(question.getModifiedAt());
         questionResponseDto.setTitle(question.getTitle());
         questionResponseDto.setContent(question.getContent());
         questionResponseDto.setVotes(question.getVotes());
         questionResponseDto.setViews(question.getViews());
+        questionResponseDto.setQuestionCheck(question.getQuestionCheck());
         List<Answer> answerList = answerService.findAnswersQuestion(question);
         questionResponseDto.setAnswers(answerList.size());
         questionResponseDto.setQuestionTags(
@@ -97,7 +98,7 @@ public interface QuestionMapper {
         return questionResponseDto;
     }
 
-    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions, AnswerService answerService, MemberMapper memberMapper, QuestionService questionService){
+    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions, AnswerService answerService, MemberMapper memberMapper, QuestionService questionService, QuestionTagService questionTagService){
         return questions
                 .stream()
                 .map(question -> QuestionResponseDto
@@ -105,11 +106,11 @@ public interface QuestionMapper {
                         .questionId(question.getQuestionId())
                         .title(question.getTitle())
                         .content(question.getContent())
-                        .createdAt(question.getCreatedAt())
-                        .lastModifiedAt(question.getModifiedAt())
+                        .createdAt(DateUtil.convertLocalDatetimeToTime(question.getCreatedAt()))
+                        .lastModifiedAt(DateUtil.convertLocalDatetimeToTime(question.getModifiedAt()))
                         .views(question.getViews())
                         .votes(question.getVotes())
-                        .questionTags(questionTagsToQuestionTagResponseDtos(question.getQuestionTags()))
+                        .questionTags(questionTagsToQuestionTagResponseDtos(questionTagService.findVerifiedQuestionTag(question)))
                         .answers(answerService.findAnswersQuestion(question).size())
                         .questions(questionService.getQuestionsCount())
                         .member(memberMapper.memberToResponseDto(question.getMember()))
@@ -166,6 +167,7 @@ public interface QuestionMapper {
         questionAnswerResponseDto.setLastModifiedAt(question.getModifiedAt());
         questionAnswerResponseDto.setViews(question.getViews());
         questionAnswerResponseDto.setVotes(question.getVotes());
+        questionAnswerResponseDto.setQuestionCheck(question.getQuestionCheck());
 
 
         questionAnswerResponseDto.setComments(commentToCommentQuestionResponseDto(question.getComments(), memberMapper, question)); //제웅 추가
