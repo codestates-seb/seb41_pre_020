@@ -83,7 +83,7 @@ public class AnswerService {
 
         // 로그인 한 회원이 추천 눌렀는지 확인 후,
         // 안눌렀다면 answer_vote 테이블에 answer_id와 member_id를 넣어 중복 방지
-        if(!findVerifiedVoteMember(answerId)) {
+        if(!findVerifiedVoteMember(answerId) || memberService.getLoginMember().getMemberId().equals(findAnswer.getMember().getMemberId())) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
         answerVote.setAnswer(findAnswer);
