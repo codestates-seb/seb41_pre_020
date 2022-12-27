@@ -37,17 +37,21 @@ public class Question extends Auditable {
     private String content;
 
     //투표 수
+    @Column(nullable = false)
     private Integer votes;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<QuestionVote> voteList = new ArrayList<>();
 
+    //질문 채택 여부
+    @Column(nullable = false)
+    private Boolean questionCheck = false;
 
     //조회 수
     @Column(nullable = false)
     private Integer views;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question")
     private List<Comment> comments = new ArrayList<>();
 
 

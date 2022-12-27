@@ -24,6 +24,7 @@ public class QuestionAnswerResponseDto {
     private LocalDateTime lastModifiedAt;
     private int votes;
     private int views;
+    private Boolean questionCheck;
     private int answers;
     private AnswersGetResponseDto<AnswerResponseDto> answerList;
     private MemberDto.Response member;

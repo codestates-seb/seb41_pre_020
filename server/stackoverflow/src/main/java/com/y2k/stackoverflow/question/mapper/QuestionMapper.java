@@ -47,15 +47,13 @@ public interface QuestionMapper {
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
         question.setQuestionTags(questionTags);
+        question.setQuestionCheck(false); //채택 기본값 세팅
 
         return question;
     }
 
     default Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto, MemberService memberService) {
         Question question = new Question();
-
-        question.setVotes(0);
-        question.setViews(0);
 
         List<QuestionTag> questionTags = questionPatchDto.getQuestionTags().stream()
                 .map(questionTagDto -> {
@@ -80,12 +78,11 @@ public interface QuestionMapper {
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
         questionResponseDto.setQuestionId(question.getQuestionId());
-        questionResponseDto.setCreatedAt(question.getCreatedAt());
-        questionResponseDto.setLastModifiedAt(question.getModifiedAt());
         questionResponseDto.setTitle(question.getTitle());
         questionResponseDto.setContent(question.getContent());
         questionResponseDto.setVotes(question.getVotes());
         questionResponseDto.setViews(question.getViews());
+        questionResponseDto.setQuestionCheck(question.getQuestionCheck());
         List<Answer> answerList = answerService.findAnswersQuestion(question);
         questionResponseDto.setAnswers(answerList.size());
         questionResponseDto.setQuestionTags(
@@ -163,9 +160,10 @@ public interface QuestionMapper {
         questionAnswerResponseDto.setTitle(question.getTitle());
         questionAnswerResponseDto.setContent(question.getContent());
         questionAnswerResponseDto.setCreatedAt(question.getCreatedAt());
-        questionAnswerResponseDto.setLastModifiedAt(question.getModifiedAt());
+        questionAnswerResponseDto.setLastModifiedAt(question.getModifiedAt()); //왜 0?
         questionAnswerResponseDto.setViews(question.getViews());
         questionAnswerResponseDto.setVotes(question.getVotes());
+        questionAnswerResponseDto.setQuestionCheck(question.getQuestionCheck());
 
 
         questionAnswerResponseDto.setComments(commentToCommentQuestionResponseDto(question.getComments(), memberMapper, question)); //제웅 추가

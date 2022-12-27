@@ -109,5 +109,31 @@ public class AnswerService {
         return answerVoteRepository.findByAnswerAndMember(findAnswer, memberService.getLoginMember()).isEmpty();
     }
 
+    /**
+     * 채택 기능
+     * 1. 질문 작성자만 채택 가능
+     * 2. 채택은 한 번만
+     * 3. Question 테이블 check 기본값 false , 채택 하면 true
+     */
+    public Answer findCheckAnswer(Long answerId) {
+        // 어차피 answer 하나만 찾으면 questionId 값이 등록 되어 있으니 따로 찾을 필요X
+        Answer findAnswer = findVerifiedAnswer(answerId);
+        Question checkQuestion = findAnswer.getQuestion();
+
+        //질문 check 값이 true 값 이라면 => 이미 채택
+        if(checkQuestion.getQuestionCheck()) {
+            throw new BusinessLogicException(ExceptionCode.QUESTION_CHECK_EXISTS);
+        }
+
+        //로그인 유저와 질문 작성 유저와 비교해서 같다면 삭제, 아니라면 접근 금지 예외 발생 => 질문 작성자만 채택
+        if(checkQuestion.getQuestionId() != memberService.getLoginMember().getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
+        }
+        checkQuestion.setQuestionCheck(true); // 전체 질문 보기에서 채택 여부 확인 시 사용
+        findAnswer.setAnswerCheck(true); // 특정 질문 보기에서 어떤 답변 채택했는지 확인 시 사용
+
+        return answerRepository.save(findAnswer);
+    }
+
 
 }

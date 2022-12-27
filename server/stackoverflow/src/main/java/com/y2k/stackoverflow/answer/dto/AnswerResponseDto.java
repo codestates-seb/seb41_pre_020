@@ -16,6 +16,7 @@ public class AnswerResponseDto {
     private Long answerId;
     private String content;
     private Integer votes;
+    private Boolean answerCheck;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private MemberDto.Response member;
