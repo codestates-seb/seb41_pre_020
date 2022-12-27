@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 public class CommentDto {
 
     @Getter
@@ -47,8 +45,8 @@ public class CommentDto {
         private long answerId;
         private MemberDto.Response member;
         //--------------------------------
-        private LocalDateTime createdAt;
-        private LocalDateTime lastModifiedAt;
+        private String createdAt;
+        private String lastModifiedAt;
         private Comment.CommentType commentType;
     }
 }
