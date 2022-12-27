@@ -142,8 +142,8 @@ public interface QuestionMapper {
                         .content(comment.getContent())
                         .questionId(comment.getQuestion().getQuestionId())
                         .member(memberMapper.memberToResponseDto(comment.getMember()))
-                        .createdAt(comment.getCreatedAt())
-                        .lastModifiedAt(comment.getModifiedAt())
+                        .createdAt(DateUtil.convertLocalDatetimeToTime(comment.getCreatedAt()))
+                        .lastModifiedAt(DateUtil.convertLocalDatetimeToTime(comment.getModifiedAt()))
                         .commentType(comment.getCommentType())
                         .build()
                 ).collect(Collectors.toList());

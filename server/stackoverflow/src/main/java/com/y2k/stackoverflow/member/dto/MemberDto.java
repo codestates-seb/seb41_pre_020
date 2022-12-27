@@ -6,7 +6,6 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 
 public class MemberDto {
 
@@ -51,18 +50,18 @@ public class MemberDto {
             return memberStatus.getStatus(); }
     }
 
-    @Getter @AllArgsConstructor
+    @Getter @Setter
+    @AllArgsConstructor @NoArgsConstructor
     public static class DetailsResponse {
         private long memberId;
         private String displayName;
         private String profileImage;
         private Member.MemberStatus memberStatus;
-        private LocalDateTime createdAt;
-        private LocalDateTime modifiedAt;
+        private String createdAt;
+        private String modifiedAt;
         private UserProfile userProfile;
 
         public String getMemberStatus() {
             return memberStatus.getStatus(); }
-
     }
 }
