@@ -14,6 +14,7 @@ import com.y2k.stackoverflow.question.entity.QuestionTag;
 import com.y2k.stackoverflow.question.entity.QuestionVote;
 import com.y2k.stackoverflow.question.service.QuestionService;
 import com.y2k.stackoverflow.question.service.QuestionTagService;
+import com.y2k.stackoverflow.util.DateUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -105,8 +106,8 @@ public interface QuestionMapper {
                         .questionId(question.getQuestionId())
                         .title(question.getTitle())
                         .content(question.getContent())
-                        .createdAt(question.getCreatedAt())
-                        .lastModifiedAt(question.getModifiedAt())
+                        .createdAt(DateUtil.convertLocalDatetimeToTime(question.getCreatedAt()))
+                        .lastModifiedAt(DateUtil.convertLocalDatetimeToTime(question.getModifiedAt()))
                         .views(question.getViews())
                         .votes(question.getVotes())
                         .questionTags(questionTagsToQuestionTagResponseDtos(questionTagService.findVerifiedQuestionTag(question)))
@@ -163,7 +164,7 @@ public interface QuestionMapper {
         questionAnswerResponseDto.setTitle(question.getTitle());
         questionAnswerResponseDto.setContent(question.getContent());
         questionAnswerResponseDto.setCreatedAt(question.getCreatedAt());
-        questionAnswerResponseDto.setLastModifiedAt(question.getModifiedAt()); //왜 0?
+        questionAnswerResponseDto.setLastModifiedAt(question.getModifiedAt());
         questionAnswerResponseDto.setViews(question.getViews());
         questionAnswerResponseDto.setVotes(question.getVotes());
         questionAnswerResponseDto.setQuestionCheck(question.getQuestionCheck());
