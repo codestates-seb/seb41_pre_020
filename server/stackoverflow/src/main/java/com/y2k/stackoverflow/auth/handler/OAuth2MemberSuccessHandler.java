@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
@@ -93,24 +91,22 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String accessToken = delegateAccessToken(username, authorities);
         String refreshToken = delegateRefreshToken(username);
 
+        response.setHeader("Authorization", "Bearer " + accessToken);
+        response.setHeader("Refresh", refreshToken);
         String uri = createURI(accessToken, refreshToken).toString();
-        getRedirectStrategy().sendRedirect(request, response, uri);
 
+        getRedirectStrategy().sendRedirect(request, response, uri);
+        log.info("Access Token: {}", response.getHeader("Authorization"));
+        log.info("Refresh Token: {}", response.getHeader("Refresh"));
     }
 
     private URI createURI(String accessToken, String refreshToken) {
-        MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();
-        //URL 로 토큰 전달할때 공백 있으면 JSON 에러나서 "Bearer " 붙이지 않음
-        queryParam.add("access_token", accessToken);
-        queryParam.add("refresh_token", refreshToken);
 
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http") // TODO: 수정예 (https)
+                .scheme("http")
                 .host("localhost") // TODO: 제거예
                 .port(8080)
-                .path("/")
-                .queryParams(queryParam)
                 .build()
                 .toUri();
     }

@@ -51,7 +51,7 @@ public class SecurityConfiguration {
                 .headers().frameOptions().sameOrigin()// TODO: 수정예 - H2 콘솔 사용을 위해 설정
                 .and()
                 .csrf().disable() // TODO: 제거예 - 로컬 환경에서 실행하기 위해 설정
-                .cors(withDefaults()) // TODO: 제거예
+                .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -88,7 +88,7 @@ public class SecurityConfiguration {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    // TODO: 제거예 - 프론트와 HTTP 통신을 위한 CORS 설정
+    // TODO: 프론트 HTTP 통신을 위한 CORS 설정
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
