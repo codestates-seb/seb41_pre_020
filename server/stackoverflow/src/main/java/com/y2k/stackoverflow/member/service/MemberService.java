@@ -6,7 +6,6 @@ import com.y2k.stackoverflow.exception.ExceptionCode;
 import com.y2k.stackoverflow.member.entity.Member;
 import com.y2k.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -25,8 +25,6 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final ApplicationEventPublisher publisher;
-
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 
@@ -53,12 +51,19 @@ public class MemberService {
         Optional.ofNullable(member.getUserProfile())
                 .ifPresent(findMember::setUserProfile);
 
-        //소셜로그인 회원인 경우 pw 수정 불가
-        if (findMember.getPassword() == null) {
+        if (findMember.getPassword() == null && !member.getPassword().isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
+
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,16}";
+        String password = member.getPassword();
+
+        if (member.getPassword() != null && !Pattern.matches(pattern, password)) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
+        }
+
         Optional.ofNullable(member.getPassword())
-                .ifPresent(password -> findMember.setPassword(password));
+                .ifPresent(findMember::setPassword);
 
         return (Member) memberRepository.save(findMember);
     }
