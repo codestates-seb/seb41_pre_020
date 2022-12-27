@@ -85,8 +85,8 @@ public class QuestionService {
     /**
      * 전체 질문 조회
      */
-    public Page<Question> findQuestions(int page, int size) {
-        return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
+    public Page<Question> findQuestions(int page, int size, String sort) {
+        return questionRepository.findAll(PageRequest.of(page, size, Sort.by(sort).descending()));
     }
 
     /**
@@ -121,16 +121,17 @@ public class QuestionService {
 
     /**
      * 한 질문에 이미 추천 or 비추천한 사람이면 다시 추천 못함
-     * 본인 글은 추천 or 비추천 못함
+     * 본인 글은 추천 or 비추천 못함 ------------------------추가
      * question_vote 테이블에서 로그인 유저 memberId로 조회 후, 결과가 존재하지 않으면 추천 가능
      */
 
     public Question likeQuestionVote(Long questionId, Member member, QuestionVote questionVote) {
         Question findQuestion = findVerifiedQuestion(questionId);
 
-        // 로그인 한 회원이 추천 눌렀는지 확인 후,
+        // 1. 로그인 한 회원이 추천 눌렀는지 확인 후,
         // 안눌렀다면 question_vote 테이블에 question_id와 member_id를 넣어 중복 방지
-        if(!findVerifiedVoteMember(questionId)) {
+        // 로그인한 회원이 질문 작성한 사람이라면 오류
+        if(!findVerifiedVoteMember(questionId) || memberService.getLoginMember().getMemberId().equals(findQuestion.getMember().getMemberId())) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
         questionVote.setQuestion(findQuestion);
