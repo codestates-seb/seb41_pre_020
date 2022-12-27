@@ -136,12 +136,12 @@ public interface QuestionMapper {
 
     //제웅 추가
 
-    default List<CommentDto.Response> commentToCommentQuestionResponseDto(List<Comment> comments, MemberMapper memberMapper, Question question){
+    default List<CommentDto.CommentQuestionResponse> commentToCommentQuestionResponseDto(List<Comment> comments, MemberMapper memberMapper, Question question){
         return comments
                 .stream()
                 .filter(comment -> comment.getCommentType() == Comment.CommentType.QUESTION)
                 .filter(comment -> Objects.equals(comment.getQuestion().getQuestionId(), question.getQuestionId()))
-                .map(comment -> CommentDto.Response
+                .map(comment -> CommentDto.CommentQuestionResponse
                         .builder()
                         .commentId(comment.getCommentId())
                         .content(comment.getContent())
