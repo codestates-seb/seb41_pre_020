@@ -152,22 +152,31 @@ const Input = styled.input`
     border-color: #6bbbf7;
     box-shadow: 0 0 0 3px #dae5f1;
   }
+
+  &.invalid-input {
+    border-color: #de4f54 !important;
+
+    &:focus {
+      outline: none;
+      border-color: #de4f54;
+      box-shadow: 0 0 0 3px hsla(358, 62%, 47%, 0.15);
+    }
+  }
 `;
 
 const Errormsg = styled.p`
-  display: block;
-  color: #d0393e;
+  color: #de4f54;
   margin: 2px 0px;
-  padding: 2px;
   font-size: 12px;
+  line-height: 15px;
 `;
 
 const Errormsg2 = styled.p`
-  display: block;
-  color: #d0393e;
-  margin: 2px 0px;
-  padding: 2px 2px 2px 20px;
+  color: #de4f54;
+  margin: 12px 0px;
+  padding-left: 15px;
   font-size: 12px;
+  line-height: 15px;
 `;
 
 const SignupButton = styled.button`
@@ -225,7 +234,7 @@ function SignupBox() {
               xmlns="http://www.w3.org/2000/svg"
               width="26"
               height="26"
-              class="svg-icon mtn2"
+              className="svg-icon mtn2"
             >
               <path
                 opacity=".5"
@@ -247,7 +256,7 @@ function SignupBox() {
               xmlns="http://www.w3.org/2000/svg"
               width="26"
               height="26"
-              class="svg-icon mtn2"
+              className="svg-icon mtn2"
             >
               <path
                 d="M12 .7a2 2 0 013 0l8.5 9.6a1 1 0 01-.7 1.7H4.2a1 1 0 01-.7-1.7L12 .7z"
@@ -269,7 +278,7 @@ function SignupBox() {
               xmlns="http://www.w3.org/2000/svg"
               width="26"
               height="26"
-              class="svg-icon mtn2"
+              className="svg-icon mtn2"
             >
               <path
                 d="M14.8 3a2 2 0 00-1.4.6l-10 10a2 2 0 000 2.8l8.2 8.2c.8.8 2 .8 2.8 0l10-10c.4-.4.6-.9.6-1.4V5a2 2 0 00-2-2h-8.2zm5.2 7a2 2 0 110-4 2 2 0 010 4z"
@@ -291,7 +300,7 @@ function SignupBox() {
               xmlns="http://www.w3.org/2000/svg"
               width="26"
               height="26"
-              class="svg-icon mtn2"
+              className="svg-icon mtn2"
             >
               <path
                 d="M21 4V2H5v2H1v5c0 2 2 4 4 4v1c0 2.5 3 4 7 4v3H7s-1.2 2.3-1.2 3h14.4c0-.6-1.2-3-1.2-3h-5v-3c4 0 7-1.5 7-4v-1c2 0 4-2 4-4V4h-4zM5 11c-1 0-2-1-2-2V6h2v5zm11.5 2.7l-3.5-2-3.5 1.9L11 9.8 7.2 7.5h4.4L13 3.8l1.4 3.7h4L15.3 10l1.4 3.7h-.1zM23 9c0 1-1 2-2 2V6h2v3z"
@@ -308,30 +317,6 @@ function SignupBox() {
             Get Stack Overflow for Teams free for up to 50 users.
           </a>
         </div>
-        {/* <TitleText>Join the Stack Overflow community</TitleText>
-        <TitleBox>
-          <SpeechBubble className="svg-icon mtn2 fc-blue-500 mr8" />
-          <LeftText>Get unstuck — ask a question</LeftText>
-        </TitleBox>
-        <TitleBox>
-          <ArrowUpDown className="svg-icon mtn2 fc-blue-500 mr8" />
-          <LeftText>Unlock new privileges like voting and commenting</LeftText>
-        </TitleBox>
-        <TitleBox>
-          <Tags className="svg-icon mtn2 fc-blue-500 mr8" />
-          <LeftText>Save your favorite tags, filters, and jobs</LeftText>
-        </TitleBox>
-        <TitleBox>
-          <Achievements className="svg-icon mtn2 fc-blue-500 mr8" />
-          <LeftText>Earn reputation and badges</LeftText>
-        </TitleBox>
-        <p>
-          Collaborate and share knowledge with a private group for FREE.
-          <br></br>
-          <a href="https://stackoverflow.co/teams/?utm_source=so-owned&utm_medium=product&utm_campaign=free-50&utm_content=public-sign-up">
-            Get Stack Overflow for Teams free for up to 50 users.
-          </a>
-        </p> */}
       </SignUpInfoContainer>
 
       <SignUpContainer>
@@ -341,7 +326,7 @@ function SignupBox() {
               xlink="http://www.w3.org/1999/xlink"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
-              class="native svg-icon iconGoogle"
+              className="native svg-icon iconGoogle"
               width="18"
               height="18"
               viewBox="0 0 18 18"
@@ -371,7 +356,7 @@ function SignupBox() {
           <Formblock>
             <label htmlFor="Display name">Display name</label>
             <Input
-              className="flex--item s-input"
+              className={errors.name && errors.name.type === 'required' && 'invalid-input'}
               type="name"
               id="Display name"
               {...register('name', {
@@ -379,14 +364,18 @@ function SignupBox() {
               })}
             />
             {errors.name && errors.name.type === 'required' && (
-              <Errormsg>name cannot be empty.</Errormsg>
+              <Errormsg>Display name cannot be empty.</Errormsg>
             )}
             {signUpError ? <Errormsg>{errorMessage}</Errormsg> : null}
           </Formblock>
           <Formblock>
             <label htmlFor="Email">Email</label>
             <Input
-              className="flex--item s-input"
+              className={
+                errors.Email &&
+                (errors.Email.type === 'required' || errors.Email.type === 'emailcheck') &&
+                'invalid-input'
+              }
               type="Email"
               id="Email"
               {...register('Email', {
@@ -411,7 +400,14 @@ function SignupBox() {
           <Formblock>
             <label htmlFor="password">Password</label>
             <Input
-              className="flex--item s-input"
+              className={
+                errors.password &&
+                (errors.password.type === 'required' ||
+                  errors.password.type === 'numcheck' ||
+                  errors.password.type === 'lettercheck' ||
+                  errors.password.type === 'minLength') &&
+                'invalid-input'
+              }
               type="password"
               id="password"
               {...register('password', {
@@ -434,13 +430,13 @@ function SignupBox() {
               <Errormsg>{errors.password.message}</Errormsg>
             )}
             {errors.password && errors.password.type === 'numcheck' && (
-              <Errormsg2>• numbers</Errormsg2>
+              <Errormsg2>&#8226; numbers</Errormsg2>
             )}
             {errors.password && errors.password.type === 'lettercheck' && (
               <Errormsg>{errors.password.message}</Errormsg>
             )}
             {errors.password && errors.password.type === 'lettercheck' && (
-              <Errormsg2>• letters</Errormsg2>
+              <Errormsg2>&#8226; letters</Errormsg2>
             )}
             {errors.password && errors.password.type === 'minLength' && (
               <Errormsg>Must contain at least {8 - watch('password').length} characters.</Errormsg>
