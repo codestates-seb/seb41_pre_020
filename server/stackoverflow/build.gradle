@@ -50,6 +50,8 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	implementation 'org.hamcrest:hamcrest:2.2'
+	//github api
+	implementation group: 'org.kohsuke', name: 'github-api', version: '1.125'
 
 }
 
