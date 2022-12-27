@@ -3,6 +3,7 @@ package com.y2k.stackoverflow.answer.mapper;
 import com.y2k.stackoverflow.answer.dto.*;
 import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.answer.entity.AnswerVote;
+import com.y2k.stackoverflow.member.entity.Member;
 import com.y2k.stackoverflow.member.mapper.MemberMapper;
 import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.service.QuestionService;
@@ -23,6 +24,11 @@ public interface AnswerMapper {
         answer.setVotes(0);
         answer.setQuestion(questionService.findVerifiedQuestion(answerPostDto.getQuestionId()));
         answer.setAnswerCheck(false); // 채택 기본 값 세팅
+
+        //회원 마이페이지 설정
+        Member member = memberService.getLoginMember();
+        member.addAnswer(answer);
+
         return answer;
     }
 
