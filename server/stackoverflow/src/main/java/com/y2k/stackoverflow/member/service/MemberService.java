@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -53,6 +54,14 @@ public class MemberService {
         if (findMember.getPassword() == null && !member.getPassword().isEmpty()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
+
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,16}";
+        String password = member.getPassword();
+
+        if (member.getPassword() != null && !Pattern.matches(pattern, password)) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
+        }
+
         Optional.ofNullable(member.getPassword())
                 .ifPresent(findMember::setPassword);
 
