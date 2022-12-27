@@ -1,35 +1,17 @@
-import SidebarLeft from "../components/aside/SidebarLeft";
-import SidebarRight from '../components/aside/SidebarRight';
-import styled from "styled-components";
-import Footer from "../components/Footer";
-// import List from "../components/home/List";
-import Main from "../components/home/Main";
-
-const HomeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const MainContainer = styled.div`
-  margin: 0 auto;
-  display: flex;
-`;
-
-const FooterContainer = styled.div``;
+import SidebarLeft from '../components/aside/SidebarLeft';
+import Footer from '../components/Footer';
+import Main from '../components/home/Main';
+import { BodyContainer } from '../components/BodyContainer';
 
 const Home = () => {
   return (
-    <HomeContainer>
-        <MainContainer>
-            <SidebarLeft />
-            {/*<List />*/}
-            <Main />
-             {/*<SidebarRight />*/}
-        </MainContainer>
-        <FooterContainer>
-            <Footer />
-        </FooterContainer>
-    </HomeContainer>
+    <main>
+      <BodyContainer>
+        <SidebarLeft />
+        <Main />
+      </BodyContainer>
+      <Footer />
+    </main>
   );
 };
 
