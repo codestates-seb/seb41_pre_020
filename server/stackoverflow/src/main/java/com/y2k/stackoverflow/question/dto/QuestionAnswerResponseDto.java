@@ -30,7 +30,7 @@ public class QuestionAnswerResponseDto {
     private AnswersGetResponseDto<AnswerResponseDto> answerList;
     private MemberDto.Response member;
 
-    private List<CommentDto.Response> comments;//제웅 추가
+    private List<CommentDto.CommentQuestionResponse> comments;//제웅 추가
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = DateUtil.convertLocalDatetimeToTime(createdAt);

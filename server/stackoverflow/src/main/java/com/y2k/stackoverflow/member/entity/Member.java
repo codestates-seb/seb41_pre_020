@@ -1,8 +1,10 @@
 package com.y2k.stackoverflow.member.entity;
 
+import com.y2k.stackoverflow.answer.entity.Answer;
 import com.y2k.stackoverflow.audit.Auditable;
 import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.member.dto.UserProfile;
+import com.y2k.stackoverflow.question.entity.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,6 +47,22 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answers = new ArrayList<>();
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+        question.setMember(this);
+    }
+
+    public void addAnswer(Answer answer) {
+        answers.add(answer);
+        answer.setMember(this);
+    }
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

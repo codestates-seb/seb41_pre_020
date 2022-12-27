@@ -20,8 +20,8 @@ public interface CommentMapper {
         Comment comment = new Comment();
 
         comment.setMember(memberService.getLoginMember());
-        comment.setContent( commentPost.getContent() );
-        comment.setCommentType( commentPost.getCommentType() );
+        comment.setContent(commentPost.getContent() );
+        comment.setCommentType(commentPost.getCommentType() );
 
         return comment;
 
