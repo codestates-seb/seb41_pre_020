@@ -111,7 +111,7 @@ export const DiscardModal = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div>
+    <>
       <ModalContainer>
         <ModalBtn onClick={openModalHandler}>Discard draft</ModalBtn>
         {isOpen === true ? (
@@ -145,6 +145,6 @@ export const DiscardModal = () => {
           </ModalBackdrop>
         ) : null}
       </ModalContainer>
-    </div>
+    </>
   );
 };
