@@ -3,7 +3,6 @@ package com.y2k.stackoverflow.question.dto;
 import com.y2k.stackoverflow.member.dto.MemberDto;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -16,11 +15,13 @@ public class QuestionResponseDto {
     private String title;
     private String content;
     private List<QuestionTagResponseDto> questionTags;
-    private LocalDateTime createdAt;
-    private LocalDateTime lastModifiedAt;
+    private String createdAt;
+    private String lastModifiedAt;
     private int votes;
     private int views;
     private int answers;
     private int questions;
+    private Boolean questionCheck;
     private MemberDto.Response member;
+
 }
