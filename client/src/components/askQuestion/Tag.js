@@ -2,59 +2,72 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 export const TagsInput = styled.div`
+  margin: 4px 0;
   display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  min-height: 48px;
-  width: 480px;
-  padding: 2px;
-  border: 1px solid rgb(214, 216, 218);
-  border-radius: 6px;
-  > ul {
+  padding: 0 2px;
+  padding-right: 9.1px;
+  cursor: text;
+  overflow: hidden;
+  height: auto;
+  min-height: 37px;
+  background-color: white;
+  width: 100%;
+  border: 1px solid #babfc4;
+  border-radius: 3px;
+  align-items: center;
+
+  & input {
+    display: inline-block;
+    width: 19px;
+    min-width: 100%;
+    padding-left: calc(0.7em - 2px) !important;
+    height: 29px;
+    box-sizing: content-box;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+  }
+
+  & #tags {
     display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 4px;
-    > .tag {
-      width: auto;
-      height: 30px;
-      display: flex;
+    padding-left: 2px;
+
+    & .tag {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      color: black;
+      margin: 2px;
+      font-size: 12px;
+      line-height: 22px;
       padding: 0 4px;
-      font-size: 14px;
-      list-style: none;
-      border-radius: 6px;
-      margin: 0 8px 0 0;
-      background: #E1ECF4;
-      > .tag-close-icon {
-        display: block;
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        text-align: center;
-        font-size: 14px;
-        margin-left: 8px;
-        color: royalblue;
-        border-radius: 50%;
-        background: #fff;
-        cursor: pointer;
+      background: #e1ecf4;
+      border-radius: 3px;
+      color: #39739d;
+      cursor: default;
+    }
+
+    & .tag-close-icon {
+      display: flex; 
+      align-items: center;
+      cursor: pointer;
+      margin-left: 4px;
+      padding: 1px;
+      border-radius: 3px;
+      background-color: transparent;
+
+      &:hover {
+        background-color: #39739d;
+
+        & path {
+          fill: #e1ecf4 !important;
+        }
       }
     }
   }
-  > input {
-    flex: 1;
-    border: none;
-    height: 38px;
-    font-size: 14px;
-    //padding: 4px 0 0 0;
-    :focus {
-      outline: transparent;
-    }
-  }
+
   &:focus-within {
-    border: 1px solid #4000c7;
+    outline: none;
+    border-color: #6bbbf7;
+    box-shadow: 0 0 0 3px #dae5f1;
   }
 `;
 
@@ -77,28 +90,35 @@ export const Tag = () => {
   };
 
   return (
-    <>
-      <TagsInput>
-        <ul id='tags'>
-          {tags.map((tag, index) => (
-            <li key={index} className='tag'>
-              <span className='tag-title'>{tag}</span>
-              <span
-                className='tag-close-icon'
-                onClick={() => removeTags(index)}
+    <TagsInput>
+      <ul id="tags">
+        {tags.map((tag, index) => (
+          <li key={index} className="tag">
+            {tag}
+            <span className="tag-close-icon" onClick={() => removeTags(index)}>
+              <svg
+                xlink="http://www.w3.org/1999/xlink"
+                xmlns="http://www.w3.org/2000/svg"
+                className="svg-icon iconClearSm pe-none"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
               >
-                &times;
-              </span>
-            </li>
-          ))}
-        </ul>
-        <input
-          className='tag-input'
-          type='text'
-          onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)}
-          placeholder='Press enter to add tags'
-        />
-      </TagsInput>
-    </>
+                <path
+                  d="M12 3.41L10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7z"
+                  fill="#39739D"
+                ></path>
+              </svg>
+            </span>
+          </li>
+        ))}
+      </ul>
+      <input
+        className="tag-input"
+        type="text"
+        onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)}
+        placeholder="e.g. (css sql-server asp.net-mvc)"
+      />
+    </TagsInput>
   );
 };

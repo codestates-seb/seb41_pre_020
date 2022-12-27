@@ -45,6 +45,21 @@ const GlobalStyle = createGlobalStyle`
     padding-top: 50px;
   }
   
+  .toastui-editor-defaultUI-toolbar, .toastui-editor-md-tab-container {
+    background: #F8F9F9 !important;
+  }
+
+  .toastui-editor-md-tab-container .tab-item {
+    background: #e3e6e8 !important;
+  }
+
+  .toastui-editor-md-tab-container .tab-item {
+    background: #e3e6e8 !important;
+  }
+
+  .toastui-editor-md-tab-container .tab-item.active {
+    background: white !important;
+  }
 `;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

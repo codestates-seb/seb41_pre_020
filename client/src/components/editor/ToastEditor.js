@@ -6,8 +6,8 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 
 const EditorWrapDiv = styled.div`
-  //border: 1px solid #e87d81;
-  border-radius: 4px;
+  margin: 4px 0;
+  border-radius: 5px;
 `;
 
 export default function ToastEditor({ setValue, setSendAnswer }) {
@@ -17,7 +17,6 @@ export default function ToastEditor({ setValue, setSendAnswer }) {
     const data = editorRef.current.getInstance().getHTML();
     setValue(data);
     if (data.length < 16) {
-      // 유효성 검사
       setSendAnswer(false);
     } else {
       setSendAnswer(true);
