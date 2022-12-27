@@ -26,8 +26,9 @@ public class Answer extends Auditable {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
     private Integer votes = 0;
+
+    private Boolean answerCheck = false;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
     private List<AnswerVote> voteList = new ArrayList<>();

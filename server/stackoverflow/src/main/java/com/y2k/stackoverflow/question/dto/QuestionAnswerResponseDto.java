@@ -4,6 +4,7 @@ import com.y2k.stackoverflow.answer.dto.AnswerResponseDto;
 import com.y2k.stackoverflow.answer.dto.AnswersGetResponseDto;
 import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.member.dto.MemberDto;
+import com.y2k.stackoverflow.util.DateUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,13 +21,22 @@ public class QuestionAnswerResponseDto {
     private String title;
     private String content;
     private List<QuestionTagResponseDto> questionTags;
-    private LocalDateTime createdAt;
-    private LocalDateTime lastModifiedAt;
+    private String createdAt;
+    private String lastModifiedAt;
     private int votes;
     private int views;
+    private Boolean questionCheck;
     private int answers;
     private AnswersGetResponseDto<AnswerResponseDto> answerList;
     private MemberDto.Response member;
 
     private List<CommentDto.Response> comments;//제웅 추가
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = DateUtil.convertLocalDatetimeToTime(createdAt);
+    }
+
+    public void setLastModifiedAt(LocalDateTime lastModifiedAt) {
+        this.lastModifiedAt = DateUtil.convertLocalDatetimeToTime(lastModifiedAt);
+    }
 }
