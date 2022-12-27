@@ -120,19 +120,6 @@ const Formblock = styled.form`
     cursor: pointer;
     line-height: 19.6px;
   }
-
-  & > button {
-    margin: 0;
-    border-radius: 3px;
-    border: 1px solid #0a95ff;
-    background: #0a95ff;
-    color: white;
-    box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
-
-    :hover {
-      background-color: #0074cc;
-    }
-  }
 `;
 
 const Input = styled.input`
@@ -184,8 +171,9 @@ const SignupButton = styled.button`
   background: #0a95ff;
   color: white;
   box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
-  margin-left: 4px;
   line-height: 37px;
+  border-radius: 3px;
+
   &:hover {
     background: #0074cc;
     border-color: #0074cc;
