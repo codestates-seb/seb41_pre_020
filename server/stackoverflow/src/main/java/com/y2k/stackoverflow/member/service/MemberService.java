@@ -6,6 +6,7 @@ import com.y2k.stackoverflow.exception.ExceptionCode;
 import com.y2k.stackoverflow.member.entity.Member;
 import com.y2k.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,6 +23,7 @@ import java.util.regex.Pattern;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -44,27 +46,31 @@ public class MemberService {
         return savedMember;
     }
 
-    public Member updateMember(Member member) {
+    public Member updateMember(Member member) throws BusinessLogicException {
         Member findMember = findVerifiedMember(member.getMemberId());
         Optional.ofNullable(member.getDisplayName())
                 .ifPresent(name -> findMember.setDisplayName(member.getDisplayName()));
         Optional.ofNullable(member.getUserProfile())
                 .ifPresent(findMember::setUserProfile);
 
-        if (findMember.getPassword() == null && !member.getPassword().isEmpty()) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
+        //password 에 empty 값 들어왔을 때 : 기존 패스워드 그대로 유지
+        if (member.getPassword().trim().isEmpty()) {
+            log.info("비밀번호 변경 없음");
         }
-
-        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,16}";
-        String password = member.getPassword();
-
-        if (member.getPassword() != null && !Pattern.matches(pattern, password)) {
-            throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
+        //password 변경있을 경우 :
+        else if (!member.getPassword().isEmpty()) {
+            //일반회원 - 유효성 검증 통과시 패스워드 변경
+            if (findMember.getPassword() != null) {
+                if (Pattern.matches("(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,16}", member.getPassword())) {
+                    String newPassword = passwordEncoder.encode(member.getPassword());
+                    findMember.setPassword(newPassword);
+                } else throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
+            }
+            //소셜 회원 - 패스워드 변경 불가
+            else if(findMember.getPassword() == null){
+                throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
+            }
         }
-
-        Optional.ofNullable(member.getPassword())
-                .ifPresent(findMember::setPassword);
-
         return (Member) memberRepository.save(findMember);
     }
 
