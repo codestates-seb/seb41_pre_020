@@ -17,6 +17,7 @@ import com.y2k.stackoverflow.question.service.QuestionTagService;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -65,7 +66,9 @@ public interface QuestionMapper {
                     questionTag.setTagName(questionTagDto.getTagName());
                     return questionTag;
                 }).collect(Collectors.toList());
-
+        if(questionPatchDto.getQuestionTags() == null) {
+            question.setQuestionTags(new ArrayList<>());
+        }
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setTitle(questionPatchDto.getTitle());
         question.setContent(questionPatchDto.getContent());

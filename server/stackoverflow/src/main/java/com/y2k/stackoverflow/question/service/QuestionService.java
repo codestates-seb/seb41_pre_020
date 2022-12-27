@@ -64,7 +64,7 @@ public class QuestionService {
         //수정 할 때 member_id null 값 해결
         question.setMember(memberService.getLoginMember());
 
-        return questionRepository.save(question);
+        return questionRepository.save(findQuestion);
     }
 
     /**
