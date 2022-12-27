@@ -72,11 +72,17 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //마이페이지 - profile 화면
+    //마이페이지 - profile 화면 - edit profile
     @GetMapping("/edit/{member-id}")
     public ResponseEntity getMyPage(@PathVariable("member-id") @Positive long memberId) {
 
         Member member = memberService.findMember(memberId);
         return new ResponseEntity(mapper.memberToDetailsResponseDto(member), HttpStatus.OK);
+    }
+
+    @GetMapping("/{member-id}/active")
+    public ResponseEntity getMyPageActivity(@PathVariable("member-id") @Positive long memberId) {
+        Member member = memberService.findMember(memberId);
+        return new ResponseEntity(mapper.memberToMyPageResponse(member), HttpStatus.OK);
     }
 }
