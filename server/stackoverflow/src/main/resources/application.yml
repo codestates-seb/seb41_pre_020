@@ -26,6 +26,18 @@ spring:
             scope:
               - email
               - profile
+          github:
+            clientId: "${GITHUB_CLIENT_ID}"
+            clientSecret: "${GITHUB_SECRET}"
+            scope:
+              - user:email
+              - read:user
+          facebook:
+            clientId: ${META_CLIENT_ID}
+            clientSecret: ${META_SECRET}
+            scope:
+              - email
+              - public_profile
 logging:
   level:
     org:
