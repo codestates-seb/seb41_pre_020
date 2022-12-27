@@ -6,6 +6,8 @@ import com.y2k.stackoverflow.comment.entity.Comment;
 import com.y2k.stackoverflow.comment.repository.CommentRepository;
 import com.y2k.stackoverflow.exception.BusinessLogicException;
 import com.y2k.stackoverflow.exception.ExceptionCode;
+import com.y2k.stackoverflow.member.entity.Member;
+import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.repository.QuestionRepository;
 import com.y2k.stackoverflow.question.service.QuestionService;
@@ -20,14 +22,17 @@ public class CommentService {
     private final QuestionService questionService;
     private final QuestionRepository questionRepository;
     private final AnswerService answerService; //나중에 추가★
+    private final MemberService memberService;
 
 
     public CommentService(CommentRepository commentRepository, QuestionService questionService,
-                          QuestionRepository questionRepository, AnswerService answerService) {
+                          QuestionRepository questionRepository, AnswerService answerService,
+                          MemberService memberService) {
         this.commentRepository = commentRepository;
         this.questionService = questionService;
         this.questionRepository = questionRepository;
         this.answerService = answerService;
+        this.memberService = memberService;
     }
 
     public Comment createComment(Comment comment) {
@@ -74,6 +79,11 @@ public class CommentService {
     public Comment updateComment(Comment comment){
         Comment findComment = findVerifiedComment(comment.getCommentId());
 
+        Member member = memberService.findMember(findComment.getMember().getMemberId());
+
+        if(member.getMemberId() != memberService.getLoginMember().getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);
+        }
         Optional.ofNullable(comment.getContent())
                 .ifPresent(content -> findComment.setContent(content));
         return commentRepository.save(findComment);
@@ -89,6 +99,10 @@ public class CommentService {
 
     public void deleteComment(long commentId){
         Comment findComment = findVerifiedComment(commentId);
+
+        if(findComment.getMember().getMemberId() != memberService.getLoginMember().getMemberId()){
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);
+        }
 
         commentRepository.delete(findComment);
     }
