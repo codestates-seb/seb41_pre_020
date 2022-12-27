@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 
 const Sidebar = styled.div`
@@ -47,16 +47,6 @@ const Sidebar = styled.div`
         &:hover {
           color: #0c0d0e;
         }
-      }
-    }
-
-    & .youarehere {
-      font-weight: bold;
-      background-color: #f1f2f3;
-      border-right: 3px solid #f48225;
-
-      & span {
-        color: #0c0d0e !important;
       }
     }
 
@@ -124,7 +114,20 @@ const BtnWhyTeam = styled.a`
   }
 `;
 
+const List = styled.div`
+  padding: 4px 8px 4px 0px;
+  background-color: ${(props) =>
+    props.selected ? 'hsl(210,8%,95%)' : 'none'};
+  font-weight: ${(props) => (props.selected ? 'bold' : 'none')};
+  color: ${(props) =>
+    props.selected ? 'hsl(210,8%,5%)' : 'hsl(210,8%,35%)'};
+  border-right: 3px solid
+    ${(props) => (props.selected ? '#f48225' : 'none')};
+`;
+
 export default function SidebarLeft() {
+  const { pathname } = useLocation();
+
   return (
     <Sidebar>
       <div className="left-sidebar--sticky-container">
@@ -135,8 +138,8 @@ export default function SidebarLeft() {
           <li>
             <ol className="nav-links">
               <li className="nav-links--heading">Public</li>
-              <li>
-                <Link to="/" className="nav-link__with-icon youarehere">
+              <List selected={pathname === '/' ? true : false} >
+                <Link to="/" className="nav-link__with-icon">
                   <svg
                     xlink="http://www.w3.org/1999/xlink"
                     xmlns="http://www.w3.org/2000/svg"
@@ -153,17 +156,17 @@ export default function SidebarLeft() {
                   </svg>
                   <span>Questions</span>
                 </Link>
-              </li>
-              <li>
+              </List>
+              <List selected={pathname === '/tags' ? true : false} >
                 <Link to="/tags" className="nav-links--link">
                   Tags
                 </Link>
-              </li>
-              <li>
+              </List>
+              <List selected={pathname === '/users' ? true : false} >
                 <Link to="/users" className="nav-links--link">
                   Users
                 </Link>
-              </li>
+              </List>
               <li className="nav-links--heading">Collectives</li>
               <li>
                 <Link to="/" className="nav-link__with-icon">
