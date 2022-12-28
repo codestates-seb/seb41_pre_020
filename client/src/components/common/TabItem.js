@@ -5,7 +5,6 @@ const TabBlock = styled.button`
   outline: 0;
   padding: 10.5px;
   text-align: center;
-  /* line-height: normal; */
   background-color: transparent;
   color: #838c95;
   cursor: pointer;

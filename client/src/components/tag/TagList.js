@@ -15,12 +15,6 @@ const Grid = styled.div`
   gap: 12px;
 `;
 
-const Pagination = styled.div`
-  margin: 20px 0;
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const TagList = () => {
   const [tags] = useState(tagData);
   const [count, setCount] = useState(0);
