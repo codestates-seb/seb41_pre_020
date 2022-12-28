@@ -125,8 +125,8 @@ public class AnswerService {
             throw new BusinessLogicException(ExceptionCode.QUESTION_CHECK_EXISTS);
         }
 
-        //로그인 유저와 질문 작성 유저와 비교해서 같다면 삭제, 아니라면 접근 금지 예외 발생 => 질문 작성자만 채택
-        if(checkQuestion.getQuestionId() != memberService.getLoginMember().getMemberId()) {
+        //로그인 유저와 질문 작성 유저와 비교해서 같다면 채택, 아니라면 접근 금지 예외 발생 => 질문 작성자만 채택
+        if(checkQuestion.getMember().getMemberId() != memberService.getLoginMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
         checkQuestion.setQuestionCheck(true); // 전체 질문 보기에서 채택 여부 확인 시 사용

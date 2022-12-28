@@ -27,7 +27,7 @@ public interface AnswerMapper {
         answer.setMember(memberService.getLoginMember());
         answer.setContent(answerPostDto.getContent());
         answer.setVotes(0);
-        answer.setQuestion(questionService.findVerifiedQuestion(answerPostDto.getQuestionId()));
+        answer.setQuestion(questionService.findQuestion(answerPostDto.getQuestionId()));
         answer.setAnswerCheck(false); // 채택 기본 값 세팅
 
         //회원 마이페이지 설정

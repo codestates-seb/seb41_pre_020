@@ -7,7 +7,6 @@ import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.entity.QuestionVote;
 import com.y2k.stackoverflow.question.repository.QuestionRepository;
-import com.y2k.stackoverflow.question.repository.QuestionTagRepository;
 import com.y2k.stackoverflow.question.repository.QuestionVoteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,17 +18,13 @@ import java.util.Optional;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionTagService questionTagService;
-
-    private final QuestionTagRepository questionTagRepository;
     private final MemberService memberService;
     private final QuestionVoteRepository questionVoteRepository;
 
     public QuestionService(QuestionRepository questionRepository, QuestionTagService questionTagService,
-                           QuestionTagRepository questionTagRepository,
                            MemberService memberService, QuestionVoteRepository questionVoteRepository) {
         this.questionRepository = questionRepository;
         this.questionTagService = questionTagService;
-        this.questionTagRepository = questionTagRepository;
         this.memberService = memberService;
         this.questionVoteRepository = questionVoteRepository;
     }
@@ -73,6 +68,13 @@ public class QuestionService {
      * 특정 질문 조회
      */
     public Question findQuestion(Long questionId) {
+        return findVerifiedQuestion(questionId);
+    }
+
+    /**
+     * 특정 질문 조회 (조회수 +1)
+     */
+    public Question findVotePlusQuestion(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
 
         //조회 시, View + 1
@@ -112,7 +114,7 @@ public class QuestionService {
     /**
      *  질문 존재 여부 확인
      */
-    public Question findVerifiedQuestion(Long questionId) {
+    private Question findVerifiedQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question findQuestion =
                 optionalQuestion.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
@@ -154,6 +156,10 @@ public class QuestionService {
     private boolean findVerifiedVoteMember(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
         return questionVoteRepository.findByQuestionAndMember(findQuestion, memberService.getLoginMember()).isEmpty();
+    }
+
+    public Page<Question> searchQuestion(int page, int size, String sort, String search) {
+        return questionRepository.searchQuestion(PageRequest.of(page, size, Sort.by(sort).descending()), search);
     }
 
 }
