@@ -1,5 +1,6 @@
 package com.y2k.stackoverflow.answer.dto;
 
+import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.member.dto.MemberDto;
 import com.y2k.stackoverflow.util.DateUtil;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +23,9 @@ public class AnswerResponseDto {
     private String createdAt;
     private String modifiedAt;
     private MemberDto.Response member;
+
+    private List<CommentDto.CommentAnswerResponse> comments;//제웅 추가
+
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = DateUtil.convertLocalDatetimeToTime(createdAt);

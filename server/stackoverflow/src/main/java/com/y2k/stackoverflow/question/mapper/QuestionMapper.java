@@ -6,6 +6,7 @@ import com.y2k.stackoverflow.answer.mapper.AnswerMapper;
 import com.y2k.stackoverflow.answer.service.AnswerService;
 import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.comment.entity.Comment;
+import com.y2k.stackoverflow.member.entity.Member;
 import com.y2k.stackoverflow.member.mapper.MemberMapper;
 import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.dto.*;
@@ -34,6 +35,9 @@ public interface QuestionMapper {
         question.setVotes(0);
         question.setViews(0);
 
+        //회원 마이페이지 설정
+        Member member = memberService.getLoginMember();
+        member.addQuestion(question);
 
         List<QuestionTag> questionTags = questionPostDto.getQuestionTags().stream()
                 .map(questionTagDto -> {
@@ -131,12 +135,12 @@ public interface QuestionMapper {
 
     //제웅 추가
 
-    default List<CommentDto.Response> commentToCommentQuestionResponseDto(List<Comment> comments, MemberMapper memberMapper, Question question){
+    default List<CommentDto.CommentQuestionResponse> commentToCommentQuestionResponseDto(List<Comment> comments, MemberMapper memberMapper, Question question){
         return comments
                 .stream()
                 .filter(comment -> comment.getCommentType() == Comment.CommentType.QUESTION)
                 .filter(comment -> Objects.equals(comment.getQuestion().getQuestionId(), question.getQuestionId()))
-                .map(comment -> CommentDto.Response
+                .map(comment -> CommentDto.CommentQuestionResponse
                         .builder()
                         .commentId(comment.getCommentId())
                         .content(comment.getContent())
