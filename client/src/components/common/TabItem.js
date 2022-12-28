@@ -2,28 +2,37 @@ import styled, { css } from 'styled-components';
 
 const TabBlock = styled.button`
   border: 0;
-  border-right: 1px solid hsl(210, 8%, 55%);
-  padding: 9px;
+  outline: 0;
+  padding: 10.5px;
   text-align: center;
-  font-size: 12px;
+  /* line-height: normal; */
   background-color: transparent;
-  color: hsl(210, 8%, 25%);
+  color: #838c95;
   cursor: pointer;
   border-radius: ${({ radius }) => (radius ? radius : '0')};
 
+  &:not(:last-child) {
+    border-right: 1px solid #838c95;
+  }
+
   &:hover {
-    background-color: hsl(210, 8%, 95%);
+    background: #f8f9f9;
   }
 
   ${(props) =>
     props.isClick &&
     css`
-      background-color: hsl(210, 8%, 90%);
+      background-color: #e3e6e8;
+      color: #3b4045;
+
+      &:hover {
+        background: #e3e6e8;
+      }
     `}
 `;
 
 const TabItem = ({ text, ...props }) => {
-    return <TabBlock {...props}>{text}</TabBlock>;
+  return <TabBlock {...props}>{text}</TabBlock>;
 };
 
 export default TabItem;

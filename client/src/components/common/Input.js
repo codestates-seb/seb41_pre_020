@@ -2,19 +2,24 @@ import styled from 'styled-components';
 
 const InputContainer = styled.input`
   width: 100%;
-  margin: ${({ margin }) => margin || '0 0 1rem 0'};
-  padding: ${({ padding }) => padding || '0.6em 0.7em'};
-  border: 1px solid hsl(210, 8%, 75%);
+  padding: 11.5px;
+  padding-left: 32px;
+  border: 1px solid #babfc4;
   border-radius: 3px;
+  max-width: 316px;
+  height: 100%;
+  line-height: normal;
+  font-stretch: 100%;
+  color: #0c0d0e;
 
-  ::placeholder {
+  &::placeholder {
     color: hsl(210, 8%, 75%);
   }
 
   &:focus {
     outline: none;
-    border-color: hsl(206, 90%, 69.5%);
-    box-shadow: 0 0 0 3px hsl(205, 53%, 88%);
+    border-color: #6bbbf7;
+    box-shadow: 0 0 0 3px #dae5f1;
   }
 `;
 

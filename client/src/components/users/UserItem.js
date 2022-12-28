@@ -1,78 +1,71 @@
 import styled from 'styled-components';
 
-const Card = styled.div`
+const GridItem = styled.div`
   padding: 5px 6px 7px 7px;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
-  color: hsl(210, 8%, 45%);
-`;
-
-const Container = styled.div`
-  display: flex;
+  color: #6a737c;
 `;
 
 const Image = styled.img`
+  float: left;
   width: 48px;
   height: 48px;
-  border-radius: 2px;
-  float: left;
+  border-radius: 3px;
 `;
 
-const UserContainer = styled.div`
+const UserDetails = styled.div`
   margin-left: 9px;
   width: calc(100% - 64px);
   float: left;
-  display: flex;
-  flex-direction: column;
-  font-size: 12px;
-  line-height: 1.3;
+  word-wrap: break-word;
 `;
 
 const UserName = styled.div`
-  font-size: 14px;
-  color: hsl(206, 100%, 40%);
+  color: #0074cc;
+  font-size: 15px;
+  line-height: 19.5px;
 `;
 
-const Location = styled.div`
+const UserLocation = styled.div`
   margin-bottom: 2px;
+  color: #6a737c;
+  font-size: 12px;
+  line-height: 15.6px;
 `;
 
-const Reputation = styled.div`
-  margin-bottom: 3px;
+const UserReputation = styled.div`
+  margin-bottom: 4px;
+  color: #6a737c;
   font-size: 12px;
+  line-height: 15.6px;
   font-weight: bold;
 `;
 
-const TagsBlock = styled.div`
+const UserTags = styled.div`
   margin-left: 57px;
-  display: flex;
-  text-align: left;
-  color: hsl(206, 100%, 40%);
+  color: #0074cc;
+  font-size: 12px;
+  line-height: 15.6px;
   font-size: 12px;
 `;
 
 const UserItem = ({ user }) => {
-    const { name, picture, reputation, location, lang } = user;
-    const [tag1, tag2, tag3] = lang;
+  const { name, picture, reputation, location, lang } = user;
+  const [tag1, tag2, tag3] = lang;
 
-    return (
-        <Card>
-            <Container>
-                <Image src={picture} alt="profile"></Image>
-                <UserContainer>
-                    <UserName>{name}</UserName>
-                    <Location>{location}</Location>
-                    <Reputation>{reputation}</Reputation>
-                </UserContainer>
-            </Container>
-            <TagsBlock>
-                <div>
-                    {tag1}, {tag2}, {tag3}
-                </div>
-            </TagsBlock>
-        </Card>
-    );
+  return (
+    <GridItem>
+      <Image src={picture} alt="profile"></Image>
+      <UserDetails>
+        <UserName>{name}</UserName>
+        <UserLocation>{location}</UserLocation>
+        <UserReputation>{reputation}k</UserReputation>
+      </UserDetails>
+      <UserTags>
+        {tag1}, {tag2}, {tag3}
+      </UserTags>
+    </GridItem>
+  );
 };
 
 export default UserItem;
