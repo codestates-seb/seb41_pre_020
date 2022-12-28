@@ -1,62 +1,56 @@
 import styled from 'styled-components';
 
-const Card = styled.div`
+const GridItem = styled.div`
   padding: 12px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid hsl(210, 8%, 85%);
+  border: 1px solid #d6d9dc;
   border-radius: 3px;
 `;
 
 const TagBlock = styled.div`
-  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-`;
-
-const TagName = styled.div`
-  font-size: 12px;
-  color: hsl(205, 47%, 42%);
-  background-color: hsl(205, 46%, 92%);
-  border-color: transparent;
-  padding: 5px 6px;
-  line-height: 1;
-  border-radius: 3px;
-`;
-
-const InfoBlock = styled.div`
   margin-bottom: 12px;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+`;
+
+const Tag = styled.div`
   font-size: 12px;
+  color: #39739d;
+  background-color: #e1ecf4;
+  padding: 0.4em 0.5em;
+  line-height: 12px;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: #d0e3f1;
+    color: #2c5877;
+  }
 `;
 
-const CountBlock = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: hsl(210, 8%, 55%);
-  font-size: 11px;
+const TagInfo = styled.div`
+  margin-bottom: 12px;
+  color: #3b4045;
+  overflow: hidden;
 `;
 
-const Questions = styled.div``;
+const QuestionCount = styled.div`
+  color: #838c95;
+  font-size: 12px;
+  line-height: 15.6px;
+`;
 
 const TagItem = ({ tag }) => {
-    const { name, info, count } = tag;
+  const { name, info, count } = tag;
 
-    return (
-        <Card>
-            <TagBlock>
-                <TagName>{name}</TagName>
-            </TagBlock>
-            <InfoBlock>{info}</InfoBlock>
-            <CountBlock>
-                <Questions>{count} questions</Questions>
-            </CountBlock>
-        </Card>
-    );
+  return (
+    <GridItem>
+      <TagBlock>
+        <Tag>{name}</Tag>
+      </TagBlock>
+      <TagInfo>{info}</TagInfo>
+      <QuestionCount>{count} questions</QuestionCount>
+    </GridItem>
+  );
 };
 
 export default TagItem;

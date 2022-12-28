@@ -15,12 +15,6 @@ const Grid = styled.div`
   gap: 12px;
 `;
 
-const Pagination = styled.div`
-  margin: 20px 0;
-  display: flex;
-  justify-content: flex-end;
-`;
-
 const UserList = () => {
   const [users] = useState(usersData);
   const [count, setCount] = useState(0);
@@ -58,7 +52,6 @@ const UserList = () => {
         totalItemsCount={count}
         onChange={handlePageChange}
       />
-      <Pagination></Pagination>
     </>
   );
 };

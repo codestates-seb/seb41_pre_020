@@ -38,6 +38,7 @@ const Container = styled.div`
 
   ul.pagination li.active {
     background-color: rgb(244, 130, 37);
+    border-color: rgb(244, 130, 37);
     cursor: default;
     pointer-events: none;
   }

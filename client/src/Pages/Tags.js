@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import TagFilter from '../components/tag/TagFilter';
 import TagList from '../components/tag/TagList';
-import SidebarLeft from "../components/aside/SidebarLeft";
-import Footer from "../components/Footer";
+import SidebarLeft from '../components/aside/SidebarLeft';
+import Footer from '../components/Footer';
+import TagTab from '../components/tag/TagTab';
 
 const Container = styled.div`
   position: relative;
@@ -25,52 +26,76 @@ const Main = styled.div`
   background-color: white;
   border-left: 1px solid #d6d9dc;
   padding: 24px;
-`;
 
-const Headline = styled.div`
-  font-size: 1.5rem;
-  margin-bottom: 16px;
-`;
+  & h1 {
+    font-size: 27px;
+    line-height: 35px;
+    color: #232629;
+    margin-bottom: 16px;
+  }
 
-const Paragraph = styled.p`
-  font-size: 13px;
-  margin-bottom: 16px;
-  line-height: 1.3rem;
-  max-width: 35rem;
-`;
+  & .tags--header-text {
+    max-width: 632px;
+    margin-bottom: 16px;
+    color: #232629;
+    font-size: 15px;
+    line-height: 19.6px;
+  }
 
-const TopContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
+  & .tags--header-link {
+    margin-bottom: 24px !important;
+  }
 
-const InputBlock = styled.div`
-  margin-bottom: 12px;
+  & .tags__header--control-container {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    & .tags__header--input {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    & .tags__header--tab {
+      display: flex;
+      margin-bottom: 12px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+  }
 `;
 
 const Tags = () => {
-    return (
-        <main>
-            <Container>
-                <SidebarLeft />
-                <Main>
-                    <Headline>Tags</Headline>
-                    <Paragraph>
-                        A tag is a keyword or label that categorizes your question with other,
-                        similar questions. Using the right tags makes it easier for others to
-                        find and answer your question.
-                    </Paragraph>
-                    <TopContainer>
-                        <InputBlock>
-                            <TagFilter />
-                        </InputBlock>
-                    </TopContainer>
-                    <TagList />
-                </Main>
-            </Container>
-            <Footer />
-        </main>
-    )
+  return (
+    <main>
+      <Container>
+        <SidebarLeft />
+        <Main>
+          <h1>Tags</h1>
+          <p className="tags--header-text">
+            A tag is a keyword or label that categorizes your question with other, similar
+            questions. Using the right tags makes it easier for others to find and answer your
+            question.
+          </p>
+          <div className="tags--header-link">
+            <a href="https://stackoverflow.com/tags/synonyms" rel="noreferrer" target="_blank">
+              Show all tag synonyms
+            </a>
+          </div>
+          <div className="tags__header--control-container">
+            <div className="tags__header--input">
+              <TagFilter />
+            </div>
+            <div className="tags__header--tab">
+              <TagTab />
+            </div>
+          </div>
+          <TagList />
+        </Main>
+      </Container>
+      <Footer />
+    </main>
+  );
 };
 
 export default Tags;
