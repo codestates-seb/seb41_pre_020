@@ -105,7 +105,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
-                .host("localhost") // TODO: 제거예
+                .host("ec2-43-201-60-216.ap-northeast-2.compute.amazonaws.com")
                 .port(8080)
                 .build()
                 .toUri();
