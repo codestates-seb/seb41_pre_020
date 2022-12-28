@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import UserFilter from "../components/users/UserFilter";
-import UserTab from "../components/users/UserTab";
-import UserSubTab from "../components/users/UserSubTab";
-import UserList from "../components/users/UserList";
-import Footer from "../components/Footer";
-import SidebarLeft from "../components/aside/SidebarLeft";
+import UserFilter from '../components/users/UserFilter';
+import UserTab from '../components/users/UserTab';
+import UserSubTab from '../components/users/UserSubTab';
+import UserList from '../components/users/UserList';
+import Footer from '../components/Footer';
+import SidebarLeft from '../components/aside/SidebarLeft';
 
 const Container = styled.div`
   position: relative;
@@ -27,16 +27,31 @@ const Main = styled.div`
   background-color: white;
   border-left: 1px solid #d6d9dc;
   padding: 24px;
-`;
 
-const Headline = styled.div`
-  font-size: 1.5rem;
-  margin-bottom: 24px;
-`;
+  & h1 {
+    font-size: 27px;
+    line-height: 35px;
+    color: #232629;
+    margin-bottom: 24px;
+  }
 
-const TopContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  & .users--header-container {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    & .users__header--input {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    & .users__header--tab {
+      display: flex;
+      margin-bottom: 12px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+  }
 `;
 
 const SubContainer = styled.div`
@@ -46,39 +61,30 @@ const SubContainer = styled.div`
   justify-content: space-between;
 `;
 
-const InputBlock = styled.div`
-  margin-bottom: 12px;
-`;
-
-const TabBlock = styled.div`
-  margin-bottom: 12px;
-  margin-left: auto !important;
-`;
-
 const Users = () => {
-    return (
-        <main>
-            <Container>
-                <SidebarLeft />
-                <Main>
-                    <Headline>Users</Headline>
-                    <TopContainer>
-                        <InputBlock>
-                            <UserFilter />
-                        </InputBlock>
-                        <TabBlock>
-                            <UserTab />
-                        </TabBlock>
-                    </TopContainer>
-                    <SubContainer>
-                        <UserSubTab />
-                    </SubContainer>
-                    <UserList />
-                </Main>
-            </Container>
-            <Footer />
-        </main>
-    );
+  return (
+    <main>
+      <Container>
+        <SidebarLeft />
+        <Main>
+          <h1>Users</h1>
+          <div className="users--header-container">
+            <div className="users__header--input">
+              <UserFilter />
+            </div>
+            <div className="users__header--tab">
+              <UserTab />
+            </div>
+          </div>
+          <SubContainer>
+            <UserSubTab />
+          </SubContainer>
+          <UserList />
+        </Main>
+      </Container>
+      <Footer />
+    </main>
+  );
 };
 
 export default Users;

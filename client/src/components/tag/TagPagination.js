@@ -3,10 +3,12 @@ import Pagination from 'react-js-pagination';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  display: flex;
+  float: right;
+  margin: 20px 0;
+
   .pagination {
     display: flex;
-    justify-content: center;
-    margin-top: 15px;
   }
 
   ul {
@@ -15,23 +17,19 @@ const Container = styled.div`
   }
 
   ul.pagination li {
-    width: 25px;
-    height: 25px;
-    border: 1px solid hsl(210, 8%, 85%);
-    border-radius: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 2px;
     padding: 0 8px;
+    height: 25px;
+    border: 1px solid #d6d9dc;
+    border-radius: 3px;
   }
 
   ul.pagination li a {
     text-decoration: none;
-    color: hsl(210, 8%, 25%);
-    font-size: 13px;
-    margin: 0 2px;
-    padding: 0 8px;
+    color: #3b4045;
   }
 
   ul.pagination li.active a {
@@ -39,38 +37,33 @@ const Container = styled.div`
   }
 
   ul.pagination li.active {
-    background-color: hsl(27, 90%, 55%);
+    background-color: rgb(244, 130, 37);
+    border-color: rgb(244, 130, 37);
+    cursor: default;
     pointer-events: none;
   }
 
   ul.pagination li:hover {
-    background-color: hsl(210, 8%, 90%);
-  }
-
-  ul.pagination li:first-child {
-    width: 45px;
-  }
-
-  ul.pagination li:last-child {
-    width: 45px;
+    background-color: #d6d9dc;
+    border-color: #babfc4;
   }
 `;
 
 const TagPagination = ({ page, itemsCountPerPage, totalItemsCount, onChange }) => {
-    return (
-        <Container>
-            <Pagination
-                activePage={page}
-                itemsCountPerPage={itemsCountPerPage}
-                totalItemsCount={totalItemsCount}
-                pageRangeDisplayed={6}
-                hideFirstLastPages={true}
-                prevPageText="Prev"
-                nextPageText="Next"
-                onChange={onChange}
-            />
-        </Container>
-    );
+  return (
+    <Container>
+      <Pagination
+        activePage={page}
+        itemsCountPerPage={itemsCountPerPage}
+        totalItemsCount={totalItemsCount}
+        pageRangeDisplayed={6}
+        hideFirstLastPages={true}
+        prevPageText="Prev"
+        nextPageText="Next"
+        onChange={onChange}
+      />
+    </Container>
+  );
 };
 
 export default TagPagination;

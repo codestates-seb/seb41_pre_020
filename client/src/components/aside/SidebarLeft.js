@@ -43,10 +43,10 @@ const Sidebar = styled.div`
       & span {
         color: #6a737c;
         font-weight: inherit;
+      }
 
-        &:hover {
-          color: #0c0d0e;
-        }
+      &:hover span {
+        color: #0c0d0e !important;
       }
     }
 
@@ -62,7 +62,7 @@ const Sidebar = styled.div`
     line-height: 26px;
 
     &:hover {
-      color: #0c0d0e;
+      color: #0c0d0e !important;
     }
   }
 `;
@@ -115,14 +115,27 @@ const BtnWhyTeam = styled.a`
 `;
 
 const List = styled.div`
-  padding: 4px 8px 4px 0px;
-  background-color: ${(props) =>
-    props.selected ? 'hsl(210,8%,95%)' : 'none'};
-  font-weight: ${(props) => (props.selected ? 'bold' : 'none')};
-  color: ${(props) =>
-    props.selected ? 'hsl(210,8%,5%)' : 'hsl(210,8%,35%)'};
-  border-right: 3px solid
-    ${(props) => (props.selected ? '#f48225' : 'none')};
+  background-color: ${(props) => (props.selected ? 'hsl(210,8%,95%)' : 'none')};
+  border-right: 3px solid ${(props) => (props.selected ? '#f48225' : 'none')};
+
+  & a {
+    color: ${(props) => (props.selected ? '#0c0d0e' : '#6a737c')} !important;
+    font-weight: ${(props) => (props.selected ? 'bold' : '400')};
+  }
+
+  & .nav-link---icon-globe {
+    & path {
+      fill: ${(props) => (props.selected ? '#0c0d0e' : '#838c95')} !important;
+    }
+
+    &:hover path {
+      fill: #0c0d0e !important;
+    }
+  }
+
+  & .nav-link__with-icon span {
+    color: ${(props) => (props.selected ? '#0c0d0e' : '#6a737c')} !important;
+  }
 `;
 
 export default function SidebarLeft() {
@@ -138,13 +151,13 @@ export default function SidebarLeft() {
           <li>
             <ol className="nav-links">
               <li className="nav-links--heading">Public</li>
-              <List selected={pathname === '/' ? true : false} >
-                <Link to="/" className="nav-link__with-icon">
+              <List selected={pathname === '/' ? true : false}>
+                <Link to="/" className="nav-link__with-icon nav-link---icon-globe">
                   <svg
                     xlink="http://www.w3.org/1999/xlink"
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
-                    class="svg-icon iconGlobe"
+                    className="svg-icon iconGlobe"
                     width="18"
                     height="18"
                     viewBox="0 0 18 18"
@@ -157,12 +170,12 @@ export default function SidebarLeft() {
                   <span>Questions</span>
                 </Link>
               </List>
-              <List selected={pathname === '/tags' ? true : false} >
+              <List selected={pathname === '/tags' ? true : false}>
                 <Link to="/tags" className="nav-links--link">
                   Tags
                 </Link>
               </List>
-              <List selected={pathname === '/users' ? true : false} >
+              <List selected={pathname === '/users' ? true : false}>
                 <Link to="/users" className="nav-links--link">
                   Users
                 </Link>
@@ -174,7 +187,7 @@ export default function SidebarLeft() {
                     xlink="http://www.w3.org/1999/xlink"
                     xmlns="http://www.w3.org/2000/svg"
                     aria-hidden="true"
-                    class="mt-auto fc-orange-400 svg-icon iconStarVerified"
+                    className="mt-auto fc-orange-400 svg-icon iconStarVerified"
                     width="18"
                     height="18"
                     viewBox="0 0 18 18"

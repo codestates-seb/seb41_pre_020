@@ -1,6 +1,5 @@
 import Tab from "../common/Tab";
 
-
 const data = [
     {
         text: 'Reputation',
