@@ -164,7 +164,7 @@ const NavIconContent = styled.nav`
   }
 `;
 
-const Search = () => {
+export const Search = () => {
   return (
     <Form
       onSubmit={(e) => {
