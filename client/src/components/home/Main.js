@@ -11,7 +11,7 @@ const Content = styled.div`
   height: 100% !important;
   width: calc(100% - 164px);
   background-color: white;
-  border-left: 1px solid #d6d9dc;
+  /* border-left: 1px solid #d6d9dc; */
   padding: 24px;
 `;
 

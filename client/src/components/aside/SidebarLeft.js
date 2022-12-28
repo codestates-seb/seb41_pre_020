@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import React from 'react';
 
 const Sidebar = styled.div`
+  border-right: 1px solid #d6d9dc;
   position: relative;
   width: 164px;
   flex-shrink: 0;
