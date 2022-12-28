@@ -131,5 +131,22 @@ public class QuestionController {
                 HttpStatus.OK);
     }
 
+    /**
+     * Question 검색 기능
+     */
+    @GetMapping("/search")
+    public ResponseEntity searchQuestion(@RequestParam String keyword,
+                                         @Positive @RequestParam int page,
+                                         @Positive @RequestParam int size,
+                                         @RequestParam String sort
+                                       ) {
+        Page<Question> pageQuestions = questionService.searchQuestion(page - 1 , size, sort, keyword);
+        List<Question> questions = pageQuestions.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionService, questionTagService), pageQuestions),
+                HttpStatus.OK);
+    }
+
 
 }
