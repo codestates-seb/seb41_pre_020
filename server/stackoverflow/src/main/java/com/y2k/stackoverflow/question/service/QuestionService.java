@@ -114,7 +114,7 @@ public class QuestionService {
     /**
      *  질문 존재 여부 확인
      */
-    public Question findVerifiedQuestion(Long questionId) {
+    private Question findVerifiedQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question findQuestion =
                 optionalQuestion.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
