@@ -116,7 +116,6 @@ public interface QuestionMapper {
                         .votes(question.getVotes())
                         .questionTags(questionTagsToQuestionTagResponseDtos(questionTagService.findVerifiedQuestionTag(question)))
                         .answers(answerService.findAnswersQuestion(question).size())
-                        .questions(questionService.getQuestionsCount())
                         .member(memberMapper.memberToResponseDto(question.getMember()))
                         .questionCheck(question.getQuestionCheck())
                         .build()
