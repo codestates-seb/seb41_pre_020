@@ -158,8 +158,14 @@ public class QuestionService {
         return questionVoteRepository.findByQuestionAndMember(findQuestion, memberService.getLoginMember()).isEmpty();
     }
 
-    public Page<Question> searchQuestion(int page, int size, String sort, String search) {
-        return questionRepository.searchQuestion(PageRequest.of(page, size, Sort.by(sort).descending()), search);
+    public Page<Question> searchQuestion(int page, int size, String sort, String keyword) {
+        //만약 search가 앞 뒤로 [ ]로 감싸져서 온다면 태그 검색
+        if(keyword.charAt(0) =='[' && keyword.charAt(keyword.length()-1) ==']') {
+            return questionRepository.searchQuestionTag(
+                    PageRequest.of(page, size, Sort.by(sort).descending()),
+                    keyword.substring(1, keyword.length()-1));
+        }
+        return questionRepository.searchQuestion(PageRequest.of(page, size, Sort.by(sort).descending()), keyword);
     }
 
 }
