@@ -118,6 +118,7 @@ public interface QuestionMapper {
                         .answers(answerService.findAnswersQuestion(question).size())
                         .questions(questionService.getQuestionsCount())
                         .member(memberMapper.memberToResponseDto(question.getMember()))
+                        .questionCheck(question.getQuestionCheck())
                         .build()
                 ).collect(Collectors.toList());
     }
