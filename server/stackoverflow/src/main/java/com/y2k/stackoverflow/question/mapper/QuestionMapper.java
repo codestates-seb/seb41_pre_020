@@ -186,7 +186,7 @@ public interface QuestionMapper {
         List<Answer> answerList = answerService.findAnswersQuestion(question);
         questionAnswerResponseDto.setAnswers(answerList.size());
         questionAnswerResponseDto.setAnswerList(new AnswersGetResponseDto<>(
-                answerMapper.answersToAnswerResponseDtos(answerList)
+                answerMapper.answersToAnswerResponseDtos(answerList, memberMapper)
         ));
 
         return questionAnswerResponseDto;

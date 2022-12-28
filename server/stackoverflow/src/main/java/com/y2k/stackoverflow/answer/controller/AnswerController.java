@@ -71,7 +71,7 @@ public class AnswerController {
     @GetMapping("/ask")
     public ResponseEntity getAnswers() {
         List<Answer> answers = answerService.findAnswers();
-        List<AnswerResponseDto> response = answerMapper.answersToAnswerResponseDtos(answers);
+        List<AnswerResponseDto> response = answerMapper.answersToAnswerResponseDtos(answers, memberMapper);
 
         return new ResponseEntity<>(
                 new AnswersGetResponseDto<>(response),
