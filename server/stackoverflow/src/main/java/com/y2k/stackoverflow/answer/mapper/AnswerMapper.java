@@ -26,7 +26,7 @@ public interface AnswerMapper {
         answer.setMember(memberService.getLoginMember());
         answer.setContent(answerPostDto.getContent());
         answer.setVotes(0);
-        answer.setQuestion(questionService.findVerifiedQuestion(answerPostDto.getQuestionId()));
+        answer.setQuestion(questionService.findQuestion(answerPostDto.getQuestionId()));
         answer.setAnswerCheck(false); // 채택 기본 값 세팅
 
         //회원 마이페이지 설정
@@ -47,7 +47,7 @@ public interface AnswerMapper {
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
         answerResponseDto.setAnswerCheck(answer.getAnswerCheck());
 
-        // 멤버 설정 부분
+        //멤버 설정 부분
         answerResponseDto.setMember(memberMapper.memberToResponseDto(answer.getMember()));
         return answerResponseDto;
     }
