@@ -258,7 +258,7 @@ function LoginComponent({ setLogin }) {
               {errors.email && errors.email.type === 'required' && (
                 <Errormsg>Email cannot be empty.</Errormsg>
               )}
-              {loginError ? <Errormsg>The email or password is incorrect.</Errormsg> : null}
+              {/* {loginError ? <Errormsg>The email or password is incorrect.</Errormsg> : null} */}
               <svg
                 xlink="http://www.w3.org/1999/xlink"
                 xmlns="http://www.w3.org/2000/svg"
@@ -295,6 +295,7 @@ function LoginComponent({ setLogin }) {
               {errors.password && errors.password.type === 'required' && (
                 <Errormsg>Password cannot be empty.</Errormsg>
               )}
+              {loginError ? <Errormsg>The email or password is incorrect.</Errormsg> : null}
               <svg
                 xlink="http://www.w3.org/1999/xlink"
                 xmlns="http://www.w3.org/2000/svg"
