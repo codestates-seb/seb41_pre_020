@@ -3,14 +3,12 @@ package com.y2k.stackoverflow.answer.dto;
 import com.y2k.stackoverflow.comment.dto.CommentDto;
 import com.y2k.stackoverflow.member.dto.MemberDto;
 import com.y2k.stackoverflow.util.DateUtil;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
