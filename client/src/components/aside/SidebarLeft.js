@@ -50,16 +50,6 @@ const Sidebar = styled.div`
       }
     }
 
-    /* & .nav-link---icon-globe {
-      & path {
-        fill: #838c95 !important;
-      }
-
-      &:hover path {
-        fill: #0c0d0e !important;
-      }
-    } */
-
     & .nav-links--link {
       padding: 4px 4px 4px 30px;
     }
@@ -72,7 +62,7 @@ const Sidebar = styled.div`
     line-height: 26px;
 
     &:hover {
-      color: #0c0d0e;
+      color: #0c0d0e !important;
     }
   }
 `;
