@@ -68,6 +68,13 @@ public class QuestionService {
      * 특정 질문 조회
      */
     public Question findQuestion(Long questionId) {
+        return findVerifiedQuestion(questionId);
+    }
+
+    /**
+     * 특정 질문 조회 (조회수 +1)
+     */
+    public Question findVotePlusQuestion(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
 
         //조회 시, View + 1

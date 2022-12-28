@@ -81,7 +81,7 @@ public class QuestionController {
      */
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
-        Question question = questionService.findQuestion(questionId);
+        Question question = questionService.findVotePlusQuestion(questionId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, memberMapper, questionTagService)),
                 HttpStatus.OK);
