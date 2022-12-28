@@ -13,7 +13,6 @@ import com.y2k.stackoverflow.util.DateUtil;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -48,20 +47,32 @@ public interface AnswerMapper {
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
         answerResponseDto.setAnswerCheck(answer.getAnswerCheck());
 
-        answerResponseDto.setComments(commentToCommentAnswerResponseDto(answer.getComments(), memberMapper, answer)); // 제웅 추가
         //멤버 설정 부분
         answerResponseDto.setMember(memberMapper.memberToResponseDto(answer.getMember()));
         return answerResponseDto;
     }
-    List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers);
 
+//    List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers);
+    default List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers, MemberMapper memberMapper){
+        return answers
+                .stream()
+                .map(answer -> AnswerResponseDto
+                        .builder()
+                        .answerId(answer.getAnswerId())
+                        .content(answer.getContent())
+                        .votes(answer.getVotes())
+                        .answerCheck(answer.getAnswerCheck())
+                        .createdAt(DateUtil.convertLocalDatetimeToTime(answer.getCreatedAt()))
+                        .modifiedAt(DateUtil.convertLocalDatetimeToTime(answer.getModifiedAt()))
+                        .member(memberMapper.memberToResponseDto(answer.getMember()))
+                        .comments(commentToCommentAnswerResponseDto(answer.getComments(), memberMapper))
+                        .build())
+                .collect(Collectors.toList());
+    }
 
-
-    default List<CommentDto.CommentAnswerResponse> commentToCommentAnswerResponseDto(List<Comment> comments, MemberMapper memberMapper, Answer answer){
+    default List<CommentDto.CommentAnswerResponse> commentToCommentAnswerResponseDto(List<Comment> comments, MemberMapper memberMapper){
         return comments
                 .stream()
-                .filter(comment -> comment.getCommentType() == Comment.CommentType.ANSWER)
-                .filter(comment -> Objects.equals(comment.getAnswer().getAnswerId(), answer.getAnswerId()))
                 .map(comment -> CommentDto.CommentAnswerResponse
                         .builder()
                         .commentId(comment.getCommentId())
@@ -73,15 +84,5 @@ public interface AnswerMapper {
                         .commentType(comment.getCommentType())
                         .build()
                 ).collect(Collectors.toList());  //제웅 추가
-
-//        return comments
-//                .stream()
-//                .filter(comment -> comment.getCommentType() == Comment.CommentType.ANSWER)
-//                .filter(comment -> Objects.equals(comment.getAnswer().getAnswerId(), answer.getAnswerId()))
-//                .map(comment -> commentMapper.commentToCommentResponse(comment, memberMapper))
-//                .map(comment -> CommentDto.CommentAnswerResponse
-//                        .builder()
-//                        .build()
-//                ).collect(Collectors.toList());
     }
 }
