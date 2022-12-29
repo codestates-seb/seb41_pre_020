@@ -109,7 +109,7 @@ const Main = () => {
           </Link>
         </Wrapper>
         <Wrapper className="ai-center jc-space-between">
-          <h3>{totalNum} questions</h3>
+          {/* <h3>{totalNum} questions</h3> */}
           <div className="filter">
             <SortButton>Newest</SortButton>
             <SortButton>Vote</SortButton>
