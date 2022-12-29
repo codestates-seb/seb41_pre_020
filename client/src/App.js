@@ -14,6 +14,7 @@ import axios from 'axios';
 import Header from './components/Header';
 import LoginedHeader from './components/LoginedHeader';
 import Logout from "./Pages/Logout";
+import EditAnswer from './Pages/EditAnswer';
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ function App() {
         <Route path="/tags" element={<Tags />} />
         <Route path="/users" element={<Users />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/edit-answer" element={<EditAnswer />} />
       </Routes>
     </QueryClientProvider>
 
