@@ -104,7 +104,7 @@ export const ModalView = styled.div.attrs((props) => ({
   }
 `;
 
-export const DiscardModal = () => {
+export const DiscardModal = ({type}) => {
   const [isOpen, setIsOpen] = useState(false);
   const openModalHandler = (e) => {
     e.preventDefault();
@@ -118,10 +118,10 @@ export const DiscardModal = () => {
           <ModalBackdrop onClick={openModalHandler}>
             <ModalView onClick={(e) => e.stopPropagation()}>
               <div className="desc">
-                <h1>Discard question</h1>
-                <p>Are you sure you want to discard this question? This cannot be undone.</p>
+                <h1>Discard {type}</h1>
+                <p>Are you sure you want to discard {type === 'edits' ? 'these' : 'this'} {type}? This cannot be undone.</p>
                 <div>
-                  <DiscardButton>Discard question</DiscardButton>
+                  <DiscardButton>Discard {type}</DiscardButton>
                   <span>Cancel</span>
                 </div>
                 <div className="modal--close-button">
