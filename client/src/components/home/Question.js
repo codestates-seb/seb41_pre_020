@@ -2,48 +2,98 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const Wrapper = styled.div`
-  border: 1px solid lightgray;
+const Container = styled.div`
   display: flex;
-  padding: 10px 20px;
+  position: relative;
+  padding: 16px;
+  border-bottom: 1px solid #d6d9dc;
 `;
 
-const WrapLeft = styled.div`
-  flex-grow: 1;
-  text-align: right;
-  padding: 10px;
+const QuestionInfoContainer = styled.div`
+  display: flex;
+  width: 108px;
+  margin-right: 16px;
+  margin-bottom: 4px;
+  gap: 6px;
+  flex-direction: column;
   flex-shrink: 0;
-  > div {
-    padding-bottom: 10px;
-    color: gray;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  color: #6a737c;
+
+  & .question-info--emphasized {
+    color: #0c0d0e;
+  }
+
+  & > div {
+    display: inline-flex;
+    gap: 0.3em;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
   }
 `;
 
-const WrapRight = styled.div`
-  flex-grow: 5;
-  text-align: left;
-  padding: 10px 20px;
-  > div {
-    padding-bottom: 5px;
-  }
-  > div.title {
-    font-size: 1.2rem;
-    color: #0a95ff;
-    cursor: pointer;
-  }
-  > div.content {
+const QuestionContainer = styled.div`
+  flex-grow: 1;
+  max-width: 100%;
+
+  & h3 {
+    margin-top: -0.15em;
     margin-bottom: 5px;
+    padding-right: 24px;
+    font-size: 17px;
+    line-height: 22px;
+
+    & a {
+      /* color: #0074cc; */
+      word-break: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      cursor: pointer;
+    }
   }
-`;
-const WrapBottom = styled.div`
-  display: flex;
-  justify-content: space-between;
-  > div.content-info > span {
-    margin-left: 10px;
+
+  & div.content {
+    margin-top: -2px;
+    margin-bottom: 8px;
+    color: #3b4045;
+    overflow: hidden;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 `;
 
-const Tag = styled.span`
+const QuestionSummary = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  column-gap: 6px;
+  row-gap: 8px;
+
+  & .question-summary--tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  & .question-summary--user-info {
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+
+    & .question-summary__user-info--name {
+      color: #0074cc;
+    }
+  }
+`;
+
+const QuestionTag = styled.span`
   margin-right: 5px;
   padding: 5px;
   background-color: hsl(205, 46%, 92%);
@@ -51,6 +101,7 @@ const Tag = styled.span`
   text-align: middle;
   color: hsl(205, 47%, 42%);
   cursor: pointer;
+
   &:hover {
     background: #b3d3ea;
   }
@@ -71,27 +122,40 @@ const Question = ({ item }) => {
   // const dateStr = year + '/' + month + '/' + day;
 
   return (
-    <Wrapper>
-      <WrapLeft>
-        <div>{item.recommend} votes</div>
-        <div>0 answers</div>
-        <div>3 views</div>
-      </WrapLeft>
-      <WrapRight>
-        <div className='title' onClick={moveToTitle}>
-          {item.title}
+    <Container>
+      <QuestionInfoContainer>
+        <div className="question-info--emphasized">
+          <span>{item.recommend}</span>
+          <span>votes</span>
         </div>
+        <div>
+          {/* <span>{item.answer}</span> */}
+          <span>answers</span>
+        </div>
+        <div>
+          {/* <span>{item.view}</span> */}
+          <span>views</span>
+        </div>
+      </QuestionInfoContainer>
 
-        <div className='content'>{item.content}</div>
-        <WrapBottom>
-          <div>{item.tag ? <Tag>{item.tag}</Tag> : null}</div>
-          <div className='content-info'>
-            <span>{item.userId}</span>
+      <QuestionContainer>
+        <h3 className="title" onClick={moveToTitle}>
+          {/* 제목을 누르면 질문으로 가야한다 */}
+          <a href="#!">{item.title}</a>
+        </h3>
+
+        <div className="content">{item.content}</div>
+        <QuestionSummary>
+          <div className="question-summary--tags">
+            {item.tag ? <QuestionTag>{item.tag}</QuestionTag> : null}
+          </div>
+          <div className="question-summary--user-info">
+            <span className="question-summary__user-info--name">{item.userId}</span>
             <span>time written {aaa}</span>
           </div>
-        </WrapBottom>
-      </WrapRight>
-    </Wrapper>
+        </QuestionSummary>
+      </QuestionContainer>
+    </Container>
   );
 };
 

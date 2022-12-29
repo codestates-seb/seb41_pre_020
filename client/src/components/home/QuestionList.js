@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import QuestionItem from './QuestionItem';
 
+const Container = styled.div`
+  width: auto; 
+  float: none; 
+  margin-bottom: 20px; 
+  margin-left: -24px;
+  clear: both; 
+  border-top: 1px solid #d6d9dc;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -19,6 +28,7 @@ const PageBtnFirst = styled.span`
   border-radius: 3px;
   cursor: pointer;
 `;
+
 const PageBtnOth = styled.span`
   background-color: transparent;
   border: 1px solid black;
@@ -44,7 +54,7 @@ const QuestionList = ({ setUserInfo }) => {
   };
 
   return (
-    <>
+    <Container>
       <QuestionItem
         pageNum={pageNum}
         setPageArr={setPageArr}
@@ -66,7 +76,7 @@ const QuestionList = ({ setUserInfo }) => {
           })}
         </Wrapper>
       ) : null}
-    </>
+    </Container>
   );
 };
 
