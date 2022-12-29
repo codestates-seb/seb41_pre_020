@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { Editor } from "../editor/EditEditor";
-import { Tag } from "./EditTag";
+import React from 'react';
+import styled from 'styled-components';
+import { Editor } from '../editor/EditEditor';
+import { Tag } from './EditTag';
 
-const AnswerInputBox = styled.div`
+const AnswerInputBox = styled.div` 
   width: 100%;
   /* height: 70%; */
   margin: 12px auto 0 auto;
@@ -39,20 +39,6 @@ const AnswerInputBox = styled.div`
     margin-bottom: 5px;
   }
 `;
-
-// const Textarea = styled.textarea`
-//   padding: 10px;
-//   resize: none;
-//   overflow: auto;
-//   height: 200px;
-//   border: 1px solid hsl(210, 8%, 75%);
-//   border-radius: 3px;
-//   &:focus {
-//     outline: none;
-//     border: 1px solid powderblue;
-//     box-shadow: 0 0 0 3px #d3e5f2;
-//   }
-// `;
 
 const EditAnswerInput = ({ userInfo }) => {
   return (
