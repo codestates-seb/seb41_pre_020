@@ -136,7 +136,7 @@ const AskQuestion = ({ userInfo }) => {
                 <PostButton onSubmit={handleSubmit}>
                   {id === undefined ? 'Post your question' : 'Update your question'}
                 </PostButton>
-                <DiscardModal></DiscardModal>
+                <DiscardModal type='question'></DiscardModal>
               </ButtonDiv>
             </form>
           </QuestionContainer>

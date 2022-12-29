@@ -11,7 +11,6 @@ const Content = styled.div`
   height: 100% !important;
   width: calc(100% - 164px);
   background-color: white;
-  /* border-left: 1px solid #d6d9dc; */
   padding: 24px;
 `;
 
@@ -109,7 +108,7 @@ const Main = () => {
           </Link>
         </Wrapper>
         <Wrapper className="ai-center jc-space-between">
-          {/* <h3>{totalNum} questions</h3> */}
+          <h3>{totalNum} questions</h3>
           <div className="filter">
             <SortButton>Newest</SortButton>
             <SortButton>Vote</SortButton>
