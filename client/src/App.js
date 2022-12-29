@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Signup from './Pages/Signup';
@@ -15,6 +16,7 @@ import LoginedHeader from './components/LoginedHeader';
 import Logout from "./Pages/Logout";
 
 const queryClient = new QueryClient();
+
 
 function App() {
   const [login, setLogin] = useState(localStorage.getItem('login-token'));
@@ -41,6 +43,7 @@ function App() {
       });
   };
 
+
   useEffect(() => {
     if (login) {
       setTimeout(() => {
@@ -65,6 +68,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
       </Routes>
     </QueryClientProvider>
+
   );
 }
 
