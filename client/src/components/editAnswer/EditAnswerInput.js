@@ -65,15 +65,6 @@ const EditAnswerInput = ({ userInfo }) => {
           <Editor />
         </div>
       </AnswerInputBox>
-      <AnswerInputBox>
-        <div>
-          <label htmlFor="tag">
-            <div>Tags</div>
-            <div>Add up to 5 tags to describe what your question is about</div>
-          </label>
-          <Tag />
-        </div>
-      </AnswerInputBox>
     </>
   );
 };
