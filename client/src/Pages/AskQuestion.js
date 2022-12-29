@@ -1,7 +1,4 @@
-// import { showToast } from '../components/toast/Toast';
-// import { Editor } from '../components/editor/Editor';
 import React from 'react';
-import { BodyContainer } from '../components/BodyContainer';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import QuestionInput from '../components/askQuestion/QuestionInput';
@@ -139,7 +136,7 @@ const AskQuestion = ({ userInfo }) => {
                 <PostButton onSubmit={handleSubmit}>
                   {id === undefined ? 'Post your question' : 'Update your question'}
                 </PostButton>
-                <DiscardModal></DiscardModal>
+                <DiscardModal type='question'></DiscardModal>
               </ButtonDiv>
             </form>
           </QuestionContainer>

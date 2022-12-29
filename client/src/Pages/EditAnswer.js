@@ -1,45 +1,62 @@
-import React from "react";
-import { BodyContainer } from "../components/BodyContainer";
-import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import EditAnswerInput from "../components/editAnswer/EditAnswerInput";
-import { DiscardModal } from "../components/askQuestion/DiscardModal";
+import React from 'react';
+import { BodyContainer } from '../components/BodyContainer';
+import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
+import EditAnswerInput from '../components/editAnswer/EditAnswerInput';
+import { DiscardModal } from '../components/askQuestion/DiscardModal';
+import Footer from '../components/Footer';
+import SidebarLeft from '../components/aside/SidebarLeft';
+import SidebarRight from '../components/aside/SidebarRight';
 
-const Background = styled.div`
+const Main = styled.div`
+  max-width: 1100px;
+  margin: 0 auto;
   width: 100%;
-  height: 100%;
-  background-color: #f1f2f3;
+  height: 100% !important;
+  width: calc(100% - 164px);
+  padding: 24px;
+
+  & .edit-answer--container {
+    width: calc(100% - 300px - 24px);
+    float: left;
+  }
 `;
 
 const TitleDiv = styled.div`
-  padding-top: 24px;
-  padding-bottom: 24px;
-  & > div {
-    font-size: 2rem;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e6e8;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+
+  & h1 {
+    font-size: 27px;
+    line-height: 35.1px;
+    overflow-wrap: break-word;
+    margin-bottom: 12px;
+    color: #232629;
   }
 `;
+
 const ButtonDiv = styled.div`
-  display: flex;
+  margin-top: 12px;
 `;
 
 const PostButton = styled.button`
-  color: hsl(0, 0%, 100%);
-  background-color: hsl(206, 100%, 52%);
-  box-shadow: inset 0 1px 0 0 hsl(0deg 0% 100% / 40%);
-  margin-top: 32px;
-  position: relative;
   display: inline-block;
-  padding: 0.8em;
-  border: 1px solid transparent;
+  padding: 10.5px;
+  border: 1px solid #0a95ff;
+  background: #0a95ff;
+  color: white;
+  box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
   border-radius: 3px;
-  outline: none;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: normal;
-  text-align: center;
-  text-decoration: none;
   cursor: pointer;
-  user-select: none;
+
+  &:hover {
+    background: #0074cc;
+    border-color: #0074cc;
+  }
 `;
 
 function EditAnswer({ userInfo }) {
@@ -57,20 +74,20 @@ function EditAnswer({ userInfo }) {
       tag: e.target[2].value,
     };
 
-    if (newQuestion.title === "" && newQuestion.content === "") {
-      alert("빈칸들을 채워주세요!");
-    } else if (newQuestion.content === "") {
-      alert("본문을 입력해주세요!");
-    } else if (newQuestion.title === "") {
-      alert("내용을 입력해주세요!");
+    if (newQuestion.title === '' && newQuestion.content === '') {
+      alert('빈칸들을 채워주세요!');
+    } else if (newQuestion.content === '') {
+      alert('본문을 입력해주세요!');
+    } else if (newQuestion.title === '') {
+      alert('내용을 입력해주세요!');
     } else {
       if (id === undefined) {
         // 요청이 post였다면
         fetch(`${url}/questions/ask`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(newQuestion),
         })
@@ -85,10 +102,10 @@ function EditAnswer({ userInfo }) {
       } else {
         // id값이 있다면, 즉 요청이 patch였다면
         fetch(`${url}/questions/ask/${id}`, {
-          method: "PATCH",
+          method: 'PATCH',
           headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(newQuestion),
         }).then((res) => {
@@ -100,24 +117,25 @@ function EditAnswer({ userInfo }) {
     }
   };
   return (
-    <Background>
+    <div>
       <BodyContainer>
-        <TitleDiv>
-          <div>Edit Answer</div>
-        </TitleDiv>
-        <form>
-          <EditAnswerInput userInfo={userInfo} />
-          <ButtonDiv>
-            <PostButton onSubmit={handleSubmit}>
-              {id === undefined
-                ? "Post your question"
-                : "Update  your question"}
-            </PostButton>
-            <DiscardModal></DiscardModal>
-          </ButtonDiv>
-        </form>
+        <SidebarLeft />
+        <Main>
+          <TitleDiv>
+            <h1>Edit Answer</h1>
+          </TitleDiv>
+          <form className="edit-answer--container">
+            <EditAnswerInput userInfo={userInfo} />
+            <ButtonDiv>
+              <PostButton onSubmit={handleSubmit}>Save edits</PostButton>
+              <DiscardModal type="edits"></DiscardModal>
+            </ButtonDiv>
+          </form>
+          <SidebarRight />
+        </Main>
       </BodyContainer>
-    </Background>
+      <Footer />
+    </div>
   );
 }
 export default EditAnswer;
