@@ -1,36 +1,34 @@
 spring:
 #    AWS RDS 설정
   datasource:
-    url: jdbc:mysql://${RDS_ENDPOINT}/test?useSSL=false&characterEncoding=UTR-8&serverTimezone=UTC
+    url: jdbc:mysql://${RDS_ENDPOINT}/y2k?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: ${RDS_MYSQL_ADMIN_ID}
     password: ${RDS_MYSQL_ADMIN_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-  sql:
-    init:
-      data-locations: classpath*:db/h2/data.sql
 
   security:
     oauth2:
       client:
         registration:
           google:
-            clientId: "${GOOGLE_CLIENT_ID}"
-            clientSecret: "${GOOGLE_SECRET}"
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_SECRET}
             scope:
               - email
               - profile
           github:
-            clientId: "${GITHUB_CLIENT_ID}"
-            clientSecret: "${GITHUB_SECRET}"
+            clientId: ${GITHUB_CLIENT_ID}
+            clientSecret: ${GITHUB_SECRET}
             scope:
               - user:email
               - read:user
@@ -57,9 +55,5 @@ jwt:
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420
 
-mail:
-  address:
-    admin: admin@gmail.com
-#AWS RDS 설정
 config:
   domain: ${AWS_S3}
