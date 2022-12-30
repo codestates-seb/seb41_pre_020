@@ -24,8 +24,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -75,6 +73,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/", "/members/**", "/questions/**", "/comments/**", "/tags/**", "/oauth2/**").permitAll() // 조회는 누구나 허용
                         .antMatchers("/h2/**").permitAll() // h2 콘솔 사용을 위한 설정
                         .antMatchers("/login/**").permitAll()
+                        .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2

@@ -70,7 +70,7 @@ public interface AnswerMapper {
                 .collect(Collectors.toList());
     }
 
-    default List<CommentDto.CommentAnswerResponse> commentToCommentAnswerResponseDto(List<Comment> comments, MemberMapper memberMapper){
+    default List<CommentDto.CommentAnswerResponse> commentToCommentAnswerResponseDto(List<Comment> comments, MemberMapper memberMapper) {
         return comments
                 .stream()
                 .map(comment -> CommentDto.CommentAnswerResponse
