@@ -73,6 +73,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/", "/members/**", "/questions/**", "/comments/**", "/tags/**").permitAll() // 조회는 누구나 허용
                         .antMatchers("/h2/**").permitAll() // h2 콘솔 사용을 위한 설정
                         .antMatchers("/login/**").permitAll()
+                        .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
