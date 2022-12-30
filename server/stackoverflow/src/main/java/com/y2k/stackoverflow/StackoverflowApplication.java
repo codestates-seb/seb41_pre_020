@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-@PropertySource("classpath:/environ/env.properties")
+@PropertySource("classpath:/env.properties")
 public class StackoverflowApplication {
 
 	public static void main(String[] args) {

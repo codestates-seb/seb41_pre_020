@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### env ###
-environ/
+env.properties
