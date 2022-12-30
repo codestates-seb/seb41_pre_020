@@ -118,42 +118,49 @@ public class QuestionService {
     }
 
     /**
+     * 질문 추천
      * 한 질문에 이미 추천 or 비추천한 사람이면 다시 추천 못함
      * 본인 글은 추천 or 비추천 못함 ------------------------추가
      * question_vote 테이블에서 로그인 유저 memberId로 조회 후, 결과가 존재하지 않으면 추천 가능
      */
 
-    public Question likeQuestionVote(Long questionId, Member member, QuestionVote questionVote) {
+    public Question upVoteQuestion(Long questionId, Member member) {
         Question findQuestion = findVerifiedQuestion(questionId);
-
-        // 1. 로그인 한 회원이 추천 눌렀는지 확인 후,
-        // 안눌렀다면 question_vote 테이블에 question_id와 member_id를 넣어 중복 방지
-        // 로그인한 회원이 질문 작성한 사람이라면 오류
-        if(!findVerifiedVoteMember(questionId) || memberService.getLoginMember().getMemberId().equals(findQuestion.getMember().getMemberId())) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
-        }
-        questionVote.setQuestion(findQuestion);
-        questionVote.setMember(member);
-        questionVote.setVoteCheck(questionVote.getVoteCheck());
-
-        if(questionVote.getVoteCheck() == 0) { // post로 보낸 값이 0이면 비추천
-            //비추천 누른 질문에 전체 추천 수 카운트
-            findQuestion.setVotes(findQuestion.getVotes() - 1);
-        }
-        if(questionVote.getVoteCheck() == 1) { // post로 보낸 값이 1이면 추천
-            findQuestion.setVotes(findQuestion.getVotes() + 1);
-        }
-
-        questionVoteRepository.save(questionVote);
+        findVerifiedQuestionVote(questionId, member);
+        //비추천 누른 질문에 전체 추천 수 카운트
+        findQuestion.setVotes(findQuestion.getVotes() + 1);
         return questionRepository.save(findQuestion);
     }
 
-    //로그인 한 회원이 추천 눌렀는지 확인해서 안 눌렀으면 TRUE 리턴
-    private boolean findVerifiedVoteMember(Long questionId) {
+
+    public Question downVoteQuestion(Long questionId, Member member) {
         Question findQuestion = findVerifiedQuestion(questionId);
-        return questionVoteRepository.findByQuestionAndMember(findQuestion, memberService.getLoginMember()).isEmpty();
+        findVerifiedQuestionVote(questionId, member);
+        //비추천 누른 질문에 전체 추천 수 카운트
+        findQuestion.setVotes(findQuestion.getVotes() - 1);
+        return questionRepository.save(findQuestion);
     }
 
+
+    private QuestionVote findVerifiedQuestionVote(Long questionId, Member member) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+        Boolean findQuestionVote = questionVoteRepository.findByQuestionAndMember(findQuestion, memberService.getLoginMember()).isEmpty();
+
+        // 로그인 한 회원이 추천 눌렀는지 확인 후,
+        // 안눌렀다면 question_vote 테이블에 question_id와 member_id를 넣어 중복 방지
+        // 로그인한 회원이 질문 작성한 사람이라면 오류
+        if(!findQuestionVote || memberService.getLoginMember().getMemberId().equals(findQuestion.getMember().getMemberId())) {
+            throw new BusinessLogicException(ExceptionCode.VOTE_CHECK_EXISTS);
+        }
+        QuestionVote questionVote = new QuestionVote();
+        questionVote.setQuestion(findQuestion);
+        questionVote.setMember(member);
+        return questionVoteRepository.save(questionVote);
+    }
+
+    /**
+     * 질문 검색
+     */
     public Page<Question> searchQuestion(int page, int size, String sort, String keyword) {
         //만약 search가 앞 뒤로 [ ]로 감싸져서 온다면 태그 검색
         if(keyword.charAt(0) =='[' && keyword.charAt(keyword.length()-1) ==']') {
