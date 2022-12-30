@@ -149,9 +149,10 @@ public class QuestionService {
         // 로그인 한 회원이 추천 눌렀는지 확인 후,
         // 안눌렀다면 question_vote 테이블에 question_id와 member_id를 넣어 중복 방지
         // 로그인한 회원이 질문 작성한 사람이라면 오류
-        if(!findQuestionVote || memberService.getLoginMember().getMemberId().equals(findQuestion.getMember().getMemberId())) {
-            throw new BusinessLogicException(ExceptionCode.VOTE_CHECK_EXISTS);
-        }
+        if(!findQuestionVote) throw new BusinessLogicException(ExceptionCode.VOTE_CHECK_EXISTS);
+
+        if(memberService.getLoginMember().getMemberId().equals(findQuestion.getMember().getMemberId())) throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
+
         QuestionVote questionVote = new QuestionVote();
         questionVote.setQuestion(findQuestion);
         questionVote.setMember(member);
