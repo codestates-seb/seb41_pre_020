@@ -21,23 +21,20 @@ spring:
       client:
         registration:
           google:
-            clientId: "${GOOGLE_CLIENT_ID}"
-            clientSecret: "${GOOGLE_SECRET}"
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_SECRET}
             scope:
               - email
               - profile
           github:
-            clientId: "${GITHUB_CLIENT_ID}"
-            clientSecret: "${GITHUB_SECRET}"
+            clientId: ${GITHUB_CLIENT_ID}
+            clientSecret: ${GITHUB_SECRET}
             scope:
               - user:email
               - read:user
-          facebook:
-            clientId: ${META_CLIENT_ID}
-            clientSecret: ${META_SECRET}
-            scope:
-              - email
-              - public_profile
+  redis:
+    host: ${EC2}
+    port: 6379
 logging:
   level:
     org:
