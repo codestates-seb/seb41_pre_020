@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const InputContainer = styled.input`
   width: 100%;
-  padding: 11.5px;
+  padding: 10px;
   padding-left: 32px;
   border: 1px solid #babfc4;
   border-radius: 3px;
