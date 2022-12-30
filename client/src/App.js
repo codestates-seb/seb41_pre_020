@@ -15,6 +15,7 @@ import Header from './components/Header';
 import LoginedHeader from './components/LoginedHeader';
 import Logout from "./Pages/Logout";
 import EditAnswer from './Pages/EditAnswer';
+import EditQuestion from './Pages/EditQuestion';
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/edit-answer" element={<EditAnswer />} />
+        <Route path="/edit" element={<EditQuestion />} />
       </Routes>
     </QueryClientProvider>
 
