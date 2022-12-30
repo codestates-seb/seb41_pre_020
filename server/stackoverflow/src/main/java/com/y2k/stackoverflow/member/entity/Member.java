@@ -54,6 +54,9 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
+    @Column(nullable = false)
+    private boolean login;
+
     public void addQuestion(Question question) {
         questions.add(question);
         question.setMember(this);

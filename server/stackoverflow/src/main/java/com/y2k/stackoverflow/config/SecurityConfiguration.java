@@ -51,7 +51,7 @@ public class SecurityConfiguration {
                 .headers().frameOptions().sameOrigin()// TODO: 수정예 - H2 콘솔 사용을 위해 설정
                 .and()
                 .csrf().disable() // TODO: 제거예 - 로컬 환경에서 실행하기 위해 설정
-                .cors(withDefaults())
+                .cors(withDefaults()) // TODO: 제거예
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -62,7 +62,7 @@ public class SecurityConfiguration {
                 //로그아웃시 홈으로 리다이렉트
                 .and()
                 .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/member/logout/*")
                 .logoutSuccessUrl("/")
                 .and()
                 .apply(new CustomFilterConfigurer())
@@ -72,7 +72,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/members/all").hasRole("ADMIN")
                         .antMatchers(HttpMethod.POST, "/members/signup", "/members/login").permitAll() // 로그인/회원가입은 누구나 허용
                         .antMatchers(HttpMethod.GET, "/members/edit/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/", "/members/**", "/questions/**", "/comments/**", "/tags/**").permitAll() // 조회는 누구나 허용
+                        .antMatchers(HttpMethod.GET, "/", "/members/**", "/questions/**", "/comments/**", "/tags/**", "/oauth2/**").permitAll() // 조회는 누구나 허용
                         .antMatchers("/h2/**").permitAll() // h2 콘솔 사용을 위한 설정
                         .antMatchers("/login/**").permitAll()
                         .anyRequest().authenticated()

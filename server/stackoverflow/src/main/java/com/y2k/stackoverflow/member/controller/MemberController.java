@@ -53,7 +53,7 @@ public class MemberController {
     @GetMapping
     public ResponseEntity getMembers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
-        Page<Member> pageMembers = memberService.findMembers(page-1, size);
+        Page<Member> pageMembers = memberService.findMembers(page - 1, size);
         List<Member> members = pageMembers.getContent();
         return new ResponseEntity(new MultiResponseDto<>(mapper.membersToResponseDto(members), pageMembers), HttpStatus.OK);
     }
@@ -61,8 +61,8 @@ public class MemberController {
     //관리자용 (탈퇴/휴면 회원 모두 조회)
     @GetMapping("/all")
     public ResponseEntity getAllMembers(@Positive @RequestParam int page,
-                                     @Positive @RequestParam int size) {
-        Page<Member> pageMembers = memberService.findAllMembers(page-1, size);
+                                        @Positive @RequestParam int size) {
+        Page<Member> pageMembers = memberService.findAllMembers(page - 1, size);
         List<Member> members = pageMembers.getContent();
         return new ResponseEntity(new MultiResponseDto<>(mapper.membersToResponseDto(members), pageMembers), HttpStatus.OK);
     }
@@ -85,5 +85,12 @@ public class MemberController {
     public ResponseEntity getMyPageActivity(@PathVariable("member-id") @Positive long memberId) {
         Member member = memberService.findMember(memberId);
         return new ResponseEntity(mapper.memberToMyPageResponse(member), HttpStatus.OK);
+    }
+
+    //로그아웃
+    @PostMapping("/logout/{member-id}")
+    public ResponseEntity logout(@PathVariable("member-id") @Positive long memberId) {
+        memberService.logout(memberId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

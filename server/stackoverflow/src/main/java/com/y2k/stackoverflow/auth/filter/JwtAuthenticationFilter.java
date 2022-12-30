@@ -44,6 +44,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             logger.info("정지 or 휴면 상태인 회원은 로그인 불가");
             throw new BusinessLogicException(ExceptionCode.INVALID_MEMBER_STATUS);
         }
+        //로그아웃 관련 설정
+        member.setLogin(true);
+        memberRepository.save(member);
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());

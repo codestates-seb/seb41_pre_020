@@ -93,6 +93,7 @@ public class MemberService {
     public void deleteMember(long memberId) {
         Member member = findVerifiedMember(memberId);
         member.setMemberStatus(Member.MemberStatus.MEMBER_QUIT);
+        member.setLogin(false);
         memberRepository.save(member);
     }
 
@@ -127,4 +128,15 @@ public class MemberService {
         return member;
     }
 
+    //로그아웃
+    public void logout(long memberId) {
+        Member member = findVerifiedMember(memberId);
+        member.setLogin(false);
+        memberRepository.save(member);
+    }
+
+    public Member findMemberByEmail(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        return optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
 }
