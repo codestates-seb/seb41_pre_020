@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Tag는 따로 api로 호출되지 않고 Question api 호출 시 함께 등록되는 부분이기 때문에
  * Question patch 시, 원래 등록된 태그가 또 들어간다면 중복 처리 되니 처리해야 함
- * -> 상태 값 표시해서 있는 태그면 다시 넣지 않음
+ * -> 태그 테이블 생성 후 태그 삭제 - 다시 생성
  */
 
 @Service
@@ -21,20 +21,17 @@ public class QuestionTagService {
         this.questionTagRepository = questionTagRepository;
     }
 
+    //기존에 있던 태그 삭제(질문 수정 시)
     public void updateQuestionTag(Long questionId) {
         List<QuestionTag> questionTags = questionTagRepository.findAllByQuestionId(questionId);
         questionTags.stream()
                 .forEach(questionTag -> {
-                    questionTag.setQuestionTagStatus(QuestionTag.QuestionTagStatus.QUESTION_TAG_DELETE);
-                    questionTagRepository.save(questionTag);
+                    questionTagRepository.delete(questionTag);
                 });
     }
 
-    /**
-     * QUESTION_TAG_CREATE만 찾아서 조회하기
-     */
-    public List<QuestionTag> findVerifiedQuestionTag(Question question) {
-        return questionTagRepository.
-                findAllByQuestionIdAndQuestionTagStatus(question.getQuestionId(), QuestionTag.QuestionTagStatus.QUESTION_TAG_CREATE);
+
+    public List<QuestionTag> findQuestionTag(Question question) {
+        return questionTagRepository.findAllByQuestionId(question.getQuestionId());
     }
 }
