@@ -47,14 +47,17 @@ public class QuestionService {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
 
-        // 제목, 내용, 태그 업데이트 시간 업데이트
+        // 제목, 내용, 태그 업데이트 시간(조회 수 로직 때문에 계속 시간이 업데이트 되어 따로 사용함) 업데이트
         Optional.ofNullable(question.getTitle())
                 .ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent())
                 .ifPresent(content -> findQuestion.setContent(content));
+
+        //질문 수정 시, 태그 삭제 후 다시 생성
         questionTagService.updateQuestionTag(question.getQuestionId());
         Optional.ofNullable(question.getQuestionTags())
                 .ifPresent(questionTags -> findQuestion.setQuestionTags(questionTags));
+
         Optional.ofNullable(question.getModifiedAt())
                 .ifPresent(modifiedAt -> findQuestion.setModifiedAt(modifiedAt));
 
@@ -89,13 +92,6 @@ public class QuestionService {
      */
     public Page<Question> findQuestions(int page, int size, String sort) {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by(sort).descending()));
-    }
-
-    /**
-     * 전체 질문 조회수를 위한 메서드
-     */
-    public Integer getQuestionsCount() {
-        return questionRepository.findAll().size();
     }
 
 
