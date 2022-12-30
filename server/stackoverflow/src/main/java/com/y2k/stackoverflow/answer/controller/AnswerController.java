@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/answers")
 @Slf4j
 @Validated
 public class AnswerController {
@@ -43,10 +42,11 @@ public class AnswerController {
     /**
      * Answer 등록
      */
-    @PostMapping("/ask")
-    public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
+    @PostMapping("/{question-id}/add")
+    public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
+                                     @RequestBody AnswerPostDto answerPostDto) {
+        answerPostDto.setQuestionId(questionId);
         Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto, questionService, memberService));
-
         return new ResponseEntity<>(
                 new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper)),
                 HttpStatus.CREATED);
@@ -55,7 +55,7 @@ public class AnswerController {
     /**
      * Answer 수정
      */
-    @PatchMapping("/ask/{answer-id}")
+    @PatchMapping("/{answer-id}/edit")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
@@ -65,24 +65,12 @@ public class AnswerController {
                 , HttpStatus.OK);
     }
 
-    /**
-     * 모든 Answer 조회 - 테스트용(삭제 예정)
-     */
-    @GetMapping("/ask")
-    public ResponseEntity getAnswers() {
-        List<Answer> answers = answerService.findAnswers();
-        List<AnswerResponseDto> response = answerMapper.answersToAnswerResponseDtos(answers, memberMapper);
-
-        return new ResponseEntity<>(
-                new AnswersGetResponseDto<>(response),
-                HttpStatus.OK);
-    }
 
     /**
      * 특정 Answer 삭제
      */
 
-    @DeleteMapping("/ask/{answer-id}")
+    @DeleteMapping("/{answer-id}/delete")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId) {
         answerService.deleteAnswer(answerId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

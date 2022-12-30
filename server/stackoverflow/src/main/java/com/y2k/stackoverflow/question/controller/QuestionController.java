@@ -66,7 +66,7 @@ public class QuestionController {
     /**
      * Question 수정
      */
-    @PatchMapping ("/{question-id}")
+    @PatchMapping ("/{question-id}/edit")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
@@ -106,7 +106,7 @@ public class QuestionController {
     /**
      * 특정 Question 삭제
      */
-    @DeleteMapping("/{question-id}")
+    @DeleteMapping("/{question-id}/delete")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
         questionService.deleteQuestion(questionId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
