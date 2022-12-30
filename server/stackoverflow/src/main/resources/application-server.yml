@@ -1,14 +1,14 @@
 spring:
-#    AWS RDS 설정
+  #    AWS RDS 설정
   datasource:
-    url: jdbc:mysql://${RDS_ENDPOINT}/y2k?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${RDS_ENDPOINT}/y2k?useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&pinGlobalTxToPhysicalConnection=true
     username: ${RDS_MYSQL_ADMIN_ID}
     password: ${RDS_MYSQL_ADMIN_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-    hibernate:
-      ddl-auto: none
+    #    hibernate:
+    #      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
@@ -32,12 +32,6 @@ spring:
             scope:
               - user:email
               - read:user
-          facebook:
-            clientId: ${META_CLIENT_ID}
-            clientSecret: ${META_SECRET}
-            scope:
-              - email
-              - public_profile
 logging:
   level:
     org:
@@ -54,8 +48,6 @@ jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420
-mail:
-  address:
-    admin: admin@gmail.com
+
 config:
   domain: ${AWS_S3}
