@@ -62,7 +62,7 @@ public class SecurityConfiguration {
                 //로그아웃시 홈으로 리다이렉트
                 .and()
                 .logout()
-                .logoutUrl("/member/logout/*")
+                .logoutUrl("/members/logout/*")
                 .logoutSuccessUrl("/")
                 .and()
                 .apply(new CustomFilterConfigurer())
