@@ -13,7 +13,6 @@ import com.y2k.stackoverflow.question.dto.*;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.entity.QuestionTag;
 import com.y2k.stackoverflow.question.entity.QuestionVote;
-import com.y2k.stackoverflow.question.service.QuestionService;
 import com.y2k.stackoverflow.question.service.QuestionTagService;
 import com.y2k.stackoverflow.util.DateUtil;
 import org.mapstruct.Mapper;
@@ -102,7 +101,7 @@ public interface QuestionMapper {
         return questionResponseDto;
     }
 
-    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions, AnswerService answerService, MemberMapper memberMapper, QuestionService questionService, QuestionTagService questionTagService){
+    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions, AnswerService answerService, MemberMapper memberMapper, QuestionTagService questionTagService){
         return questions
                 .stream()
                 .map(question -> QuestionResponseDto
@@ -114,9 +113,8 @@ public interface QuestionMapper {
                         .lastModifiedAt(DateUtil.convertLocalDatetimeToTime(question.getModifiedAt()))
                         .views(question.getViews())
                         .votes(question.getVotes())
-                        .questionTags(questionTagsToQuestionTagResponseDtos(questionTagService.findVerifiedQuestionTag(question)))
+                        .questionTags(questionTagsToQuestionTagResponseDtos(questionTagService.findQuestionTag(question)))
                         .answers(answerService.findAnswersQuestion(question).size())
-                        .questions(questionService.getQuestionsCount())
                         .member(memberMapper.memberToResponseDto(question.getMember()))
                         .questionCheck(question.getQuestionCheck())
                         .build()
@@ -162,8 +160,7 @@ public interface QuestionMapper {
                                                                           AnswerService answerService,
                                                                           AnswerMapper answerMapper,
                                                                           MemberMapper memberMapper,
-                                                                          QuestionTagService questionTagService
-                                                                          ) {
+                                                                          QuestionTagService questionTagService) {
         QuestionAnswerResponseDto questionAnswerResponseDto = new QuestionAnswerResponseDto();
         questionAnswerResponseDto.setQuestionId(question.getQuestionId());
         questionAnswerResponseDto.setTitle(question.getTitle());
@@ -179,7 +176,7 @@ public interface QuestionMapper {
 
 
         //질문 수정 시 태그 중복 등록 문제 해결
-        List<QuestionTag> questionTags = questionTagService.findVerifiedQuestionTag(question);
+        List<QuestionTag> questionTags = questionTagService.findQuestionTag(question);
         questionAnswerResponseDto.setQuestionTags(questionTagsToQuestionTagResponseDtos(questionTags));
 
         questionAnswerResponseDto.setMember(memberMapper.memberToResponseDto(question.getMember()));
@@ -187,7 +184,7 @@ public interface QuestionMapper {
         List<Answer> answerList = answerService.findAnswersQuestion(question);
         questionAnswerResponseDto.setAnswers(answerList.size());
         questionAnswerResponseDto.setAnswerList(new AnswersGetResponseDto<>(
-                answerMapper.answersToAnswerResponseDtos(answerList)
+                answerMapper.answersToAnswerResponseDtos(answerList, memberMapper)
         ));
 
         return questionAnswerResponseDto;

@@ -43,6 +43,9 @@ public class AnswerService {
         Optional.ofNullable(answer.getContent())
                 .ifPresent(content -> findAnswer.setContent(content));
 
+        Optional.ofNullable(answer.getModifiedAt())
+                .ifPresent(mofidiedAt -> findAnswer.setModifiedAt(mofidiedAt));
+
         return answerRepository.save(findAnswer);
     }
 
@@ -78,35 +81,39 @@ public class AnswerService {
      * answer_vote 테이블에서 로그인 유저 memberId로 조회 후, 결과가 존재하지 않으면 추천 가능
      */
 
-    public Answer likeAnswerVote(Long answerId, Member member, AnswerVote answerVote) {
+    public Answer upVoteAnswer(Long answerId, Member member) {
         Answer findAnswer = findVerifiedAnswer(answerId);
-
-        // 로그인 한 회원이 추천 눌렀는지 확인 후,
-        // 안눌렀다면 answer_vote 테이블에 answer_id와 member_id를 넣어 중복 방지
-        if(!findVerifiedVoteMember(answerId) || memberService.getLoginMember().getMemberId().equals(findAnswer.getMember().getMemberId())) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
-        }
-        answerVote.setAnswer(findAnswer);
-        answerVote.setMember(member);
-        answerVote.setVoteCheck(answerVote.getVoteCheck());
-
-        if(answerVote.getVoteCheck() == 0) { // post로 보낸 값이 0이면 비추천
-            findAnswer.setVotes(findAnswer.getVotes() - 1);
-        }
-
-        if(answerVote.getVoteCheck() == 1) { // post로 보낸 값이 1이면 추천
-            findAnswer.setVotes(findAnswer.getVotes() + 1);
-        }
-
-        answerVoteRepository.save(answerVote);
+        findVerifiedAnswerVote(answerId, member);
+        //추천 누른 질문에 전체 추천 수 카운트
+        findAnswer.setVotes(findAnswer.getVotes() + 1);
         return answerRepository.save(findAnswer);
     }
 
 
-    //로그인 한 회원이 추천 눌렀는지 확인해서 안 눌렀으면 TRUE 리턴
-    private boolean findVerifiedVoteMember(Long answerId) {
+    public Answer downVoteAnswer(Long answerId, Member member) {
         Answer findAnswer = findVerifiedAnswer(answerId);
-        return answerVoteRepository.findByAnswerAndMember(findAnswer, memberService.getLoginMember()).isEmpty();
+        findVerifiedAnswerVote(answerId, member);
+        //추천 누른 질문에 전체 추천 수 카운트
+        findAnswer.setVotes(findAnswer.getVotes() - 1);
+        return answerRepository.save(findAnswer);
+    }
+
+
+    private AnswerVote findVerifiedAnswerVote(Long answerId, Member member) {
+        Answer findAnswer = findVerifiedAnswer(answerId);
+        Boolean findAnswerVote = answerVoteRepository.findByAnswerAndMember(findAnswer, memberService.getLoginMember()).isEmpty();
+
+        // 로그인 한 회원이 추천 눌렀는지 확인 후,
+        // 안눌렀다면 answer_vote 테이블에 answer_id와 member_id를 넣어 중복 방지
+        // 로그인한 회원이 질문 작성한 사람이라면 오류
+        if(!findAnswerVote) throw new BusinessLogicException(ExceptionCode.VOTE_CHECK_EXISTS);
+
+        if(memberService.getLoginMember().getMemberId().equals(findAnswer.getMember().getMemberId())) throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
+
+        AnswerVote answerVote = new AnswerVote();
+        answerVote.setAnswer(findAnswer);
+        answerVote.setMember(member);
+        return answerVoteRepository.save(answerVote);
     }
 
     /**
@@ -125,8 +132,8 @@ public class AnswerService {
             throw new BusinessLogicException(ExceptionCode.QUESTION_CHECK_EXISTS);
         }
 
-        //로그인 유저와 질문 작성 유저와 비교해서 같다면 삭제, 아니라면 접근 금지 예외 발생 => 질문 작성자만 채택
-        if(checkQuestion.getQuestionId() != memberService.getLoginMember().getMemberId()) {
+        //로그인 유저와 질문 작성 유저와 비교해서 같다면 채택, 아니라면 접근 금지 예외 발생 => 질문 작성자만 채택
+        if(checkQuestion.getMember().getMemberId() != memberService.getLoginMember().getMemberId()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
         checkQuestion.setQuestionCheck(true); // 전체 질문 보기에서 채택 여부 확인 시 사용
