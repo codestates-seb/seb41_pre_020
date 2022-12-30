@@ -13,7 +13,10 @@ import com.y2k.stackoverflow.util.DateUtil;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Objects;
+=======
+>>>>>>> 3fbe76000783e252a46816c4084377de4de6bb2a
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -27,7 +30,7 @@ public interface AnswerMapper {
         answer.setMember(memberService.getLoginMember());
         answer.setContent(answerPostDto.getContent());
         answer.setVotes(0);
-        answer.setQuestion(questionService.findVerifiedQuestion(answerPostDto.getQuestionId()));
+        answer.setQuestion(questionService.findQuestion(answerPostDto.getQuestionId()));
         answer.setAnswerCheck(false); // 채택 기본 값 세팅
 
         //회원 마이페이지 설정
@@ -48,13 +51,16 @@ public interface AnswerMapper {
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
         answerResponseDto.setAnswerCheck(answer.getAnswerCheck());
 
+<<<<<<< HEAD
         answerResponseDto.setComments(commentToCommentAnswerResponseDto(answer.getComments(), memberMapper, answer)); // 제웅 추가
+=======
+>>>>>>> 3fbe76000783e252a46816c4084377de4de6bb2a
         //멤버 설정 부분
         answerResponseDto.setMember(memberMapper.memberToResponseDto(answer.getMember()));
         return answerResponseDto;
     }
-    List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers);
 
+<<<<<<< HEAD
 
 
     default List<CommentDto.CommentAnswerResponse> commentToCommentAnswerResponseDto(List<Comment> comments, MemberMapper memberMapper, Answer answer){
@@ -62,6 +68,29 @@ public interface AnswerMapper {
                 .stream()
                 .filter(comment -> comment.getCommentType() == Comment.CommentType.ANSWER)
                 .filter(comment -> Objects.equals(comment.getAnswer().getAnswerId(), answer.getAnswerId()))
+=======
+//    List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers);
+    default List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers, MemberMapper memberMapper){
+        return answers
+                .stream()
+                .map(answer -> AnswerResponseDto
+                        .builder()
+                        .answerId(answer.getAnswerId())
+                        .content(answer.getContent())
+                        .votes(answer.getVotes())
+                        .answerCheck(answer.getAnswerCheck())
+                        .createdAt(DateUtil.convertLocalDatetimeToTime(answer.getCreatedAt()))
+                        .modifiedAt(DateUtil.convertLocalDatetimeToTime(answer.getModifiedAt()))
+                        .member(memberMapper.memberToResponseDto(answer.getMember()))
+                        .comments(commentToCommentAnswerResponseDto(answer.getComments(), memberMapper))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    default List<CommentDto.CommentAnswerResponse> commentToCommentAnswerResponseDto(List<Comment> comments, MemberMapper memberMapper){
+        return comments
+                .stream()
+>>>>>>> 3fbe76000783e252a46816c4084377de4de6bb2a
                 .map(comment -> CommentDto.CommentAnswerResponse
                         .builder()
                         .commentId(comment.getCommentId())
@@ -73,6 +102,7 @@ public interface AnswerMapper {
                         .commentType(comment.getCommentType())
                         .build()
                 ).collect(Collectors.toList());  //제웅 추가
+<<<<<<< HEAD
 
 //        return comments
 //                .stream()
@@ -83,5 +113,7 @@ public interface AnswerMapper {
 //                        .builder()
 //                        .build()
 //                ).collect(Collectors.toList());
+=======
+>>>>>>> 3fbe76000783e252a46816c4084377de4de6bb2a
     }
 }

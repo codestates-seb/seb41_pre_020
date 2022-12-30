@@ -17,6 +17,7 @@ public enum ExceptionCode {
     METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
     MEMBER_EXISTS(409, "Member exists"),
     QUESTION_CHECK_EXISTS(409, "Question Check exists"),
+    VOTE_CHECK_EXISTS(409, "Vote Check exists"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_PASSWORD (400, "Invalid Password");

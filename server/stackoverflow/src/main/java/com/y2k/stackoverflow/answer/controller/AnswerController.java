@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/answers")
 @Slf4j
 @Validated
 public class AnswerController {
@@ -43,10 +42,11 @@ public class AnswerController {
     /**
      * Answer 등록
      */
-    @PostMapping("/ask")
-    public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
+    @PostMapping("/{question-id}/add")
+    public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
+                                     @RequestBody AnswerPostDto answerPostDto) {
+        answerPostDto.setQuestionId(questionId);
         Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto, questionService, memberService));
-
         return new ResponseEntity<>(
                 new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper)),
                 HttpStatus.CREATED);
@@ -55,7 +55,7 @@ public class AnswerController {
     /**
      * Answer 수정
      */
-    @PatchMapping("/ask/{answer-id}")
+    @PatchMapping("/{answer-id}/edit")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
@@ -65,60 +65,59 @@ public class AnswerController {
                 , HttpStatus.OK);
     }
 
-    /**
-     * 모든 Answer 조회 - 테스트용(삭제 예정)
-     */
-    @GetMapping("/ask")
-    public ResponseEntity getAnswers() {
-        List<Answer> answers = answerService.findAnswers();
-        List<AnswerResponseDto> response = answerMapper.answersToAnswerResponseDtos(answers);
-
-        return new ResponseEntity<>(
-                new AnswersGetResponseDto<>(response),
-                HttpStatus.OK);
-    }
 
     /**
      * 특정 Answer 삭제
      */
 
-    @DeleteMapping("/ask/{answer-id}")
+    @DeleteMapping("/{answer-id}/delete")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId) {
         answerService.deleteAnswer(answerId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     /**
-     * Answer 추천 & 비추천 기능
-     * request 값으로 보낼 voteCount가 0이면 비추천, 1이면 추천
+     * Answer 추천 기능
+     * ▲  추천 +1
      * 회원마다 답변에 1개씩 추천 or 비추천 가능
      */
-    @PostMapping("/ask/likes/{answer-id}")
-    public ResponseEntity likeVoteAnswer(@PathVariable("answer-id") @Positive long answerId,
-                                         @Valid @RequestBody AnswerVoteDto answerVoteDto) {
-        Answer answer = answerService.likeAnswerVote(
-                answerId,
-                memberService.getLoginMember(),
-                answerMapper.answerVoteDtoToAnswerVote(answerVoteDto));
+    @PostMapping("/{answer-Id}/upVote")
+    public ResponseEntity upVoteAnswer(@PathVariable("answer-Id") @Positive long answerId) {
+        Answer voteAnswer = answerService.upVoteAnswer(answerId, memberService.getLoginMember());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper)),
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
                 HttpStatus.OK
         );
+
+
+    }
+
+    /**
+     * Answer 비추천 기능
+     * ▼  비추천 -1
+     * 회원마다 답변에 1개씩 추천 or 비추천 가능
+     */
+    @PostMapping("/{answer-Id}/downVote")
+    public ResponseEntity downVoteAnswer(@PathVariable("answer-Id") @Positive long answerId) {
+        Answer voteAnswer = answerService.downVoteAnswer(answerId, memberService.getLoginMember());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
+                HttpStatus.OK
+        );
+
     }
 
     /**
      * Question - Answer 채택 기능
      * request 값으로 보낼 questionId, answerId로 채택 여부 판단해, 채택할 answer 응답
      */
-    @PostMapping("/ask/check")
-    public ResponseEntity checkAnswer(@Valid @RequestBody AnswerCheckDto answerCheckDto) {
-        Answer checkAnswer = answerService.findCheckAnswer(answerCheckDto.getAnswerId());
-
+    @PostMapping("/{answer-id}/accept")
+    public ResponseEntity checkAnswer(@PathVariable("answer-id") @Positive long answerId) {
+        Answer checkAnswer = answerService.findCheckAnswer(answerId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(checkAnswer, memberMapper)),
                         HttpStatus.OK);
     }
-
-
 }

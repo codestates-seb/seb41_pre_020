@@ -8,7 +8,6 @@ import com.y2k.stackoverflow.member.mapper.MemberMapper;
 import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.dto.QuestionPatchDto;
 import com.y2k.stackoverflow.question.dto.QuestionPostDto;
-import com.y2k.stackoverflow.question.dto.QuestionVoteDto;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.mapper.QuestionMapper;
 import com.y2k.stackoverflow.question.service.QuestionService;
@@ -66,7 +65,7 @@ public class QuestionController {
     /**
      * Question 수정
      */
-    @PatchMapping ("/{question-id}")
+    @PatchMapping ("/{question-id}/edit")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
@@ -81,7 +80,7 @@ public class QuestionController {
      */
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
-        Question question = questionService.findQuestion(questionId);
+        Question question = questionService.findVotePlusQuestion(questionId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, memberMapper, questionTagService)),
                 HttpStatus.OK);
@@ -98,7 +97,7 @@ public class QuestionController {
         List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionService, questionTagService), pageQuestions),
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionTagService), pageQuestions),
                 HttpStatus.OK);
     }
 
@@ -106,7 +105,7 @@ public class QuestionController {
     /**
      * 특정 Question 삭제
      */
-    @DeleteMapping("/{question-id}")
+    @DeleteMapping("/{question-id}/delete")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
         questionService.deleteQuestion(questionId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -114,20 +113,48 @@ public class QuestionController {
 
 
     /**
-     * Question 추천 & 비추천 기능
-     * request 값으로 보낼 voteCount가 0이면 비추천, 1이면 추천
-     * 회원마다 질문에 1개씩만 추천 or 비추천 가능
+     * Question 추천 기능
+     * ▲  추천 +1
+     * 회원마다 질문에 1개씩 추천 or 비추천 가능
      */
-    @PostMapping("/likes/{question-id}")
-    public ResponseEntity likeVoteQuestion(@PathVariable("question-id") @Positive long questionId,
-                                                  @Valid @RequestBody QuestionVoteDto questionVoteDto) {
-        Question question = questionService.likeQuestionVote(
-                questionId,
-                memberService.getLoginMember(),
-                questionMapper.questionVoteDtoToQuestionVote(questionVoteDto));
+    @PostMapping("/{question-id}/upVote")
+    public ResponseEntity upVoteQuestion(@PathVariable("question-id") @Positive long questionId) {
+        Question voteQuestion = questionService.upVoteQuestion(questionId, memberService.getLoginMember());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, memberMapper, questionTagService)),
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(voteQuestion, memberMapper, answerService)),
+                HttpStatus.OK);
+    }
+
+
+    /**
+     * Question 비추천 기능
+     * ▼  비추천 -1
+     * 회원마다 질문에 1개씩 추천 or 비추천 가능
+     */
+    @PostMapping("/{question-Id}/downVote")
+    public ResponseEntity downVoteQuestion(@PathVariable("question-Id") @Positive long questionId) {
+        Question voteQuestion = questionService.downVoteQuestion(questionId, memberService.getLoginMember());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(questionMapper.questionToQuestionResponseDto(voteQuestion, memberMapper, answerService)),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Question 검색 기능
+     */
+    @GetMapping("/search")
+    public ResponseEntity searchQuestion(@RequestParam String keyword,
+                                         @Positive @RequestParam int page,
+                                         @Positive @RequestParam int size,
+                                         @RequestParam String sort
+                                       ) {
+        Page<Question> pageQuestions = questionService.searchQuestion(page - 1 , size, sort, keyword);
+        List<Question> questions = pageQuestions.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionTagService), pageQuestions),
                 HttpStatus.OK);
     }
 
