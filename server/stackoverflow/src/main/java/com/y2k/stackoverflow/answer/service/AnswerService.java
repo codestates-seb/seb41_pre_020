@@ -43,6 +43,9 @@ public class AnswerService {
         Optional.ofNullable(answer.getContent())
                 .ifPresent(content -> findAnswer.setContent(content));
 
+        Optional.ofNullable(answer.getModifiedAt())
+                .ifPresent(mofidiedAt -> findAnswer.setModifiedAt(mofidiedAt));
+
         return answerRepository.save(findAnswer);
     }
 
