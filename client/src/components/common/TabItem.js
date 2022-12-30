@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 const TabBlock = styled.button`
   border: 0;
   outline: 0;
-  padding: 10.5px;
+  padding: 9px;
   text-align: center;
   background-color: transparent;
   color: #838c95;

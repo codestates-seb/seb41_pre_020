@@ -69,7 +69,7 @@ const AskButton = styled.div`
 
 const SortButton = styled.div`
   color: #838c95;
-  padding: 10.5px;
+  padding: 9px;
 
   &:first-child {
     border-right: 1px solid #838c95;
