@@ -81,7 +81,7 @@ public class QuestionController {
      */
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
-        Question question = questionService.findQuestion(questionId);
+        Question question = questionService.findVotePlusQuestion(questionId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, memberMapper, questionTagService)),
                 HttpStatus.OK);
@@ -98,7 +98,7 @@ public class QuestionController {
         List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionService, questionTagService), pageQuestions),
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionTagService), pageQuestions),
                 HttpStatus.OK);
     }
 
@@ -128,6 +128,23 @@ public class QuestionController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(questionMapper.questionToQuestionAnswerResponseDto(question, answerService, answerMapper, memberMapper, questionTagService)),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Question 검색 기능
+     */
+    @GetMapping("/search")
+    public ResponseEntity searchQuestion(@RequestParam String keyword,
+                                         @Positive @RequestParam int page,
+                                         @Positive @RequestParam int size,
+                                         @RequestParam String sort
+                                       ) {
+        Page<Question> pageQuestions = questionService.searchQuestion(page - 1 , size, sort, keyword);
+        List<Question> questions = pageQuestions.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(questionMapper.questionsToQuestionResponseDtos(questions, answerService, memberMapper, questionTagService), pageQuestions),
                 HttpStatus.OK);
     }
 

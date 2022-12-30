@@ -7,7 +7,6 @@ import com.y2k.stackoverflow.member.service.MemberService;
 import com.y2k.stackoverflow.question.entity.Question;
 import com.y2k.stackoverflow.question.entity.QuestionVote;
 import com.y2k.stackoverflow.question.repository.QuestionRepository;
-import com.y2k.stackoverflow.question.repository.QuestionTagRepository;
 import com.y2k.stackoverflow.question.repository.QuestionVoteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,17 +18,13 @@ import java.util.Optional;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionTagService questionTagService;
-
-    private final QuestionTagRepository questionTagRepository;
     private final MemberService memberService;
     private final QuestionVoteRepository questionVoteRepository;
 
     public QuestionService(QuestionRepository questionRepository, QuestionTagService questionTagService,
-                           QuestionTagRepository questionTagRepository,
                            MemberService memberService, QuestionVoteRepository questionVoteRepository) {
         this.questionRepository = questionRepository;
         this.questionTagService = questionTagService;
-        this.questionTagRepository = questionTagRepository;
         this.memberService = memberService;
         this.questionVoteRepository = questionVoteRepository;
     }
@@ -52,14 +47,17 @@ public class QuestionService {
             throw new BusinessLogicException(ExceptionCode.ACCESS_FORBIDDEN);
         }
 
-        // 제목, 내용, 태그 업데이트 시간 업데이트
+        // 제목, 내용, 태그 업데이트 시간(조회 수 로직 때문에 계속 시간이 업데이트 되어 따로 사용함) 업데이트
         Optional.ofNullable(question.getTitle())
                 .ifPresent(title -> findQuestion.setTitle(title));
         Optional.ofNullable(question.getContent())
                 .ifPresent(content -> findQuestion.setContent(content));
+
+        //질문 수정 시, 태그 삭제 후 다시 생성
         questionTagService.updateQuestionTag(question.getQuestionId());
         Optional.ofNullable(question.getQuestionTags())
                 .ifPresent(questionTags -> findQuestion.setQuestionTags(questionTags));
+
         Optional.ofNullable(question.getModifiedAt())
                 .ifPresent(modifiedAt -> findQuestion.setModifiedAt(modifiedAt));
 
@@ -73,6 +71,13 @@ public class QuestionService {
      * 특정 질문 조회
      */
     public Question findQuestion(Long questionId) {
+        return findVerifiedQuestion(questionId);
+    }
+
+    /**
+     * 특정 질문 조회 (조회수 +1)
+     */
+    public Question findVotePlusQuestion(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
 
         //조회 시, View + 1
@@ -87,13 +92,6 @@ public class QuestionService {
      */
     public Page<Question> findQuestions(int page, int size, String sort) {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by(sort).descending()));
-    }
-
-    /**
-     * 전체 질문 조회수를 위한 메서드
-     */
-    public Integer getQuestionsCount() {
-        return questionRepository.findAll().size();
     }
 
 
@@ -112,7 +110,7 @@ public class QuestionService {
     /**
      *  질문 존재 여부 확인
      */
-    public Question findVerifiedQuestion(Long questionId) {
+    private Question findVerifiedQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question findQuestion =
                 optionalQuestion.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
@@ -154,6 +152,16 @@ public class QuestionService {
     private boolean findVerifiedVoteMember(Long questionId) {
         Question findQuestion = findVerifiedQuestion(questionId);
         return questionVoteRepository.findByQuestionAndMember(findQuestion, memberService.getLoginMember()).isEmpty();
+    }
+
+    public Page<Question> searchQuestion(int page, int size, String sort, String keyword) {
+        //만약 search가 앞 뒤로 [ ]로 감싸져서 온다면 태그 검색
+        if(keyword.charAt(0) =='[' && keyword.charAt(keyword.length()-1) ==']') {
+            return questionRepository.searchQuestionTag(
+                    PageRequest.of(page, size, Sort.by(sort).descending()),
+                    keyword.substring(1, keyword.length()-1));
+        }
+        return questionRepository.searchQuestion(PageRequest.of(page, size, Sort.by(sort).descending()), keyword);
     }
 
 }

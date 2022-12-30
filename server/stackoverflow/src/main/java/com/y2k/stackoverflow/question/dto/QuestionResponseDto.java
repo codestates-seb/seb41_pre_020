@@ -20,7 +20,6 @@ public class QuestionResponseDto {
     private int votes;
     private int views;
     private int answers;
-    private int questions;
     private Boolean questionCheck;
     private MemberDto.Response member;
 
