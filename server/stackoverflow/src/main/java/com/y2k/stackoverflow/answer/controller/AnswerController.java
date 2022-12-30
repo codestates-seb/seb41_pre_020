@@ -77,36 +77,47 @@ public class AnswerController {
     }
 
     /**
-     * Answer 추천 & 비추천 기능
-     * request 값으로 보낼 voteCount가 0이면 비추천, 1이면 추천
+     * Answer 추천 기능
+     * ▲  추천 +1
      * 회원마다 답변에 1개씩 추천 or 비추천 가능
      */
-    @PostMapping("/ask/likes/{answer-id}")
-    public ResponseEntity likeVoteAnswer(@PathVariable("answer-id") @Positive long answerId,
-                                         @Valid @RequestBody AnswerVoteDto answerVoteDto) {
-        Answer answer = answerService.likeAnswerVote(
-                answerId,
-                memberService.getLoginMember(),
-                answerMapper.answerVoteDtoToAnswerVote(answerVoteDto));
+    @PostMapping("/{answer-Id}/upVote")
+    public ResponseEntity upVoteAnswer(@PathVariable("answer-Id") @Positive long answerId) {
+        Answer voteAnswer = answerService.upVoteAnswer(answerId, memberService.getLoginMember());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(answer, memberMapper)),
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
                 HttpStatus.OK
         );
+
+
+    }
+
+    /**
+     * Answer 비추천 기능
+     * ▼  비추천 -1
+     * 회원마다 답변에 1개씩 추천 or 비추천 가능
+     */
+    @PostMapping("/{answer-Id}/downVote")
+    public ResponseEntity downVoteAnswer(@PathVariable("answer-Id") @Positive long answerId) {
+        Answer voteAnswer = answerService.downVoteAnswer(answerId, memberService.getLoginMember());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(voteAnswer, memberMapper)),
+                HttpStatus.OK
+        );
+
     }
 
     /**
      * Question - Answer 채택 기능
      * request 값으로 보낼 questionId, answerId로 채택 여부 판단해, 채택할 answer 응답
      */
-    @PostMapping("/ask/check")
-    public ResponseEntity checkAnswer(@Valid @RequestBody AnswerCheckDto answerCheckDto) {
-        Answer checkAnswer = answerService.findCheckAnswer(answerCheckDto.getAnswerId());
-
+    @PostMapping("/{answer-id}/accept")
+    public ResponseEntity checkAnswer(@PathVariable("answer-id") @Positive long answerId) {
+        Answer checkAnswer = answerService.findCheckAnswer(answerId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(answerMapper.answerToAnswerResponseDto(checkAnswer, memberMapper)),
                         HttpStatus.OK);
     }
-
-
 }
