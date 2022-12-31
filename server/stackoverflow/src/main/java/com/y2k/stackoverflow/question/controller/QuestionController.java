@@ -65,7 +65,7 @@ public class QuestionController {
     /**
      * Question 수정
      */
-    @PatchMapping ("/{question-id}/edit")
+    @PatchMapping ("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
@@ -105,7 +105,7 @@ public class QuestionController {
     /**
      * 특정 Question 삭제
      */
-    @DeleteMapping("/{question-id}/delete")
+    @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive long questionId) {
         questionService.deleteQuestion(questionId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -117,7 +117,7 @@ public class QuestionController {
      * ▲  추천 +1
      * 회원마다 질문에 1개씩 추천 or 비추천 가능
      */
-    @PostMapping("/{question-id}/upVote")
+    @PostMapping("/{question-id}/up-vote")
     public ResponseEntity upVoteQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question voteQuestion = questionService.upVoteQuestion(questionId, memberService.getLoginMember());
 
@@ -132,7 +132,7 @@ public class QuestionController {
      * ▼  비추천 -1
      * 회원마다 질문에 1개씩 추천 or 비추천 가능
      */
-    @PostMapping("/{question-Id}/downVote")
+    @PostMapping("/{question-Id}/down-vote")
     public ResponseEntity downVoteQuestion(@PathVariable("question-Id") @Positive long questionId) {
         Question voteQuestion = questionService.downVoteQuestion(questionId, memberService.getLoginMember());
 

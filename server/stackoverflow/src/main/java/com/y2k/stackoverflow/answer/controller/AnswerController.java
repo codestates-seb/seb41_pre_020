@@ -42,7 +42,7 @@ public class AnswerController {
     /**
      * Answer 등록
      */
-    @PostMapping("/{question-id}/add")
+    @PostMapping("/{question-id}")
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
                                      @RequestBody AnswerPostDto answerPostDto) {
         answerPostDto.setQuestionId(questionId);
@@ -55,7 +55,7 @@ public class AnswerController {
     /**
      * Answer 수정
      */
-    @PatchMapping("/{answer-id}/edit")
+    @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
@@ -70,7 +70,7 @@ public class AnswerController {
      * 특정 Answer 삭제
      */
 
-    @DeleteMapping("/{answer-id}/delete")
+    @DeleteMapping("/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId) {
         answerService.deleteAnswer(answerId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -81,7 +81,7 @@ public class AnswerController {
      * ▲  추천 +1
      * 회원마다 답변에 1개씩 추천 or 비추천 가능
      */
-    @PostMapping("/{answer-Id}/upVote")
+    @PostMapping("/{answer-Id}/up-vote")
     public ResponseEntity upVoteAnswer(@PathVariable("answer-Id") @Positive long answerId) {
         Answer voteAnswer = answerService.upVoteAnswer(answerId, memberService.getLoginMember());
 
@@ -98,7 +98,7 @@ public class AnswerController {
      * ▼  비추천 -1
      * 회원마다 답변에 1개씩 추천 or 비추천 가능
      */
-    @PostMapping("/{answer-Id}/downVote")
+    @PostMapping("/{answer-Id}/down-vote")
     public ResponseEntity downVoteAnswer(@PathVariable("answer-Id") @Positive long answerId) {
         Answer voteAnswer = answerService.downVoteAnswer(answerId, memberService.getLoginMember());
 
@@ -113,7 +113,7 @@ public class AnswerController {
      * Question - Answer 채택 기능
      * request 값으로 보낼 questionId, answerId로 채택 여부 판단해, 채택할 answer 응답
      */
-    @PostMapping("/{answer-id}/accept")
+    @PostMapping("/{answer-id}/check")
     public ResponseEntity checkAnswer(@PathVariable("answer-id") @Positive long answerId) {
         Answer checkAnswer = answerService.findCheckAnswer(answerId);
         return new ResponseEntity<>(
