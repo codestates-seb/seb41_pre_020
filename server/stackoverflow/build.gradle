@@ -52,6 +52,7 @@ dependencies {
 	implementation 'org.hamcrest:hamcrest:2.2'
 	//github api
 	implementation group: 'org.kohsuke', name: 'github-api', version: '1.125'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 }
 

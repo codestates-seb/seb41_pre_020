@@ -1,10 +1,10 @@
 spring:
-#    AWS RDS 설정
+  h2:
+    console:
+      enabled: true
+      path: /h2
   datasource:
-    url: jdbc:mysql://${RDS_ENDPOINT}/y2k?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${RDS_MYSQL_ADMIN_ID}
-    password: ${RDS_MYSQL_ADMIN_PW}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:test
   jpa:
     hibernate:
       ddl-auto: create
@@ -12,8 +12,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   sql:
     init:
       data-locations: classpath*:db/h2/data.sql
@@ -23,23 +21,20 @@ spring:
       client:
         registration:
           google:
-            clientId: "${GOOGLE_CLIENT_ID}"
-            clientSecret: "${GOOGLE_SECRET}"
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_SECRET}
             scope:
               - email
               - profile
           github:
-            clientId: "${GITHUB_CLIENT_ID}"
-            clientSecret: "${GITHUB_SECRET}"
+            clientId: ${GITHUB_CLIENT_ID}
+            clientSecret: ${GITHUB_SECRET}
             scope:
               - user:email
               - read:user
-          facebook:
-            clientId: ${META_CLIENT_ID}
-            clientSecret: ${META_SECRET}
-            scope:
-              - email
-              - public_profile
+  redis:
+    host: localhost
+    port: 6379
 logging:
   level:
     org:
@@ -50,7 +45,6 @@ server:
   servlet:
     encoding:
       force-response: true
-  port: 8080
 
 jwt:
   secret-key: ${JWT_SECRET_KEY}
@@ -60,6 +54,3 @@ jwt:
 mail:
   address:
     admin: admin@gmail.com
-#AWS RDS 설정
-config:
-  domain: ${AWS_S3}

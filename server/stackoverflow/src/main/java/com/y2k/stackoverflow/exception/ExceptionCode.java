@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum ExceptionCode {
 
-
+    INVALID_TOKEN_STATUS(400, "Invalid token status"),
+    MEMBER_LOGOUT(403, "Member logged out"),
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     UNAUTHORIZED(401, "Unauthorized"),
     ACCESS_FORBIDDEN(403, "Access forbidden"),

@@ -4,7 +4,9 @@ import com.y2k.stackoverflow.auth.filter.JwtAuthenticationFilter;
 import com.y2k.stackoverflow.auth.filter.JwtVerificationFilter;
 import com.y2k.stackoverflow.auth.handler.*;
 import com.y2k.stackoverflow.auth.jwt.JwtTokenizer;
+import com.y2k.stackoverflow.auth.refresh.TokenRepository;
 import com.y2k.stackoverflow.auth.utils.CustomAuthorityUtils;
+import com.y2k.stackoverflow.auth.utils.RedisUtil;
 import com.y2k.stackoverflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +35,10 @@ public class SecurityConfiguration {
 
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
-
     //google oauth2
     private final MemberRepository memberRepository;
+    private final RedisUtil redisUtils;
+    private final TokenRepository tokenRepository;
 
     @Value("${spring.security.oauth2.client.registration.google.clientId}")
     private String clientId;
@@ -92,7 +95,7 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
             //JwtAuthenticationFilter 등록
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository, tokenRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/members/login"); // 로그인 URL
 
             //로그인 인증 성공/실패시 수행할 것 추가
@@ -100,7 +103,7 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
             //JwtVerificationFilter 등록
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, redisUtils, memberRepository);
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
