@@ -32,9 +32,6 @@ spring:
             scope:
               - user:email
               - read:user
-  redis:
-    host: localhost
-    port: 6379
 logging:
   level:
     org:
