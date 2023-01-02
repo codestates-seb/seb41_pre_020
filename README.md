@@ -73,6 +73,7 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 https://documenter.getpostman.com/view/23681290/2s8Z6zzX4s
 
 ## COMMIT 컨벤션
+![image](https://user-images.githubusercontent.com/110887976/210195929-7b7e0895-b90a-4710-bbfd-7043ef1ebe21.png)
 
 
 
