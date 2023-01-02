@@ -1,4 +1,4 @@
-package com.y2k.stackoverflow.auth.refresh;
+package com.y2k.stackoverflow.auth.logout;
 
 import com.y2k.stackoverflow.auth.jwt.JwtTokenizer;
 import com.y2k.stackoverflow.auth.utils.RedisUtil;
@@ -6,14 +6,9 @@ import com.y2k.stackoverflow.exception.BusinessLogicException;
 import com.y2k.stackoverflow.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Headers;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

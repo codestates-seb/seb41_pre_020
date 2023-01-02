@@ -65,7 +65,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 log.info("profileImage 정보가 없습니다.");
             }
         }
-
         List<String> roles = authorityUtils.createRoles(email);
         saveMember(email, name, location, picture);
         redirect(request, response, email, roles);
