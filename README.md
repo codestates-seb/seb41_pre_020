@@ -27,3 +27,6 @@
 ## 배포 & 테스트
 
 깃헙 테스트 15:53 pm
+
+## 배포 주소
+http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
