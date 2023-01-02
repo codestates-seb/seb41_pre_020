@@ -11,8 +11,17 @@
 |:---:|:---:|:---:|
 |[김혜진](https://github.com/hyejinme)|[김민정](https://github.com/kimmj13)|[유제웅](https://github.com/Yujeu07)|
 
+## 배포 주소
+http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
+
+
 ## 프로젝트 핵심 기능
 - 회원 간 질문과 응답을 공유 및 관리하는 기능
+
+## 📌 Frontend 스택
+
+
+## 📌 Backend 스택
 
 ## 협업 툴
 - 공지 및 이슈 공유: Discord, Notion
@@ -22,5 +31,4 @@
 ## 배포 & 테스트
 
 
-## 배포 주소
-http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
+
