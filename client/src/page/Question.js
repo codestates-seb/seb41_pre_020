@@ -15,139 +15,128 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Detail = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  .quesitonBox {
+const QuestionContainer = styled.div`
+  padding: 24px;
+  max-width: 1100px;
+  width: calc(100% - 164px);
+  margin: 0 auto;
+
+  & .question--header {
     display: flex;
-    flex-direction: column;
-    margin: 30px;
-    .top {
-      display: flex;
-      flex-direction: column;
-      // width: 1070px;
-      border-bottom: 1px solid lightgray;
-      .title {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        h1 {
-          font-weight: 500;
-          font-size: 27px;
-          color: #3b4045;
-          line-height: 1.35;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 4px;
+
+    & h1 {
+      overflow-wrap: break-word;
+      font-size: 27px;
+      line-height: 35.1px;
+      margin-bottom: 8px;
+      color: #232629;
+    }
+
+    & .question-header--ask-question-btn {
+      margin-left: 12px;
+
+      & button {
+        padding: 10.5px;
+        border-radius: 3px;
+        border: 1px solid #0a95ff;
+        background: #0a95ff;
+        color: white;
+        box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
+
+        &:hover {
+          background: #0074cc;
+          border-color: #0074cc;
         }
       }
-      .info {
+    }
+  }
+
+  & .question--sub-header {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #d6d9dc;
+
+    & span {
+      color: #6a737c;
+      margin-right: 16px;
+    }
+  }
+
+  & .question--main-bar {
+    width: calc(100% - 300px - 24px);
+    float: left;
+    clear: both;
+
+    & .question__main--post {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+
+      & .question__main--post-content {
+        vertical-align: top;
+        padding-right: 16px;
+        grid-column: 2;
         width: auto;
-        margin-bottom: 10px;
-        margin-left: 3px;
-        span {
-          margin-right: 15px;
-          font-size: 13px;
-          color: #6a737c;
+
+        & .post-content--body {
+          font-size: 15px;
+          line-height: 22px;
         }
-      }
-    }
-    .bottom {
-      display: flex;
-      align-items: flex-start;
-      .sideRight {
-        margin-top: 30px;
-      }
-      .content {
-        padding: 20px;
-        width: 100%;
-        min-height: 100px;
-        .content-top {
+
+        & .post-content--tags {
+          margin-top: 24px;
+          margin-bottom: 12px;
+        }
+
+        & .post-content--sub-info {
           display: flex;
-        }
-        .content-top {
-          padding: 5px;
-          p {
-            margin: 10px;
-            font-size: 15px;
-          }
-        }
-        .tags {
-          display: flex;
-          justify-content: flex-start;
-          margin-top: 20px;
-          margin-bottom: 20px;
-          .tagwrapper {
-            cursor: pointer;
-            margin-right: 5px;
+          padding-top: 4px;
+          margin: 16px 0;
+          align-items: flex-start;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+
+          & .sub-info--controls {
             display: flex;
-            padding-left: 5px;
-            padding-right: 5px;
-            border-radius: 3px;
-            list-style: none;
+            gap: 8px;
+            margin-right: 16px;
+            width: 96px;
+            flex: 1 auto;
+
+            & span {
+              color: #6a737c;
+            }
+          }
+
+          & .sub-info--writer {
+            display: flex;
+            gap: 8px;
+            padding: 8px;
             background-color: #e1ecf4;
-          }
-          .tagwrapper:hover {
-            background-color: #d0e3f1;
-          }
-          .tag {
-            border: none;
-            padding: 3px;
-            font-size: 13px;
-            height: 23px;
             border-radius: 3px;
-            background-color: transparent;
-            white-space: nowrap;
-            color: #39739d;
+            cursor: default;
+
+            & .writer-img {
+              background-color: #0a5894;
+              width: 34px;
+              height: 34px;
+              border-radius: 3px;
+            }
+
+            & .writer-info {
+              div {
+                color: #6a737c;
+              }
+
+              & .writer-name {
+                color: #0074cc;
+              }
+            }
           }
         }
       }
-      .content-bottom {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        font-weight: 400;
-        .userinfo {
-          border-radius: 5px;
-          padding: 10px;
-          background-color: #d9eaf7;
-        }
-        button {
-          background-color: transparent;
-          border: none;
-          color: gray;
-          margin-right: 7px;
-          cursor: pointer;
-        }
-        a {
-          text-decoration: none;
-          color: gray;
-          margin-right: 7px;
-          cursor: pointer;
-        }
-        .name {
-          color: #0a95ff;
-          margin-left: 5px;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-  .answerBox {
-    margin-left: 30px;
-  }
-
-  .askButton {
-    margin-bottom: 12px;
-    padding: 10.5px;
-    border-radius: 3px;
-    border: 1px solid #0a95ff;
-    background: #0a95ff;
-    color: white;
-    box-shadow: inset 0 1px 0 0 hsla(0, 0%, 100%, 0.4);
-
-    &:hover {
-      background: #0074cc;
-      border-color: #0074cc;
     }
   }
 `;
@@ -156,6 +145,14 @@ const Edit = styled.div`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+
+  & h3 {
+    font-size: 19px;
+    line-height: 25px;
+    margin-bottom: 20px; 
+  }
+
   textarea {
     min-height: 50px;
     font-size: 14px;
@@ -166,16 +163,19 @@ const Edit = styled.div`
     border-radius: 5px;
     padding-top: 5px;
   }
+
   textarea:focus {
     border: 1px solid cornflowerblue;
     border-radius: 2px;
     outline: none;
     box-shadow: 0 0 0 3px #cde9fe;
   }
+
   .btn {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
+
   button {
     margin-bottom: 12px;
     padding: 10.5px;
@@ -211,6 +211,7 @@ const Question = ({ lists, getQuestions }) => {
       setLoading(false);
     });
   };
+
   const getAnswer = () => {
     axios.get(`${url}/questions/${params.id}`).then((res) => {
       setAnswerList(res.data.data.answerList.data);
@@ -220,10 +221,12 @@ const Question = ({ lists, getQuestions }) => {
       console.log(count);
     });
   };
+
   useEffect(() => {
     getQuestionDetail();
     getAnswer();
   }, []);
+
   if (loading) return null;
 
   const onIncreaseVote = () => {
@@ -236,6 +239,7 @@ const Question = ({ lists, getQuestions }) => {
         setVotes(votes + 1);
       });
   };
+
   const onDecreaseVote = () => {
     axios
       .post(`${url}/questions/${params.id}/down-vote`, data, {
@@ -261,49 +265,44 @@ const Question = ({ lists, getQuestions }) => {
       <Header />
       <BodyContainer>
         <SidebarLeft />
-        <Detail>
-          <div className='quesitonBox'>
-            <div className='top'>
-              <div className='title'>
-                <h1>{data.title}</h1>
-                <button
-                  className='askButton'
-                  text={'Ask Question'}
-                  type={'blue'}
-                  onClick={() => '/create'}
-                >
-                  Ask Question
-                </button>
-              </div>
-              <div className='info'>
-                <span>Asked {data.createdAt}</span>
-                <span>Modified {data.lastModifiedAt}</span>
-                <span>Viewed {data.views}</span>
-              </div>
+        <QuestionContainer>
+          <div className="question--header">
+            <h1>{data.title}</h1>
+            <div className="question-header--ask-question-btn">
+              <button text={'Ask Question'} type={'blue'} onClick={() => '/create'}>
+                Ask Question
+              </button>
             </div>
-            <div className='bottom'>
-              <div className='content'>
-                <div className='content-top'>
-                  <PostVote
-                    votes={votes}
-                    setVotes={setVotes}
-                    onIncreaseVote={onIncreaseVote}
-                    onDecreaseVote={onDecreaseVote}
-                    pid={pid}
-                  />
-                  <p>질문내용 {data.content}</p>
-                </div>
-                <div className='content-bottom'>
-                  <div className='tags'>
-                    {/* {data.questionTags.map((tag, tagId) => (
+          </div>
+          <div className="question--sub-header">
+            <span>Asked {data.createdAt}</span>
+            <span>Modified {data.lastModifiedAt}</span>
+            <span>Viewed {data.views}</span>
+          </div>
+          <div className="question--main-bar">
+            <div className="question__main--post">
+              <PostVote
+                votes={votes}
+                setVotes={setVotes}
+                onIncreaseVote={onIncreaseVote}
+                onDecreaseVote={onDecreaseVote}
+                pid={pid}
+              />
+              <div className="question__main--post-content">
+                <p className="post-content--body">{data.content}</p>
+                <div className="post-content--tags">
+                  {/* {data.questionTags.map((tag, tagId) => (
                     <div key={tagId} className='tagwrapper'>
                       <div className='tag'>{tag}</div>
                     </div>
                   ))} */}
-                  </div>
-                  <div className='content-bottom'>
-                    <div className='btns'>
-                      {/* {state.loginState === true &&
+                </div>
+                <div className="post-content--sub-info">
+                  <div className="sub-info--controls">
+                    <span>Share</span>
+                    <span>Edit</span>
+                    <span>Follow</span>
+                    {/* {state.loginState === true &&
                     parseInt(state.data.memberId) ===
                       parseInt(data.writer.member_id) ? (
                       <>
@@ -316,40 +315,41 @@ const Question = ({ lists, getQuestions }) => {
                         <button onClick={deleteQuestion}>Delete</button>
                       </>
                     ) : null} */}
-                    </div>
-                    <div className='userinfo'>
-                      <span>Asked </span>
-                      <br />
-                      <span>{data.createdAt}</span>
-                      <span className='name'>{data.member.displayName}</span>
-                    </div>
                   </div>
-                </div>
-                <div className='answerBox'>
-                  <Answers
-                    pid={pid}
-                    answerList={answerList}
-                    setAnswerList={setAnswerList}
-                    count={count}
-                    getAnswerAnswer={getAnswer}
-                  />
-                  <div>
-                    {/* <PostAnswer pid={pid} getAnswerAnswer={getAnswer} /> */}
-                    <Edit>
-                      <textarea rows='6'></textarea>
-                      <div className='btn'>
-                        <button>Post Your Answer</button>
-                      </div>
-                    </Edit>
+                  <div className="sub-info--writer">
+                    <div className="writer-img"></div>
+                    <div className="writer-info">
+                      <div>Asked {data.createdAt}</div>
+                      <div className="writer-name">{data.member.displayName}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className='sideRight'>
-                <SidebarRight />
+            </div>
+            <div className="question__main--answer">
+              <Answers
+                pid={pid}
+                answerList={answerList}
+                setAnswerList={setAnswerList}
+                count={count}
+                getAnswerAnswer={getAnswer}
+              />
+              <div>
+                {/* <PostAnswer pid={pid} getAnswerAnswer={getAnswer} /> */}
+                <Edit>
+                  <h3>Your Answer</h3>
+                  <textarea rows="6"></textarea>
+                  <div className="btn">
+                    <button>Post Your Answer</button>
+                  </div>
+                </Edit>
               </div>
             </div>
           </div>
-        </Detail>
+          <div className="sideRight">
+            <SidebarRight />
+          </div>
+        </QuestionContainer>
       </BodyContainer>
 
       <Footer />

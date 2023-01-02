@@ -1,6 +1,20 @@
 import styled from 'styled-components';
 import AnswerItem from './AnswerItem';
 /* eslint-disable react/prop-types */
+
+const Container = styled.div`
+  margin-top: 10px;
+  margin-bottom: 8px;
+  float: none;
+  clear: both;
+  width: auto;
+
+  & h3 {
+    font-size: 19px;
+    line-height: 25px;
+  }
+`;
+
 const Answers = ({ answerList, count, getAnswerAnswer }) => {
   // const getAnswerAnswerAnswer = () => {
   //   getAnswerAnswer();
@@ -23,12 +37,3 @@ const Answers = ({ answerList, count, getAnswerAnswer }) => {
 };
 
 export default Answers;
-const Container = styled.div`
-  margin-bottom: 20px;
-  h3 {
-    font-weight: 400;
-  }
-  li {
-    list-style: none;
-  }
-`;
