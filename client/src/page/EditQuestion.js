@@ -133,7 +133,9 @@ const EditQuestion = ({ userInfo }) => {
             <form>
               <QuestionInput userInfo={userInfo} />
               <ButtonDiv>
-                <PostButton onSubmit={handleSubmit}>Save edits</PostButton>
+                <PostButton 
+                  // onSubmit={handleSubmit}
+                >Save edits</PostButton>
                 <DiscardModal type='edits'></DiscardModal>
               </ButtonDiv>
             </form>
