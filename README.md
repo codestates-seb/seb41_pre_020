@@ -19,10 +19,14 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 - 회원 간 질문과 응답을 공유 및 관리하는 기능
 
 ## 📌 Frontend 스택
-<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white">
-<img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-<img src="https://img.shields.io/badge/HTML-61DAFB?style=for-the-badge&logo=html5&logoColor=white">
+<div align=center>
+<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"> 
+&nbsp; <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+&nbsp; <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+&nbsp; <img src="https://img.shields.io/badge/HTML-61DAFB?style=for-the-badge&logo=html5&logoColor=white">
+&nbsp; <img src="https://img.shields.io/badge/Amazon%20S3-61DAFB?style=for-the-badge&logo=amazonS3&logoColor=white">
+</div>
+
 - Node.js 18.12.1 ver
 - Node.js 패키지 매니저 LTS (8.19.2)ver
 - 버전 관리 시스템: git
