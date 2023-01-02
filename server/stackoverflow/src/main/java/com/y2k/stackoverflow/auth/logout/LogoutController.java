@@ -22,7 +22,6 @@ import java.util.Map;
 public class LogoutController {
     private final JwtTokenizer jwtTokenizer;
     private final RedisUtil redisUtil;
-//    private final TokenRepository tokenRepository;
 
     @PostMapping(path = "/logout", headers = "Authorization")
     public ResponseEntity logout(@RequestHeader String authorization) {
