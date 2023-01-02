@@ -19,9 +19,30 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 - 회원 간 질문과 응답을 공유 및 관리하는 기능
 
 ## 📌 Frontend 스택
+- Node.js 18.12.1 ver
+- Node.js 패키지 매니저 LTS (8.19.2)ver
+- 버전 관리 시스템: git
+- CSS
+- CSS 프레임워크(라이브러리)
+- CSS 네이밍 컨벤션
+- Create React App
+- 린터
+- React
+- Redux
+- React component 
 
 
 ## 📌 Backend 스택
+- Spring Boot 2.7.6
+- Gradle
+- Spring Data JPA
+- Spring Security(JWT)
+- Mysql 8.0
+- Java 11
+- AWS
+    - EC2
+    - RDS
+
 
 ## 협업 툴
 - 공지 및 이슈 공유: Discord, Notion
