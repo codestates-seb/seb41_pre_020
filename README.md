@@ -69,5 +69,11 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 
 ## 배포 & 테스트
 
+## API 명세서
+https://documenter.getpostman.com/view/23681290/2s8Z6zzX4s
+
+## COMMIT 컨벤션
+
+
 
 
