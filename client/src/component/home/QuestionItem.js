@@ -2,150 +2,112 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const StyledPost = styled.div`
-  .posts {
-    padding: 15px 0;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    border-top: 1px solid #d2d2d2;
-  }
-  .stats {
+  position: relative;
+  display: flex;
+  border-bottom: 1px solid #d6d9dc;
+  padding: 16px;
+
+  .question--stats-container {
+    gap: 6px;
+    margin-right: 16px;
+    margin-bottom: 4px;
+    width: 108px;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     flex-wrap: wrap;
     align-items: flex-end;
-    font-size: 13px;
-  }
-  .stats-container {
-    width: 12%;
     color: #6a737c;
-    margin-left: 20px;
-    font-size: 13px;
-  }
-  .vote {
-    padding: 0;
-    margin-bottom: 8px;
-    text-align: center;
-    display: flex;
-    .vote-count {
-      font-size: 13px;
-      margin-right: 2px;
-    }
-    .count-text2 {
-      color: gray;
-    }
-    .count-text {
-      font-size: 13px;
-      color: #f48225;
-    }
-  }
-  .answer {
-    border: 2px solid #63b47c;
-    background-color: #63b47c;
-    color: white;
-    border-radius: 3px;
-    padding: 4px;
-    .vote-count {
-      color: white;
-      font-size: 15px;
-      padding: 1px;
-    }
-    .count-text {
-      color: white;
-      font-size: 12px;
-      padding: 1px;
-    }
-  }
-  .vote {
-    padding: 0;
-    margin-bottom: 8px;
-    text-align: center;
-    display: flex;
-    .vote-count {
-      font-size: 15px;
-      margin-right: 2px;
-    }
-    .count-text {
-      font-size: 15px;
-    }
-    .views {
-      .count-text {
-        font-size: 15px;
-        color: #f48225;
+
+    & .question--stats-item {
+      display: inline-flex;
+      gap: 0.3em;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+
+      & span {
+        color: #6a737c;
+      }
+
+      &.stats--vote span {
+        color: #0c0d0e;
       }
     }
   }
-  .summary {
-    margin-left: 30px;
-    width: 80%;
 
-    .title {
+  .question--summary-container {
+    flex-grow: 1;
+    max-width: 100%;
+
+    & .title {
       font-size: 17px;
       color: #0074cc;
-      padding-bottom: 6px;
-    }
-    .link {
-      color: #257ed8;
-      font-weight: 500;
-      font-size: 20px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .link:hover {
-      color: #87c6fe;
-    }
-    h3 {
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 1.4;
-      margin-bottom: 7.5px;
-    }
-  }
-  .content {
-    color: #3b4045;
-    margin-bottom: 10px;
-    font-size: 13px;
-  }
-  .right-bottom {
-    display: flex;
-    justify-content: space-between;
-    .userinfo {
-      font-size: 14px;
-      .username {
-        color: #257ed8;
-      }
-      .date {
-        color: #4c5155;
+      line-height: 22.2px;
+      padding-bottom: 5px !important;
+      padding-right: 24px;
+
+      &:hover {
+        color: #0a95ff;
       }
     }
-  }
-  .tags {
-    display: flex;
-    justify-content: flex-start;
-    .tagwrapper {
-      cursor: pointer;
-      margin-right: 5px;
+
+    & .question-summary--content {
+      margin-bottom: 8px;
+      color: #3b4045;
+      margin-bottom: 8px;
+    }
+
+    & .question-summary--meta-container {
       display: flex;
-      padding-left: 5px;
-      padding-right: 5px;
-      border-radius: 3px;
-      list-style: none;
-      background-color: #e1ecf4;
-    }
-    .tagwrapper:hover {
-      background-color: #d0e3f1;
-    }
-    .tag {
-      border: none;
-      padding: 0 3px;
-      margin: 4px 0px 4px 0px;
-      font-size: 12px;
-      width: auto;
-      border-radius: 3px;
-      background-color: transparent;
-      white-space: nowrap;
-      color: #39739d;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      /* flex-direction: column; */
+      column-gap: 6px;
+      row-gap: 8px;
+
+      & .question-summary--meta-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-bottom: 13px;
+
+        & .question-summary--meta-tag-item {
+          font-size: 12px;
+          color: #39739d;
+          background-color: #e1ecf4;
+          padding: 0.4em 0.5em;
+          line-height: 12px;
+          border-radius: 3px;
+
+          &:hover {
+            background-color: #d0e3f1;
+            color: #2c5877;
+          }
+        }
+      }
+
+      & .question--sumary--meta-userinfo {
+        margin-left: auto;
+        display: flex;
+        justify-content: flex-end;
+        gap: 4px;
+
+        & .question-summary--meta-userinfo-item {
+          &.meta--username {
+            color: #0074cc;
+
+            &:hover {
+              color: #0a95ff;
+            }
+          }
+
+          &.meta--date {
+            color: #6a737c;
+          }
+        }
+      }
     }
   }
 `;
@@ -153,37 +115,41 @@ const StyledPost = styled.div`
 const QuestionItem = ({ posts }) => {
   return (
     <StyledPost>
-      <div className='posts'>
-        <div className='stats-container'>
-          <div className='stats'>
-            <div className='vote'>{posts.votes} votes</div>
-            <div className='vote'>
-              <div className='count-text2'>{posts.answers} answers</div>
-            </div>
-            <div className='vote'>
-              <div className='count-text2'>{posts.views} views</div>
-            </div>
-          </div>
+      <div className="question--stats-container">
+        <div className="question--stats-item stats--vote">
+          <span>{posts.votes}</span>
+          <span>votes</span>
         </div>
-        <div className='summary'>
-          <div>
-            <Link to={`/question/${posts.questionId}`} className='title'>
-              {posts.title}
-            </Link>
-            <div className='content'>{posts.content}</div>
-            <div className='right-bottom'>
-              <div className='tags'>
-                {posts.questionTags.map((tag, tagId) => (
-                  <div key={tagId} className='tagwrapper'>
-                    <span className='tag'>{tag.tagName}</span>
-                  </div>
-                ))}
+        <div className="question--stats-item">
+          <span>{posts.answers}</span>
+          <span>answers</span>
+        </div>
+        <div className="question--stats-item">
+          <span>{posts.views}</span>
+          <span>views</span>
+        </div>
+      </div>
+      <div className="question--summary-container">
+        <Link to={`/question/${posts.questionId}`} className="title">
+          {posts.title}
+        </Link>
+        <div className="question-summary--content">{posts.content}</div>
+        <div className="question-summary--meta-container">
+          <div className="question-summary--meta-tags">
+            {posts.questionTags.map((tag, tagId) => (
+              <div key={tagId} className="question-summary--meta-tag-item">
+                {tag.tagName}
               </div>
-              <div className='userinfo'>
-                <span className='username'>{posts.member.displayName}</span>
-                <span className='date'> asked {posts.createdAt}</span>
-              </div>
-            </div>
+            ))}
+          </div>
+          <div className="question--sumary--meta-userinfo">
+            <span className="question-summary--meta-userinfo-item meta--username">
+              {posts.member.displayName}
+            </span>
+            <span className="question-summary--meta-userinfo-item meta--date">
+              {' '}
+              asked {posts.createdAt}
+            </span>
           </div>
         </div>
       </div>

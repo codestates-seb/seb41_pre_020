@@ -8,60 +8,67 @@ import { useSelector } from 'react-redux';
 import PostVote from '../common/PostVote';
 
 const Container = styled.div`
-  display: flex;
+  padding: 16px 0;
   width: 100%;
-  align-items: flex-start;
-  border-bottom: 1px solid lightgray;
-  .right {
-    margin-left: 10px;
-    padding: 10px;
-    width: 100%;
-    font-size: 15px
-  }
-  .content {
-    p {
+  border-bottom: 1px solid #d6d9dc;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+
+  & .answer--main {
+    padding-right: 16px;
+    grid-column: 2;
+    width: auto;
+
+    & .answer-main--body {
       font-size: 15px;
+      line-height: 22px;
     }
-    min-height: 50px;
 
-  }
-  .content-bottom {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+    & .answer-main--sub-info {
+      display: flex;
+      padding-top: 4px;
+      margin: 16px 0;
+      align-items: flex-start;
+      justify-content: flex-end;
+      flex-wrap: wrap;
 
-    font-weight: 400;
-    button {
-      background-color: transparent;
-      border: none;
-      color: gray;
-      margin-right: 7px;
-      cursor: pointer;
-    }
-    a {
-      text-decoration: none;
-      color: gray;
-      margin-right: 7px;
-      cursor: pointer;
-    }
-    .userinfo {
-      color: #a4a4a4;
-      display: flex;
-    }
-    .img {
-      display: flex;
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
-      margin-top: 2px;›
-    }
-    .name {
-      color: #0a95ff;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-    .name:hover {
-      color: #2d95ff;
+      & .sub-info--controls {
+        display: flex;
+        gap: 8px;
+        margin-right: 16px;
+        width: 96px;
+        flex: 1 auto;
+
+        & span {
+          color: #6a737c;
+        }
+      }
+
+      & .sub-info--writer {
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        cursor: default;
+
+        & .writer-img {
+          background-color: #5eba7d;
+          width: 34px;
+          height: 34px;
+          border-radius: 3px;
+        }
+
+        & .writer-info {
+          div {
+            color: #6a737c;
+          }
+
+          & .writer-name {
+            color: #0074cc;
+          }
+        }
+      }
     }
   }
 `;
@@ -163,20 +170,14 @@ const AnswerItem = ({ answer }) => {
   return (
     <>
       <Container>
-        <div className='left'>
-          {/* <AnswerVote
-            onIncreaseVote={onIncreaseVote}
-            onDecreaseVote={onDecreaseVote}
-            votes={votes}
-          /> */}
-          <PostVote votes={answer.votes} />
-        </div>
-        <div className='right'>
-          <div className='content'>
-            <p>{answer.content}</p>
-          </div>
-          <div className='content-bottom'>
-            <div className='btns'>
+        <PostVote votes={answer.votes} />
+        <div className="answer--main">
+          <p className="answer-main--body">{answer.content}</p>
+          <div className="answer-main--sub-info">
+            <div className="sub-info--controls">
+              <span>Share</span>
+              <span>Edit</span>
+              <span>Follow</span>
               {/* {state.loginState &&
               state.data.memberId === parseInt(data.member_id) ? (
                 <>
@@ -185,15 +186,11 @@ const AnswerItem = ({ answer }) => {
                 </>
               ) : null} */}
             </div>
-            <div className='userinfo'>
-              <div className='img'>
-                <img src={answer.member.profileImage} />
-              </div>
-              <div>
-                <span>Answered </span>
-                <br />
-                <span>{answer.createdAt}</span>
-                <span className='name'>{answer.member.displayName}</span>
+            <div className="sub-info--writer">
+              <div className="writer-img">{/* <img src={answer.member.profileImage} /> */}</div>
+              <div className="writer-info">
+                <div>Answered {answer.createdAt}</div>
+                <div className="writer-name">{answer.member.displayName}</div>
               </div>
             </div>
           </div>
@@ -203,7 +200,7 @@ const AnswerItem = ({ answer }) => {
                 defaultValue={content}
                 onChange={(e) => setContent(e.target.value)}
               ></textarea>
-              <div className='btn'>
+              <div className="btn">
                 <button onClick={editAnswer}>Edit</button>
                 <button onClick={() => setIsEdit(false)}>Cancel</button>
               </div>

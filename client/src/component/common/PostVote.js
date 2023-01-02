@@ -5,13 +5,23 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 10px;
+  width: auto;
+  padding-right: 16px;
+  vertical-align: top;
+  grid-column: 1;
+  margin: -2px;
 
-  margin: 10px;
+  .vote-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    & span {
+      color: #6a737c;
+    }
+  }
+
   .arrow {
     font-size: 3rem;
     color: #babfc4;
@@ -51,17 +61,29 @@ const PostVote = ({ votes }) => {
   // };
   return (
     <Container>
-      <FontAwesomeIcon
-        icon={faCaretUp}
-        // onClick={state.loginState ? onPlus : null}
-        className='arrow'
-      />
-      <span>{votes}</span>
-      <FontAwesomeIcon
-        icon={faCaretDown}
-        // onClick={state.loginState ? onMinus : null}
-        className='arrow'
-      />
+      <div className="vote-container">
+        <svg
+          xlink="http://www.w3.org/1999/xlink"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          width="36"
+          height="36"
+          viewBox="0 0 36 36"
+        >
+          <path d="M2 25h32L18 9 2 25Z" fill="#BABFC4"></path>
+        </svg>
+        <span>{votes}</span>
+        <svg
+          xlink="http://www.w3.org/1999/xlink"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          width="36"
+          height="36"
+          viewBox="0 0 36 36"
+        >
+          <path d="M2 11h32L18 27 2 11Z" fill="#BABFC4"></path>
+        </svg>
+      </div>
     </Container>
   );
 };

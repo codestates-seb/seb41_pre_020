@@ -127,7 +127,9 @@ function EditAnswer({ userInfo }) {
           <form className='edit-answer--container'>
             <EditAnswerInput userInfo={userInfo} />
             <ButtonDiv>
-              <PostButton onSubmit={handleSubmit}>Save edits</PostButton>
+              <PostButton 
+                // onSubmit={handleSubmit}
+              >Save edits</PostButton>
               <DiscardModal type='edits'></DiscardModal>
             </ButtonDiv>
           </form>
