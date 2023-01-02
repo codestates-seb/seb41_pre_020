@@ -1,5 +1,8 @@
 # [PRE_PROJECT] STACK OVERFLOW CLONE
 
+## 프로젝트 기간
+12/15 ~ 1/2
+
 ## 🧑‍🤝‍🧑팀원
 
 ### FE
