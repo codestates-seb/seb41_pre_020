@@ -1,8 +1,8 @@
 # [PRE_PROJECT] STACK OVERFLOW CLONE
 
 ## 프로젝트 기간
-12/15 ~ 1/2
-
+2022.12.15 ~ 2023.01.02
+<br>
 ## 🧑‍🤝‍🧑팀원
 
 ### FE
@@ -14,12 +14,17 @@
 |:---:|:---:|:---:|
 |[김혜진](https://github.com/hyejinme)|[김민정](https://github.com/kimmj13)|[유제웅](https://github.com/Yujeu07)|
 
+<br>
+
 ## 배포 주소
 http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 
+<br>
 
 ## 프로젝트 핵심 기능
 - 회원 간 질문과 응답을 공유 및 관리하는 기능
+
+<br>
 
 ## 📌 Frontend 스택
 <div align=center>
@@ -42,6 +47,7 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 - Redux
 - React component 
 
+<br>
 
 ## 📌 Backend 스택
 <div align=center>
@@ -54,6 +60,7 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 &nbsp; <img src="https://img.shields.io/badge/Amazon%20RDS-527FFF?style=for-the-badge&logo=amazonRDS&logoColor=white">
 </div>
 
+<br>
 
 ## 협업 툴
 공지 및 이슈 공유
@@ -70,10 +77,16 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 <br>
 <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white">
 
+<br>
+
 ## 배포 & 테스트
+
+<br>
 
 ## API 명세서
 https://documenter.getpostman.com/view/23681290/2s8Z6zzX4s
+
+<br>
 
 ## COMMIT 컨벤션
 ![image](https://user-images.githubusercontent.com/110887976/210195929-7b7e0895-b90a-4710-bbfd-7043ef1ebe21.png)
