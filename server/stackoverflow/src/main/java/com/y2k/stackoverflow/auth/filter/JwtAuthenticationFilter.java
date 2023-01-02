@@ -3,8 +3,6 @@ package com.y2k.stackoverflow.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.y2k.stackoverflow.auth.dto.LoginDto;
 import com.y2k.stackoverflow.auth.jwt.JwtTokenizer;
-import com.y2k.stackoverflow.auth.refresh.Token;
-import com.y2k.stackoverflow.auth.refresh.TokenRepository;
 import com.y2k.stackoverflow.exception.BusinessLogicException;
 import com.y2k.stackoverflow.exception.ExceptionCode;
 import com.y2k.stackoverflow.member.entity.Member;
@@ -31,7 +29,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
     private final MemberRepository memberRepository;
-    private final TokenRepository tokenRepository;
 
 
     //로그인 인증 시도 로직
@@ -67,8 +64,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
-
-        tokenRepository.save(new Token(refreshToken));
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
