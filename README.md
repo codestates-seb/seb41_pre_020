@@ -1,6 +1,6 @@
 # [PRE_PROJECT] STACK OVERFLOW CLONE
 
-## 프로젝트 기간
+## 🗓️프로젝트 기간
 2022.12.15 ~ 2023.01.02
 <br>
 ## 🧑‍🤝‍🧑팀원
@@ -16,12 +16,12 @@
 
 <br>
 
-## 배포 주소
+## 🔗배포 주소
 http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 
 <br>
 
-## 프로젝트 핵심 기능
+## 🌟프로젝트 핵심 기능
 - 회원 간 질문과 응답을 공유 및 관리하는 기능
 
 <br>
@@ -62,7 +62,7 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 
 <br>
 
-## 협업 툴
+## 🤝협업 툴
 공지 및 이슈 공유
 <br>
 <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"> &nbsp; <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white">
@@ -79,21 +79,21 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 
 <br>
 
-## 화면 디자인
+## 🎨화면 디자인
 https://www.figma.com/file/uhsO5QUogC5Utzr8pWFeBW/Stack-Overflow?node-id=0%3A1
 
 <br>
 
-## API 명세서
+## 📄API 명세서
 https://documenter.getpostman.com/view/23681290/2s8Z6zzX4s
 
 <br>
 
-## 배포 & 테스트
+## 🔗배포 & 테스트
 
 <br>
 
-## COMMIT 컨벤션
+## 💥COMMIT 컨벤션
 ![image](https://user-images.githubusercontent.com/110887976/210195929-7b7e0895-b90a-4710-bbfd-7043ef1ebe21.png)
 
 
