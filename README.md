@@ -79,12 +79,17 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 
 <br>
 
-## 배포 & 테스트
+## 화면 디자인
+https://www.figma.com/file/uhsO5QUogC5Utzr8pWFeBW/Stack-Overflow?node-id=0%3A1
 
 <br>
 
 ## API 명세서
 https://documenter.getpostman.com/view/23681290/2s8Z6zzX4s
+
+<br>
+
+## 배포 & 테스트
 
 <br>
 
