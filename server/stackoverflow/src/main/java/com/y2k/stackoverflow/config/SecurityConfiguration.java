@@ -49,7 +49,7 @@ public class SecurityConfiguration {
         http
                 .headers().frameOptions().sameOrigin()// TODO: 수정예 - H2 콘솔 사용을 위해 설정
                 .and()
-                .csrf().disable() // TODO: 제거예 - 로컬 환경에서 실행하기 위해 설정
+                .csrf().disable() // TODO: 로컬 환경에서 실행하기 위해 설정
                 .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -74,7 +74,6 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/", "/members/**", "/questions/**", "/comments/**", "/tags/**").permitAll() // 조회는 누구나 허용
                         .antMatchers("/h2/**").permitAll() // h2 콘솔 사용을 위한 설정
                         .antMatchers("/login/**").permitAll()
-                        .antMatchers("/answers/**").permitAll()
                         .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
                         .anyRequest().authenticated()
                 )

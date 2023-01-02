@@ -65,7 +65,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 log.info("profileImage 정보가 없습니다.");
             }
         }
-        log.info(request.getHeader("Authorization"));
         List<String> roles = authorityUtils.createRoles(email);
         saveMember(email, name, location, picture);
         redirect(request, response, email, roles);
@@ -94,14 +93,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
         String uri = createURI(accessToken, refreshToken).toString();
-        int idx1 = username.indexOf("@");
-        int idx2 = username.indexOf(".");
-        username = username.substring(idx1 - 1, idx2 + 1);
-
-        if (!username.equals("github")) {
-            username = "google";
-        }
-        uri = uri + "/" + username;
 
         getRedirectStrategy().sendRedirect(request, response, uri);
         log.info("Access Token: {}", response.getHeader("Authorization"));
@@ -115,7 +106,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .scheme("http")
                 .host("ec2-43-201-60-216.ap-northeast-2.compute.amazonaws.com")
                 .port(8080)
-                .path("/oauth2/authorization")
                 .build()
                 .toUri();
     }
