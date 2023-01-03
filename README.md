@@ -31,7 +31,7 @@ http://stackoverflow-preproject-y2k.s3-website.ap-northeast-2.amazonaws.com/
 <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"> 
 &nbsp; <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 &nbsp; <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-&nbsp; <img src="https://img.shields.io/badge/HTML-61DAFB?style=for-the-badge&logo=html5&logoColor=white">
+&nbsp; <img src="https://img.shields.io/badge/HTML5-61DAFB?style=for-the-badge&logo=html5&logoColor=white">
 &nbsp; <img src="https://img.shields.io/badge/Amazon%20S3-61DAFB?style=for-the-badge&logo=amazonS3&logoColor=white">
 </div>
 
